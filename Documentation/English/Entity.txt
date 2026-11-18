@@ -1326,13 +1326,13 @@ saving CPU clocks.
 @EndFixedFont
 
 @ReturnValue
-  The current yaw value of the specified entity. This value is between -180.0 and 180.0 degrees, or between -90.0 and 90.0 degrees
-  with @#PB_Engine3D_Adjusted.
+  The current yaw value of the specified entity. This value is always between -180.0 and 180.0 degrees.
 
 @Remarks
-  With @#PB_Engine3D_Adjusted, the same orientation can have 2 sets of angles: for example a yaw of 120 degrees is returned as a pitch
-  of 180, a yaw of 60 and a roll of 180 degrees. So adding a value to the adjusted yaw and putting it back with @@RotateEntity
-  can't turn the entity past 90 degrees: use @@RotateEntity with @#PB_Relative to turn it continuously.
+  With @#PB_Engine3D_Adjusted, the same orientation can have 2 sets of angles: for example a yaw of 120 degrees is also a pitch
+  of 180, a yaw of 60 and a roll of 180 degrees. The set with the smallest pitch and roll is returned, so a value can be added to
+  the adjusted yaw and put back with @@RotateEntity. When the yaw is close to 90 or -90 degrees, the pitch and the roll turn around
+  the same axis and can't be told apart anymore: to turn an entity continuously in any direction, use @@RotateEntity with @#PB_Relative.
 
 @SeeAlso
   @@EntityPitch, @@EntityRoll
