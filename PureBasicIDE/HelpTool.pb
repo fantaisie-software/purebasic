@@ -1664,22 +1664,17 @@ Module HelpTool
   ; @FormatIf blocks become @HTML blocks (without their @FormatElse part)
   ;
   Procedure ConvertSourceFile(Source$, Destination$)
-    Protected File, Format, IsPreformatted, IsText, WasText, IsEnabled, Position
+    Protected File, IsPreformatted, IsText, WasText, IsEnabled, Position
     Protected Line$, FirstChar$, Char$, Tag$, Result$
 
-    File = ReadFile(#PB_Any, Source$)
+    File = ReadFile(#PB_Any, Source$, #PB_UTF8 | #PB_File_BOM) ; sources without BOM: UTF-8
     If File = 0
       ProcedureReturn #False
     EndIf
 
-    Format = ReadStringFormat(File)
-    If Format = #PB_Ascii ; sources without BOM: UTF-8
-      Format = #PB_UTF8
-    EndIf
-
     IsEnabled = #True
     Repeat
-      Line$ = ReadString(File, Format)
+      Line$ = ReadString(File)
       FirstChar$ = Left(Line$, 1)
       If IsPreformatted = #False And LCase(Left(LTrim(Line$), 13)) = "@examplefile " ; often indented: stays on its own line (read up to the end of the line)
         Line$ = LTrim(Line$)

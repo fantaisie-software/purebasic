@@ -651,8 +651,7 @@ Procedure FD_Open(file.s,update = 0)
       ProcedureReturn
     EndIf
     
-    handle = ReadFile(#PB_Any,file)
-    Format = ReadStringFormat(handle)
+    handle = ReadFile(#PB_Any,file, #PB_Ascii | #PB_File_BOM) ; files without BOM: ascii
   Else
     handle = 1
     
@@ -720,7 +719,7 @@ Procedure FD_Open(file.s,update = 0)
         line_num + 1
         
       Else
-        line.s = Trim(ReadString(handle, Format))
+        line.s = Trim(ReadString(handle))
       EndIf
       
       If update
@@ -2666,7 +2665,7 @@ Procedure.b FD_VersionCheck(FileName.s)
   ; Returns a #PB_MessageRequester_* value from the message requester. 
   ; (#PB_MessageRequester_Yes if no problems found or preferences prohibit a warning).
   
-  Define.i File, Format, TagPosition, VerPosition, DotPosition, FileVersion, Loop, Max, MayBreak, Icon, Warn, Result
+  Define.i File, TagPosition, VerPosition, DotPosition, FileVersion, Loop, Max, MayBreak, Icon, Warn, Result
   Define VerString$, Message$
   
   ; List of compatibility breaking version numbers.
@@ -2682,10 +2681,9 @@ Procedure.b FD_VersionCheck(FileName.s)
   EndIf
   
   ; Extract the version content from the first non blank line of the source file.
-  File = OpenFile(#PB_Any, FileName)
-  Format = ReadStringFormat(File)
+  File = ReadFile(#PB_Any, FileName, #PB_Ascii | #PB_File_BOM) ; files without BOM: ascii
   Repeat 
-    VerString$ = ReadString(File, Format)
+    VerString$ = ReadString(File)
   Until VerString$ <> #Empty$
   CloseFile(File)
   
