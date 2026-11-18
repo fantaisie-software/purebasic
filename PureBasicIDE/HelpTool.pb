@@ -321,13 +321,21 @@ Module HelpTool
   EndProcedure
 
 
+  ; The text is returned with #LF$ line endings only: the parsing splits the lines on #LF$, and a file
+  ; edited on Windows (ie: a user library help) can use #CRLF$ (https://www.purebasic.fr/english/viewtopic.php?t=89946)
+  ;
   Procedure.s ReadTextFile(FileName$, ShowError = #True)
-    Protected File, Text$
+    Protected File, Format, Text$
 
     File = ReadFile(#PB_Any, FileName$, #PB_UTF8 | #PB_File_SharedRead)
     If File
-      ReadStringFormat(File) ; skip the BOM
-      Text$ = ReadString(File, #PB_UTF8 | #PB_File_IgnoreEOL)
+      Format = ReadStringFormat(File) ; skip the BOM
+      Select Format
+        Case #PB_Unicode ; UTF-16 LE BOM (Windows Notepad 'Unicode')
+        Default          ; UTF-8 BOM, or no BOM: UTF-8
+          Format = #PB_UTF8
+      EndSelect
+      Text$ = RemoveString(ReadString(File, Format | #PB_File_IgnoreEOL), #CR$)
       CloseFile(File)
     ElseIf ShowError
       MessageRequester(Text_Help$, "Can't load the file: " + FileName$)
@@ -463,6 +471,7 @@ Module HelpTool
       If Left(Text$, 1) = Chr($FEFF) ; skip the BOM, like ReadStringFormat() does for the files
         Text$ = Mid(Text$, 2)
       EndIf
+      Text$ = RemoveString(Text$, #CR$) ; #LF$ line endings only, like ReadTextFile()
       FreeMemory(*Buffer)
     EndIf
 
