@@ -321,13 +321,15 @@ Module HelpTool
   EndProcedure
 
 
+  ; The text is returned with #LF$ line endings only: the parsing splits the lines on #LF$, and a file
+  ; edited on Windows (ie: a user library help) can use #CRLF$ (https://www.purebasic.fr/english/viewtopic.php?t=89946)
+  ;
   Procedure.s ReadTextFile(FileName$, ShowError = #True)
     Protected File, Text$
 
-    File = ReadFile(#PB_Any, FileName$, #PB_UTF8 | #PB_File_SharedRead)
+    File = ReadFile(#PB_Any, FileName$, #PB_UTF8 | #PB_File_SharedRead | #PB_File_BOM) ; BOM: skipped and format set (UTF-8 or UTF-16), else UTF-8
     If File
-      ReadStringFormat(File) ; skip the BOM
-      Text$ = ReadString(File, #PB_UTF8 | #PB_File_IgnoreEOL)
+      Text$ = RemoveString(ReadString(File, #PB_File_IgnoreEOL), #CR$) ; no format: the file one
       CloseFile(File)
     ElseIf ShowError
       MessageRequester(Text_Help$, "Can't load the file: " + FileName$)
@@ -463,6 +465,7 @@ Module HelpTool
       If Left(Text$, 1) = Chr($FEFF) ; skip the BOM, like ReadStringFormat() does for the files
         Text$ = Mid(Text$, 2)
       EndIf
+      Text$ = RemoveString(Text$, #CR$) ; #LF$ line endings only, like ReadTextFile()
       FreeMemory(*Buffer)
     EndIf
 
@@ -1661,22 +1664,17 @@ Module HelpTool
   ; @FormatIf blocks become @HTML blocks (without their @FormatElse part)
   ;
   Procedure ConvertSourceFile(Source$, Destination$)
-    Protected File, Format, IsPreformatted, IsText, WasText, IsEnabled, Position
+    Protected File, IsPreformatted, IsText, WasText, IsEnabled, Position
     Protected Line$, FirstChar$, Char$, Tag$, Result$
 
-    File = ReadFile(#PB_Any, Source$)
+    File = ReadFile(#PB_Any, Source$, #PB_UTF8 | #PB_File_BOM) ; sources without BOM: UTF-8
     If File = 0
       ProcedureReturn #False
     EndIf
 
-    Format = ReadStringFormat(File)
-    If Format = #PB_Ascii ; sources without BOM: UTF-8
-      Format = #PB_UTF8
-    EndIf
-
     IsEnabled = #True
     Repeat
-      Line$ = ReadString(File, Format)
+      Line$ = ReadString(File)
       FirstChar$ = Left(Line$, 1)
       If IsPreformatted = #False And LCase(Left(LTrim(Line$), 13)) = "@examplefile " ; often indented: stays on its own line (read up to the end of the line)
         Line$ = LTrim(Line$)
