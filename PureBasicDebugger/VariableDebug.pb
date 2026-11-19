@@ -291,12 +291,14 @@ Procedure.s VariableListElement(*Debugger.DebuggerData, Gadget, index)
 EndProcedure
 
 Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
-  Static PopupVariableGadget
+  Static PopupVariableGadget, StringSourceGadget
   Shared *VariableGadget_Used.VariableGadget ; to access the variable gadget data structure
+  Define *UTF8Text
+  Define ShowStringError = #False
   
   If EventID = #PB_Event_Menu
+    ;- Menu Events  
     Select EventMenu()
-        
       Case #DEBUGGER_MENU_WatchlistAdd
         If IsGadget(PopupVariableGadget)
           index = GetGadgetState(PopupVariableGadget)
@@ -438,6 +440,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
     EndSelect
     
   ElseIf EventID = #PB_Event_Gadget
+    ;- Gadget Events
     Select EventGadget()
         
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Splitter]
@@ -453,7 +456,11 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
         
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global]
         VariableGadget_Event(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
-        If EventType() = #PB_EventType_RightClick
+        
+        If EventType() = #PB_EventType_Change
+          StringSourceGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global]
+            
+        ElseIf EventType() = #PB_EventType_RightClick
           PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global]
           index = VariableGadget_GadgetIndexToReal(PopupVariableGadget, GetGadgetState(PopupVariableGadget))
           If index <> -1
@@ -470,7 +477,11 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
         
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local]
         VariableGadget_Event(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local])
-        If EventType() = #PB_EventType_RightClick
+        
+        If EventType() = #PB_EventType_Change 
+          StringSourceGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local]
+          
+        ElseIf EventType() = #PB_EventType_RightClick
           PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Local]
           index = VariableGadget_GadgetIndexToReal(PopupVariableGadget, GetGadgetState(PopupVariableGadget))
           If index <> -1
@@ -487,7 +498,11 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
         
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer]
         VariableGadget_Event(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer])
-        If EventType() = #PB_EventType_RightClick
+        
+        If EventType() = #PB_EventType_Change
+          StringSourceGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer]
+          
+        ElseIf EventType() = #PB_EventType_RightClick
           PopupVariableGadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Viewer]
           index = VariableGadget_GadgetIndexToReal(PopupVariableGadget, GetGadgetState(PopupVariableGadget))
           If index <> -1
@@ -642,10 +657,59 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Copy]
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Save]
         
+      Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ShowNonPrinting]
+        If GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ShowNonPrinting]) = #PB_Checkbox_Checked
+          ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETVIEWWS, #SCWS_VISIBLEALWAYS)  
+          ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETVIEWEOL, #True)  
+        Else
+          ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETVIEWWS, #SCWS_INVISIBLE)  
+          ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETVIEWEOL, #False)  
+        EndIf
+      
+      Case *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateString]
+        If IsGadget(StringSourceGadget)
+          index = VariableGadget_GadgetIndexToReal(StringSourceGadget, GetGadgetState(StringSourceGadget))
+          If index <> -1
+            VariableGadget_Use(StringSourceGadget)
+            If *VariableGadget_Used\Items <> 0
+              *items.VariableGadget_ItemList = *VariableGadget_Used\Items
+              If *items\item[index]\Type = #TYPE_STRING Or *items\item[index]\Type = #TYPE_FIXEDSTRING
+                SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringName],
+                              Language("Debugger","Name") + " : " + *items\item[index]\Name$)
+                *UTF8Text = UTF8(*items\item[index]\Value$)
+                ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent],
+                                     #SCI_SETTEXT, 0, *UTF8Text)
+                FreeMemory(*UTF8Text)
+                
+              Else
+                ShowStringError = #True
+              EndIf
+              
+            Else
+              ShowStringError = #True
+            EndIf
+            
+          Else
+            ShowStringError = #True
+          EndIf
+          
+        Else
+          ShowStringError = #True
+        EndIf
+        
+        If ShowStringError
+          SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringName], Language("Debugger","Name") + " :")
+          *UTF8Text = UTF8(#Empty$)
+          ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent],
+                               #SCI_SETTEXT, 0, *UTF8Text)
+          FreeMemory(*UTF8Text)
+          MessageRequester(Language("Debugger", "ShowString"), Language("Debugger", "SelectString"), #PB_MessageRequester_Info | #PB_MessageRequester_Ok)
+        EndIf
         
     EndSelect
     
   ElseIf EventID = #PB_Event_SizeWindow
+    ;- Window Events
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 10, 10, WindowWidth(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])-20, WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])-20)
     
     CompilerIf #CompileLinuxGtk
@@ -685,6 +749,12 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
     ; Map view
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_MapSplitter], 10, 10, Width-20, Height-30-ButtonHeight)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateMap], Width-10-ButtonWidth, Height-35, ButtonWidth, ButtonHeight)
+    
+    ; String viewer
+    ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringName], 10, 10, Width-20, ButtonHeight)
+    ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], 10, 10+ButtonHeight, Width-20, Height-55-ButtonHeight)
+    ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ShowNonPrinting], 10, Height-35, 200, ButtonHeight)
+    ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateString], Width-10-ButtonWidth, Height-35, ButtonWidth, ButtonHeight)
     
     ; List/Array viewer
     ButtonWidth = Max(80, GetRequiredWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Display]))
@@ -732,6 +802,9 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
         VariableWindowHeight = WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])
       EndIf
     EndIf
+    
+    PopupVariableGadget = 0
+    StringSourceGadget = 0
     
     HideWindow(*Debugger\Windows[#DEBUGGER_WINDOW_Variable], 1)
     VariableGadget_Free(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Global])
@@ -903,6 +976,29 @@ Procedure OpenVariableWindow(*Debugger.DebuggerData)
       ; TODO: not yet implemented
       ;*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Copy]         = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Copy"))
       ;*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Save]         = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Save"))
+      CloseGadgetList()
+      
+      OpenGadgetList(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel])
+      AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], -1, Language("Debugger","ShowString"))
+      
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringName]  = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Name") + " :")
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent]  = ScintillaGadget(#PB_Any, 0, 0, 0, 0, #Null)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_ShowNonPrinting] = CheckBoxGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","ShowNonPrinting"))
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Variable_UpdateString] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Update"))
+      
+      ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETWRAPMODE, #SC_WRAP_CHAR)
+      ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETVIEWWS, #SCWS_INVISIBLE)  
+      ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETVIEWEOL, #False)  
+      ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETTABWIDTH, 6)
+      
+      If DebugOutUseFont
+        ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_STYLESETFONT, #STYLE_DEFAULT, ToAscii(DebugOutFont$))
+        ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_STYLESETSIZE, #STYLE_DEFAULT, DebugOutFontSize)
+      EndIf
+      ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETMARGINWIDTHN, 0, 0)
+      ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETMARGINWIDTHN, 1, 0)
+      ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_SETMARGINWIDTHN, 2, 0)
+      ScintillaSendMessage(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_StringContent], #SCI_STYLECLEARALL)
       CloseGadgetList()
       
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_AllItems], 1)
