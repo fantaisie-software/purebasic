@@ -44,6 +44,24 @@ BUILD = Build/$(subst X,x,$(subst ARM,arm,$(PB_PROCESSOR)))
 
 endif
 
+# unit tests (UnitTests/*.pb, see ../PureBasicIDE/UnitTests/README.md), with the subsystem of the debugger
+# on Linux, in a virtual display when available
+PUREUNITRUN = pureunit
+TESTFLAGS =
+ifneq ($(PB_WINDOWS),1)
+ifneq ($(PB_MACOS),1)
+	ifneq ($(shell command -v xvfb-run 2>/dev/null),)
+		PUREUNITRUN = xvfb-run -a pureunit
+	endif
+	ifeq ($(PB_GTK),2)
+		TESTFLAGS += --subsystem gtk2
+	endif
+	ifeq ($(PB_QT),1)
+		TESTFLAGS += --subsystem qt
+	endif
+endif
+endif
+
 GuiDebugger : *.pb Data/*.png ../PureBasicIDE/data/DefaultTheme/*.png $(QT_HELPERS)
 	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(GUIDEBUGGERFLAGS) $(UNICODE)
 
@@ -52,6 +70,9 @@ debug : *.pb Data/*.png ../PureBasicIDE/data/DefaultTheme/*.png
 
 purifier : *.pb Data/*.png ../PureBasicIDE/data/DefaultTheme/*.png
 	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(GUIDEBUGGERFLAGS)  $(UNICODE) $(DEBUGFLAG) $(CONSTANT) DEBUG=1 $(PURIFIER)
+
+test :
+	$(PUREUNITRUN) -q $(TESTFLAGS) UnitTests/*.pb
 
 ifeq ($(PB_QT),1)
 
