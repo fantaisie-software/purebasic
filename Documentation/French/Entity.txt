@@ -1698,17 +1698,17 @@ Si ce masque correspond au masque spécifié par
 @EndFixedFont 
 
 @ReturnValue
-  La valeur du lacet actuel de l'entité. 
-@linebreak
-@linebreak
-  Valeur comprise entre -180.0 et 180.0 degrés, ou entre -90.0 et 90.0 degrés avec @#PB_Engine3D_Adjusted.
+  La valeur du lacet actuel de l'entité.@linebreak 
+  Valeur comprise entre -180.0 et 180.0 degrés.
 
 @Remarks
-  Avec @#PB_Engine3D_Adjusted, une même orientation peut correspondre à deux ensembles d'angles : 
-  par exemple, un lacet de 120 degrés est renvoyé comme un tangage de 180 degrés, un lacet de 60 
-  degrés et un roulis de 180 degrés. Par conséquent, ajouter une valeur au lacet ajusté et la 
-  réappliquer avec @@RotateEntity ne permet pas de faire pivoter l'entité au-delà de 90 degrés : 
-  utiliser @@RotateEntity avec @#PB_Relative pour une rotation continue.
+  Avec @#PB_Engine3D_Adjusted, une même orientation peut avoir deux ensembles d'angles : Par exemple, 
+  un lacet de 120 degrés correspond également à un tangage de 180 degrés, un lacet de 60 degrés à un 
+  roulis de 180 degrés. L'ensemble tangage-roulis avec les valeurs les plus faibles est renvoyé, ce qui 
+  permet d'ajouter une valeur ajusté du lacet et de le rétablir avec @@RotateEntity. 
+  Lorsque le lacet est proche de 90 ou -90 degrés, le tangage et le roulis tournent autour du même axe 
+  et deviennent indiscernables : Pour faire pivoter une entité en continu dans n'importe quelle direction, 
+  utiliser @@RotateEntity avec @#PB_Relative.
 
 @SeeAlso
   @@EntityPitch, @@EntityRoll
