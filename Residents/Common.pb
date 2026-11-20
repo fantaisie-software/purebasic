@@ -1757,6 +1757,8 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 #PB_Camera_Perspective  = 0
 #PB_Camera_Orthographic = 1
 
+#PB_Camera_FollowOrientation = 2   ; CameraFollow() mode flag
+
 ; Effect
 ;
 #PB_LensFlare_HaloColor   = 0

@@ -67,10 +67,12 @@
 @EndFixedFont
 
 @Parameter "Angle"
-  The angle  of the camera relative to the followed object.
+  The angle of the camera relative to the followed object, in degrees, around its up axis. With 0, the camera
+  is on the +Z side of the object.
 
 @Parameter "Height"
-  The absolute height of the camera.
+  The absolute height of the camera. With @#PB_Camera_FollowOrientation, the height above the object, along its
+  up axis.
 
 @Parameter "Distance"
   The distance of the camera relative to the followed object.
@@ -88,6 +90,16 @@
   @#True : the camera will automatically look at the followed entity (default).
   @#False: the camera will not automatically look at the followed entity.
 @EndFixedFont
+  combined with the following flag:
+@FixedFont  
+  @#PB_Camera_FollowOrientation: the camera follows the whole orientation of the object, not only its yaw: it
+                                stays behind it when it climbs, loops or rolls, 'Height' is along the object's up
+                                axis, and the camera rolls with the object (for a vehicle on a loop or a banked road).
+@EndFixedFont
+
+@Remarks
+  Each camera has its own interpolation, so several cameras can follow several objects (split screen). The first
+  call starts from the object's direction.
 
 @NoReturnValue
 
