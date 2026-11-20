@@ -1394,15 +1394,16 @@
 @EndFixedFont  
 
 @ReturnValue
-  Der aktuelle Gierwinkel (Yaw-Wert) des angegebenen Entity. Dieser Wert liegt zwischen -180.0 und 180.0 Grad bzw.
-  zwischen -90.0 und 90.0 Grad mit @#PB_Engine3D_Adjusted.
+  Der aktuelle Gierwinkel (Yaw-Wert) des angegebenen Entity. Dieser Wert liegt stets zwischen -180.0 und 180.0 Grad.
 
 @Remarks
-  Bei Verwendung von @#PB_Engine3D_Adjusted kann dieselbe Ausrichtung durch zwei verschiedene Winkelsätze haben: So
-  entspricht beispielsweise ein Gierwinkel (Yaw) von 120 Grad einem Nickwinkel (Pitch) von 180 Grad, einem Gierwinkel von
-  60 Grad und einem Rollwinkel (Roll) von 180 Grad. Daher führt das Addieren eines Wertes zum 'angepassten' Gierwinkel – bei
-  anschließender Anwendung von @@RotateEntity – dazu, dass das Objekt nicht über die 90-Grad-Marke hinaus gedreht werden kann.
-  Verwenden Sie stattdessen @@RotateEntity mit dem Parameter @#PB_Relative, um das Entity kontinuierlich zu drehen.
+  Bei Verwendung von @#PB_Engine3D_Adjusted kann die gleiche Ausrichtung zwei Winkelsätze haben: So entspricht
+  beispielsweise ein Gierwinkel (Yaw) von 120 Grad einem Nickwinkel (Pitch) von 180 Grad, bzw. einem Gierwinkel
+  von 60 Grad und einem Rollwinkel (Roll) von 180 Grad. Der Satz mit den kleinsten Nick- und Rollwinkeln wird
+  zurückgegeben, sodass ein Wert zum angepassten Gierwinkel addiert und mit @@RotateEntity angewandt werden kann.
+  Wenn der Gierwinkel nahe bei 90 oder -90 Grad liegt, drehen sich Nick- und Rollwinkel um die gleiche Achse
+  und können nicht mehr voneinander unterschieden werden: um ein Objekt kontinuierlich in eine beliebige Richtung
+  zu drehen, verwenden Sie @@RotateEntity mit @#PB_Relative.
 
 @SeeAlso
   @@EntityPitch, @@EntityRoll
