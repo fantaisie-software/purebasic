@@ -513,6 +513,7 @@ Procedure UpdateProjectInfo()
     
     ; File List
     ;
+    StartGadgetFlickerFix(#GADGET_ProjectInfo_Files) ; no repaint per row while refilling
     ClearGadgetItems(#GADGET_ProjectInfo_Files)
     
     ; copied ProjectFiles() to ProjectInfoFiles() and sorted it on PanelState$ (overwritten) to preserve the default sorting of projectfiles()
@@ -574,8 +575,11 @@ Procedure UpdateProjectInfo()
     Next ProjectInfoFiles()
     FreeList(ProjectInfoFiles())
     
+    StopGadgetFlickerFix(#GADGET_ProjectInfo_Files)
+    
     ; Target list
     ;
+    StartGadgetFlickerFix(#GADGET_ProjectInfo_Targets)
     ClearGadgetItems(#GADGET_ProjectInfo_Targets)
     ForEach ProjectTargets()
       Text$ = ProjectTargets()\Name$ + Chr(10)
@@ -621,6 +625,7 @@ Procedure UpdateProjectInfo()
       Text$ + ProjectTargets()\MainFile$
       AddGadgetItem(#GADGET_ProjectInfo_Targets, -1, Text$, ProjectTargetImage(@ProjectTargets()))
     Next ProjectTargets()
+    StopGadgetFlickerFix(#GADGET_ProjectInfo_Targets)
     
     ResizeProjectInfo(GadgetWidth(#GADGET_ProjectInfo), GadgetHeight(#GADGET_ProjectInfo))
   EndIf
