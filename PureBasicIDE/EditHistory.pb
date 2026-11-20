@@ -1278,6 +1278,7 @@ Procedure History_FillFileList()
   If DatabaseQuery(#DB_History, "SELECT event_id, time, event FROM event WHERE filename = '" + SqlEscape(File$) + "' ORDER BY time ASC")
     
     index = 0
+    StartGadgetFlickerFix(#GADGET_History_FileList) ; no repaint per row (a file's whole history)
     While NextDatabaseRow(#DB_History)
       EventID      = GetDatabaseLong(#DB_History, 0)
       Time         = GetDatabaseLong(#DB_History, 1)
@@ -1289,6 +1290,7 @@ Procedure History_FillFileList()
       SetGadgetItemData(#GADGET_History_FileList, index, EventID)
       index + 1
     Wend
+    StopGadgetFlickerFix(#GADGET_History_FileList)
     
     FinishDatabaseQuery(#DB_History)
     
