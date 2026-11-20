@@ -727,6 +727,9 @@ Procedure LoadPreferences()
   ;- - ToolsPanel
   PreferenceGroup("ToolsPanel")
   ToolsPanelWidth            = ReadPreferenceLong("Width", 220)
+  If ToolsPanelWidth < #ToolsPanel_MinStoredWidth
+    ToolsPanelWidth = #ToolsPanel_DefaultToolWidth ; a too small stored width is not valid
+  EndIf
   ToolsPanelSide             = ReadPreferenceLong("Side", 0) ; Side: 0 = Right, 1 = Left
   ToolsPanelUseFont          = ReadPreferenceLong("UseFont", 0)
   ToolsPanelUseColors        = ReadPreferenceLong("UseColors", 1)
@@ -817,6 +820,10 @@ Procedure LoadPreferences()
     AvailablePanelTools()\ToolWindowWidth  = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Width", 250)
     AvailablePanelTools()\ToolWindowHeight = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Height", 460)
     AvailablePanelTools()\IsToolStayOnTop  = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Top", 0)
+    PanelWidth = ReadPreferenceLong(AvailablePanelTools()\ToolID$+"_PanelWidth", 0) ; 0 = none
+    If PanelWidth >= #ToolsPanel_MinStoredWidth
+      ToolsPanelWidths(LCase(AvailablePanelTools()\ToolID$)) = PanelWidth
+    EndIf
   Next AvailablePanelTools()
   
   If ListSize(UsedPanelTools()) = 0
@@ -1508,6 +1515,9 @@ Procedure SavePreferences()
       WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Width", AvailablePanelTools()\ToolWindowWidth)
       WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Height", AvailablePanelTools()\ToolWindowHeight)
       WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Top", AvailablePanelTools()\IsToolStayOnTop)
+      If FindMapElement(ToolsPanelWidths(), LCase(AvailablePanelTools()\ToolID$))
+        WritePreferenceLong(AvailablePanelTools()\ToolID$+"_PanelWidth", ToolsPanelWidths())
+      EndIf
     Next AvailablePanelTools()
     
     ; save all available tools preferences

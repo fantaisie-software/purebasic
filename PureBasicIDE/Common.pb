@@ -2440,6 +2440,9 @@ EndStructure
 ;- ToolsPanel Plugin Stuff
 ;
 
+#ToolsPanel_DefaultToolWidth = 220 ; width given to a tool that has no stored width when it is selected
+#ToolsPanel_MinStoredWidth   = 60  ; narrower widths are never stored nor loaded (clamped panel or startup artefact)
+
 Interface ToolsPanelInterface
   CreateFunction()               ; called when the panelitem was created. The current gadgetlist is the panel item or tool window
   DestroyFunction()              ; called when the item is destroyed
@@ -2606,6 +2609,11 @@ Global Memorize_EditorWidth, Memorize_EditorHeight, Save_EditorWidth, Save_Edito
 Global AutoReload, MemorizeWindow, CurrentLanguage$, EnableColoring, EnableCaseCorrection, EnableKeywordBolding
 Global AutoSave, AutoSaveAll, Editor_RunOnce, ShowMainToolbar, TabLength, MemorizeCursor, VisualDesigner$
 Global ToolsPanelMode, ToolsPanelWidth, ToolsPanelSide, SplitterMoving, SplitterCursor, SelectedFilePattern
+
+; Tools panel width per tool (key = LCase(ToolID$), value = width in logical pixels)
+Global NewMap ToolsPanelWidths()
+Global ToolsPanelWidthsReady ; set once the startup width is applied: before that, nothing is stored nor applied
+
 Global FileViewerX, FileViewerY, FileViewerWidth, FileViewerHeight, FileViewerPattern, FileViewerMaximize
 Global ProcedureBrowserMode, ProcedureBrowserSort, RealTab, EnableFolding, NbFoldStartWords, NbFoldEndWords
 Global ToolbarItemCount.l, PreferenceToolbarCount.l, ToolbarPreferenceMode, ToolbarPreferenceAction
