@@ -339,6 +339,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_VistaAdmin
   #GADGET_Preferences_VistaUser
   #GADGET_Preferences_DPIAware
+  #GADGET_Preferences_DPIAwareMode
   #GADGET_Preferences_DllProtection
   #GADGET_Preferences_SharedUCRT
   #GADGET_Preferences_Thread
@@ -2682,7 +2683,7 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 Global OptionWindowDialog.DialogWindow, OptionWindowPosition.DialogPosition, ProjectOptionWindowPosition.DialogPosition
-Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionWayland, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionDllProtection, OptionSharedUCRT, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
+Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionWayland, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionDPIAwareMode, OptionDllProtection, OptionSharedUCRT, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
 Global OptionNewLineType, OptionSubSystem$, OptionErrorLog, OptionEncoding
 Global OptionUseCompileCount, OptionUseBuildCount, OptionUseCreateExe, OptionTemporaryExe
 Global OptionCustomCompiler, OptionCompilerVersion$

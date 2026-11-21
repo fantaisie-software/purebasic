@@ -914,6 +914,7 @@ Procedure LoadPreferences()
   OptionVistaAdmin           = ReadPreferenceLong("VistaAdmin",0)
   OptionVistaUser            = ReadPreferenceLong("VistaUser", 0)
   OptionDPIAware             = ReadPreferenceLong("DPIAware",  1)
+  OptionDPIAwareMode         = ReadPreferenceLong("DPIAwareMode", 0) ; 0 = System, 1 = Per-Monitor (Windows only)
   OptionDllProtection        = ReadPreferenceLong("DllProtection", 0)
   OptionSharedUCRT           = ReadPreferenceLong("SharedUCRT", 0)
   OptionThread               = ReadPreferenceLong("Thread",    0)
@@ -1572,6 +1573,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("VistaAdmin",         OptionVistaAdmin)
     WritePreferenceLong  ("VistaUser",          OptionVistaUser)
     WritePreferenceLong  ("DPIAware",           OptionDPIAware)
+    WritePreferenceLong  ("DPIAwareMode",       OptionDPIAwareMode)
     WritePreferenceLong  ("DllProtection",      OptionDllProtection)
     WritePreferenceLong  ("SharedUCRT",         OptionSharedUCRT)
     WritePreferenceLong  ("Thread",             OptionThread)
@@ -1840,6 +1842,9 @@ Procedure IsPreferenceChanged()
     If OptionVistaAdmin      <> GetGadgetState(#GADGET_Preferences_VistaAdmin): ProcedureReturn 1: EndIf
     If OptionVistaUser       <> GetGadgetState(#GADGET_Preferences_VistaUser): ProcedureReturn 1: EndIf
     If OptionDPIAware        <> GetGadgetState(#GADGET_Preferences_DPIAware): ProcedureReturn 1: EndIf
+    CompilerIf #CompileWindows
+      If OptionDPIAwareMode  <> GetGadgetState(#GADGET_Preferences_DPIAwareMode): ProcedureReturn 1: EndIf
+    CompilerEndIf
     If OptionDllProtection   <> GetGadgetState(#GADGET_Preferences_DllProtection): ProcedureReturn 1: EndIf
     If OptionSharedUCRT      <> GetGadgetState(#GADGET_Preferences_SharedUCRT): ProcedureReturn 1: EndIf
     If OptionThread          <> GetGadgetState(#GADGET_Preferences_Thread): ProcedureReturn 1: EndIf
@@ -2264,6 +2269,9 @@ Procedure ApplyPreferences()
     OptionVistaAdmin      = GetGadgetState(#GADGET_Preferences_VistaAdmin)
     OptionVistaUser       = GetGadgetState(#GADGET_Preferences_VistaUser)
     OptionDPIAware        = GetGadgetState(#GADGET_Preferences_DPIAware)
+    CompilerIf #CompileWindows
+      OptionDPIAwareMode  = GetGadgetState(#GADGET_Preferences_DPIAwareMode)
+    CompilerEndIf
     OptionDllProtection   = GetGadgetState(#GADGET_Preferences_DllProtection)
     OptionSharedUCRT      = GetGadgetState(#GADGET_Preferences_SharedUCRT)
     OptionThread          = GetGadgetState(#GADGET_Preferences_Thread)
@@ -3341,6 +3349,10 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_VistaAdmin, OptionVistaAdmin)
     SetGadgetState(#GADGET_Preferences_VistaUser, OptionVistaUser)
     SetGadgetState(#GADGET_Preferences_DPIAware, OptionDPIAware)
+    CompilerIf #CompileWindows
+      SetGadgetState(#GADGET_Preferences_DPIAwareMode, OptionDPIAwareMode)
+      DisableGadget(#GADGET_Preferences_DPIAwareMode, 1-OptionDPIAware)
+    CompilerEndIf
     SetGadgetState(#GADGET_Preferences_DllProtection, OptionDllProtection)
     SetGadgetState(#GADGET_Preferences_SharedUCRT, OptionSharedUCRT)
     SetGadgetState(#GADGET_Preferences_Thread, OptionThread)
@@ -4854,6 +4866,11 @@ Procedure PreferencesWindowEvents(EventID)
         Next i
         UpdatePrefsToolbarList()
         UpdatePrefsToolbarItem()
+        
+      CompilerIf #CompileWindows And Not #SpiderBasic
+        Case #GADGET_Preferences_DPIAware
+          DisableGadget(#GADGET_Preferences_DPIAwareMode, 1-GetGadgetState(#GADGET_Preferences_DPIAware))
+      CompilerEndIf
         
       Case #GADGET_Preferences_VistaAdmin
         If GetGadgetState(#GADGET_Preferences_VistaAdmin)

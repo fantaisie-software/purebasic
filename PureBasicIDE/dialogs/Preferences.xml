@@ -706,7 +706,15 @@
                   <checkbox id="#GADGET_Preferences_Thread"     lang="Compiler:EnableThread" />
                   <checkbox id="#GADGET_Preferences_Optimizer"  lang="Compiler:Optimizer" />
   
-                  <checkbox id="#GADGET_Preferences_DPIAware"   lang="Compiler:DPIAware" colspan="2"/>
+                  <hbox spacing="5" colspan="2">
+                    <checkbox id="#GADGET_Preferences_DPIAware"   lang="Compiler:DPIAware" />
+                    <compiler if="#CompileWindows">
+                      <combobox id="#GADGET_Preferences_DPIAwareMode" width="100">
+                        <item lang="Compiler:DPIAwareModeSystem" />
+                        <item lang="Compiler:DPIAwareModePerMonitor" />
+                      </combobox>
+                    </compiler>
+                  </hbox>
   
                   <checkbox id="#GADGET_Preferences_XPSkin"     lang="Compiler:EnableXP" colspan="2"/>
                   <checkbox id="#GADGET_Preferences_VistaAdmin" lang="Compiler:EnableAdmin" colspan="2" />
