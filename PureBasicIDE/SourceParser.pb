@@ -508,13 +508,15 @@ Procedure Parser_Comment(*pCursor.PTR)
   *Cursor.PTR = *pCursor\p ; We could use *pCursor\p\b, but this way should be faster
   
   ; Check folding keywords. A Fold can start with a ;
-  ; A word boundary is only needed after a fold word ending with a word character (";}text" is a fold end, ";endtext" is not ";end")
+  ; A fold start always needs a word boundary after it: ";{desktop}" is a plain comment, not a fold start
+  ; (https://www.purebasic.fr/english/viewtopic.php?t=89970).
+  ; A fold end only needs one after a fold word ending with a word character (";}text" is a fold end, ";endtext" is not ";end")
   ;
   If EnableFolding And Parser_IgnoreCommentItems = #False
     If FoldStartVT(*Cursor\a)
       For i = FoldStartVT(*Cursor\a) To FoldStartVT2(*Cursor\a)
         length = Len(FoldStart$(i))
-        If CompareMemoryString(*Cursor, ToAscii(FoldStart$(i)), 1, length, #PB_Ascii) = 0 And (ValidCharacters(PeekA(*Cursor + length)) = 0 Or ValidCharacters(PeekA(*Cursor + length - 1)) = 0)
+        If CompareMemoryString(*Cursor, ToAscii(FoldStart$(i)), 1, length, #PB_Ascii) = 0 And ValidCharacters(PeekA(*Cursor + length)) = 0
           AddSourceItem(#ITEM_FoldStart, Parser_CurrentLine, -1, -1)
           Break
         EndIf
