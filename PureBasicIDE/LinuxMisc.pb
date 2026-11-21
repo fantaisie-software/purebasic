@@ -330,35 +330,36 @@ CompilerIf #CompileLinux
     EndIf
   EndProcedure
   
-  ; Return true of PID is a running instance of this IDE
+  ; Resolve executable path of a process via proc ("" if unknown)
+  Procedure.s ProcessExecutable(PID)
+    Protected *Buffer = AllocateMemory(4096), Length, Result$
+    If *Buffer
+      ; /proc/pid/exe always returns the full path, 4096 = PATH_MAX on Linux
+      Length = readlink_(ToAscii("/proc/" + Str(PID) + "/exe"), *Buffer, 4096)
+      If Length > 0 And Length < 4096 ; readlink silently truncates, so 4096 is truncated
+        Result$ = PeekS(*Buffer, Length, #PB_UTF8 | #PB_ByteLength)
+      EndIf
+      FreeMemory(*Buffer)
+    EndIf
+    ProcedureReturn Result$
+  EndProcedure
+  
+  ; Return true if PID is a running instance of this IDE
   Procedure IsRunningIDEInstance(PID)
-    IsRunning = 0
-    
-    ; the other Instance isn't running (kill with '0' doesn't kill if it is still running, but returns > 0 if the PID is invalid)
-    If kill_(PID, 0) = 0
+    ; kill() with signal 0 doesn't kill: it returns 0 if the process exists and we may signal it,
+    ; and <> 0 otherwise (no such process, belongs to another user, ...)
+    If PID > 0 And kill_(PID, 0) = 0 ; PID 0 would test the own process group
       ;
-      ; if the IDE crashes, and then the PC is restarted, the PID in this file could be
+      ; if the IDE crashes, and then the PC is restarted, the PID handed to this procedure could be
       ; in use by another process, which will stop the IDE from starting.
-      ; /proc/PID/exe is a symbolic link, so simply check if that leads to the IDE exe
+      ; compare executable path of the PID with our own
       ;
-      ; This code is what ProgramFilename() does, so it can be compared
-      ;
-      Executable$ = ProgramFilename()
-      length      = Len(Executable$)
-      File$       = "/proc/"+Str(PID)+"/exe"
-      *Buffer     = AllocateMemory(length+20) ; do not use the exe length alone, as else we cannot tell if the link name is longer than that
-      
-      If *Buffer
-        readlength = readlink_(ToAscii(File$), *Buffer, length+20)
-        If readlength = length And PeekS(*Buffer, length, #PB_Ascii) = Executable$ ; *Buffer is not 0-terminated!
-          IsRunning = 1
-        EndIf
-        
-        FreeMemory(*Buffer)
+      Own$ = ProcessExecutable(getpid_())
+      If Own$ <> "" And ProcessExecutable(PID) = Own$
+        ProcedureReturn 1
       EndIf
     EndIf
-    
-    ProcedureReturn IsRunning
+    ProcedureReturn 0
   EndProcedure
   
   Procedure IsEditorRunning()
