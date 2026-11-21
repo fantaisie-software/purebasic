@@ -2518,7 +2518,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     ; Clear any old highlight (only if one may be showing, always when switching gadgets to be sure)
     ;
-    If LastHasHighlight Or *LastGadget <> *ActiveGadget
+    If LastHasHighlight Or *LastGadget <> *ActiveSource\EditorGadget
       SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMatch)
       SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
       
@@ -2528,7 +2528,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       SendEditorMessage(#SCI_SETHIGHLIGHTGUIDE, 0)
     EndIf
     
-    *LastGadget = *ActiveGadget
+    *LastGadget = *ActiveSource\EditorGadget
     LastHasHighlight = #False
     
     ; Try to locate a matching keyword
@@ -2715,7 +2715,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     Static *LastActiveGadget, LastSelStart, LastSelEnd, LastHasMarks ; reduce number of updates
     
     ; exit if nothing changed
-    If selStart <> -1 And *LastActiveGadget = *ActiveGadget And LastSelStart = selStart And LastSelEnd = selEnd
+    If selStart <> -1 And *LastActiveGadget = *ActiveSource\EditorGadget And LastSelStart = selStart And LastSelEnd = selEnd
       ProcedureReturn
     EndIf
     
@@ -2728,12 +2728,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_SelectionRepeat)
     
     ; clear any old marks if needed (always clear when switching gadgets to be sure)
-    If *LastActiveGadget <> *ActiveGadget Or LastHasMarks
+    If *LastActiveGadget <> *ActiveSource\EditorGadget Or LastHasMarks
       SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
     EndIf
     
     ; remember these for next time
-    *LastActiveGadget = *ActiveGadget
+    *LastActiveGadget = *ActiveSource\EditorGadget
     LastSelStart = selStart
     LastSelEnd = selEnd
     LastHasMarks = #False
