@@ -958,8 +958,10 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
   finished and only one time per frame. 
 
 @OptionalParameter "ElapsedPhysicTime"
-  If set it will force the physic engine to use this value, in milliseconds, as elapsed time since the last call of RenderWorld.
-  It can be useful to makes the physic simulation faster or slower than real-time.
+  If set it will force the 3D engine to use this value, in milliseconds, as elapsed time since the last call of RenderWorld.
+  It is used by the physic engine, the particles, the ribbon effects, the animated materials (@@ScrollMaterial,
+  @@RotateMaterial...) and the entity animations, so they all follow the same time.
+  It can be useful to makes the simulation faster or slower than real-time, or to run it at a fixed time step.
 
 @ReturnValue
   Returns the elapsed time since the last frame in milliseconds. It can be useful to have an accurate time based simulation
@@ -1156,7 +1158,7 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function WorldShadows(Type [, Distance.f [, Color [, TextureSize]]])
+@Function WorldShadows(Type [, Distance.f [, Color [, TextureSize [, Projection]]]])
 
 @Description
   Sets how shadows will be rendered in the world. 
@@ -1191,6 +1193,18 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
   Pixel size of the texture used to render the shadow. The bigger it is it, the better the shadow
   will be looking, but the slower it will be. The default value is 512, and this value shouldn't be
   bigger than 4096.
+
+@OptionalParameter "Projection"
+  How the shadow texture covers the view, for @#PB_Shadow_TextureAdditive and @#PB_Shadow_TextureModulative.
+  It can be one of the following values:
+@FixedFont
+  @#PB_Shadow_Uniform: the texture covers the whole shadow area evenly (default).
+  @#PB_Shadow_Focused: the texture is focused on what the camera sees: the shadows are much sharper,
+                      especially near the camera.
+  @#PB_Shadow_LiSPSM : like @#PB_Shadow_Focused, with a perspective which gives even more details near the
+                      camera (light space perspective shadow maps). It can flicker when the camera or the
+                      light moves.
+@EndFixedFont
 
 @NoReturnValue
 

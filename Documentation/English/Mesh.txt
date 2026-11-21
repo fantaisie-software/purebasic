@@ -186,7 +186,13 @@
   for the #Mesh parameter then the generated number is returned on success.
 
 @Remarks
-  Mesh is required to be in the OGRE .mesh format. A command-line tool based on @InternetLink "http://assimp.sourceforge.net/main_features_formats.html" "assimp" is available to convert
+  The following formats are supported: OGRE .mesh, glTF 2.0 (.gltf and .glb), Wavefront .obj, FBX (.fbx), Collada (.dae),
+  3D Studio (.3ds), Stanford .ply and STL (.stl). The files used by the model (.mtl materials of an .obj file, .bin
+  buffers of a .gltf file, textures) are searched in the archives added with @@Add3DArchive, and the textures
+  embedded in the file (.glb, .fbx) are loaded too. A glTF material set as 'doubleSided' is displayed on both faces.
+  @LineBreak
+@LineBreak
+  A command-line tool based on @InternetLink "http://assimp.sourceforge.net/main_features_formats.html" "assimp" is also available to convert
   many 3d formats into the OGRE mesh, including materials and animations. It can be downloaded
   here: @InternetLink "http://www.purebasic.com/download/OgreAssimpConverter.zip" "OgreAssimpConverter.zip" (Windows only). Some problems
   have been reported with shadow and converted meshes, if that happen use OgreMeshUpdater.exe on the newly converted mesh and it should fix

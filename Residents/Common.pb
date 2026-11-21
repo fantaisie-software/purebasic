@@ -1757,6 +1757,8 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 #PB_Camera_Perspective  = 0
 #PB_Camera_Orthographic = 1
 
+#PB_Camera_FollowOrientation = 2   ; CameraFollow() mode flag
+
 ; Effect
 ;
 #PB_LensFlare_HaloColor   = 0
@@ -1795,6 +1797,11 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 #PB_Shadow_Additive        = 2
 #PB_Shadow_TextureAdditive = 3
 #PB_Shadow_TextureModulative = 5
+
+; WorldShadows() projection
+#PB_Shadow_Uniform = 0
+#PB_Shadow_Focused = 1
+#PB_Shadow_LiSPSM  = 2
 
 
 

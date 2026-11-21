@@ -287,7 +287,10 @@
 @Function CompositorEffectParameter(#Effect, TechniqueID, PassID, EffectName$, DataType, *Data)
 
 @Description
-  Set real-time parameter on the specified effect. 
+  Set real-time parameter on the specified effect. The value is read at each frame from the specified memory
+  address, so changing the variable changes the effect. Each effect has its own parameters: the same compositor
+  can be used on several cameras with different values (for example in a split screen). Setting the same parameter
+  again replaces it.
 
 @Parameter "#Effect"
   The effect to use. The effect has to be a compositor effect created with @@CreateCompositorEffect.
@@ -302,10 +305,17 @@
   The name of the effect.
 
 @Parameter "DataType"
-  The datatype of the parameter to set.
+  The datatype of the parameter to set. It can be one of the following values:
+@FixedFont
+  @#PB_Shader_Integer: an integer (.l)
+  @#PB_Shader_Float  : a float (.f)
+  @#PB_Shader_Vector3: 3 floats
+  @#PB_Shader_Vector4: 4 floats
+@EndFixedFont
 
 @Parameter "Data"
-  The data of the parameter to set. It depends of the specified datatype.
+  The address of the parameter value, for example @Variable. It is read at each frame, so the variable
+  has to stay valid as long as the effect exists.
 
 @NoReturnValue
 
