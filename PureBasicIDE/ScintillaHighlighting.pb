@@ -3471,15 +3471,18 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ; Get the accelerator table from the top window and try to fire the accelerator
       ; If it is in the table, it will return 1 (the event is stopped) and the accelerator
       ; will be fired -> the event will be generated.
+      ; This is needed when Scintilla gets the key before the window, e.g. while a mouse button
+      ; is held in the editor (GTK grab): the Ctrl+<letter> keys are mapped to SCI_NULL with
+      ; SCI_CLEARCMDKEY, so Scintilla would swallow them and the shortcut would be lost.
       ;
       Accelerators = g_object_get_data_(gtk_widget_get_toplevel_(*Widget), "pb_accelerators")
       If Accelerators
         
-        ; gtk_accel_groups_activate_() works as well for our case, but it's not sure than the shortcut is
+        ; gtk_accel_groups_activate_() works as well for our case, but it's not sure that the shortcut is
         ; really in our accelerator list, so check it. Note the '& $F' for the query, without which it fails
         ;
         If gtk_accel_group_query_(Accelerators, *Event\keyval, *Event\state & $F, @NbEntriesFound)
-          ProcedureReturn gtk_accel_groups_activate_(gtk_widget_get_toplevel_(*Widget), Key, *Event\state)
+          ProcedureReturn gtk_accel_groups_activate_(gtk_widget_get_toplevel_(*Widget), *Event\keyval, *Event\state)
         EndIf
       EndIf
       
