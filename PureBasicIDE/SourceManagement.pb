@@ -373,6 +373,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\EnableAdmin      = OptionVistaAdmin
   FileList()\EnableUser       = OptionVistaUser
   FileList()\DPIAware         = OptionDPIAware
+  FileList()\DPIAwareMode     = OptionDPIAwareMode
   FileList()\DllProtection    = OptionDllProtection
   FileList()\SharedUCRT       = OptionSharedUCRT
   FileList()\EnableThread     = OptionThread
