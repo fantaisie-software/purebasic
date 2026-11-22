@@ -4,7 +4,7 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ; --------------------------------------------------------------------------------------------
 
-; Tests of the debugger engine (Communication.pb & co, shared by the IDE and the standalone debugger)
+; Tests of the debugger engine (Communication.pb, shared by the IDE and the standalone debugger)
 ; with real programs compiled with the debugger (Targets/*.pb)
 
 PureUnitOptions(MainCode)

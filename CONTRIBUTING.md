@@ -377,6 +377,7 @@ Just make sure that your IDE is configured to use the default settings for code 
 
 The IDE and the debugger have unit tests, run with PureUnit 1.5 or newer (shipped with PureBasic in `SDK/PureUnit`): run `make test` in `PureBasicIDE` and `PureBasicDebugger` before submitting a pull request.
 When you fix a bug in code that can be tested (below the user interface: source parser, highlighting, find/replace, debugger engine...), please add a test which fails without your fix.
+Tests go in the test file named after the source file they test (one test file per source file, e.g. `PureBasicIDE/UnitTests/RadixTree.pb` for `PureBasicIDE/RadixTree.pb`).
 See [`PureBasicIDE/UnitTests/README.md`](./PureBasicIDE/UnitTests/README.md) for how to run and write the tests.
 
 -------------------------------------------------------------------------------

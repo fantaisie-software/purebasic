@@ -3,7 +3,7 @@
 The tests run with **PureUnit 1.5 or newer**, which comes with PureBasic (`SDK/PureUnit`, see its
 `Readme.txt` and [the PureUnit manual](../../AsciiDoc/PureUnit-Help.asciidoc)). They are in two folders:
 
-- `PureBasicIDE/UnitTests/`: the IDE code (source scanner, highlighting, find/replace, algorithms...)
+- `PureBasicIDE/UnitTests/`: the IDE code (source scanner, highlighting, find/replace, diff, radix tree...)
 - `PureBasicDebugger/UnitTests/`: the debugger engine, driving real programs compiled with the debugger
 
 ## Running the tests
@@ -40,14 +40,22 @@ program after a failed test: each test must set up what it needs.
 Add a test with every bug fix when the code can be tested: it must fail before the fix and pass after it. Put
 the URL of the bug report or PR above the test.
 
+### One test file per source file
+
+A test file is named after the source file whose code it tests: the tests of `PureBasicIDE/RadixTree.pb` are
+in `PureBasicIDE/UnitTests/RadixTree.pb`, the ones of `PureBasicDebugger/Communication.pb` in
+`PureBasicDebugger/UnitTests/Communication.pb`. Even when a test needs other files to run, it goes in the file
+named after the one it mainly tests. A file with only one or two tests is fine: this way, it is clear where the
+tests of some code are, and where to add a new one, without duplicates.
+
 There are three kinds of test files, from the lightest to the most complete.
 
-### 1. Self-contained code (`Algorithms.pb`)
+### 1. Self-contained code (`RadixTree.pb`, `DiffAlgorithm.pb`, `FileSystem.pb`)
 
 For code that needs only declarations (structures, constants): include `CompilerFlags.pb`, `Common.pb` and the
 file to test. No `PureUnitOptions()` is needed. Such a file compiles in a fraction of a second.
 
-### 2. The whole IDE (`SourceParser.pb`, `FindReplace.pb`)
+### 2. The whole IDE (`SourceParser.pb`, `HighlightingFunctions.pb`)
 
 For the rest of the IDE code: the whole IDE is compiled in the test, without starting it, and initialized like
 the IDE does at startup, with the default preferences:
@@ -71,9 +79,9 @@ EndProcedureUnit
 - No window of the IDE is created: test the code below the user interface (`ScanFile()` instead of the
   procedure browser, `IsWholeWordMatch()` instead of the Find window...).
 
-Such a file takes a few seconds to compile, so group the tests of an area in one file.
+Such a file takes a few seconds to compile.
 
-### 3. The debugger engine (`PureBasicDebugger/UnitTests/DebuggerEngine.pb`)
+### 3. The debugger engine (`PureBasicDebugger/UnitTests/Communication.pb`)
 
 `DebuggerTestHost.pbi` hosts the debugger engine (`DebuggerIncludes.pb`), like the IDE and the standalone
 debugger do, and records what it reports:

@@ -1,4 +1,4 @@
-﻿; Target program for DebuggerEngine.pb: compiled with the debugger and run by the tests.
+﻿; Target program for Communication.pb: compiled with the debugger and run by the tests.
 ; Lines marked with "; @Name" are found by TargetLine(), so lines can be added freely.
 
 Dim Values(2)
