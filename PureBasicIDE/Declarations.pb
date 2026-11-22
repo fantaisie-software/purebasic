@@ -477,7 +477,6 @@ Declare.s LanguagePattern(Group$, Name$, Pattern$, ReplacementString$) ; return 
 Declare EnsureWindowOnDesktop(Window)
 Declare GetUniqueID()
 Declare OptionalImageID(Image)
-Declare FindMemoryString(*Buffer, Length, String$, Mode) ; searches for the String$ in the memory buffer and returns a pointer to it, or 0 if not found
 Declare FindMemoryCharacter(*Buffer.Character, Length, Byte.c) ; find the byte in the memory block
 Declare ParseString(String$)                                   ; parse a string into whitespace separated tokens
 Declare.s GetStringToken(Index)                                ; return token from previously parsed string
