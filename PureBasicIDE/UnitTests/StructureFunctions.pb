@@ -43,6 +43,13 @@ ProcedureUnit Structure_ParseAlign()
   AssertString(Result$, "a.b|b.q", "the Align part is skipped: " + Result$)
 EndProcedureUnit
 
+; An unfinished escaped string ending with a \ in the Align expression (while typing): the \ must not
+; skip the newline, which ends the expression
+ProcedureUnit Structure_ParseAlignUnfinishedString()
+  Protected Result$ = ParseFields(" Align ~" + #DQUOTE$ + "a\" + #LF$ + "  x.l" + #LF$ + "  y.l" + #LF$)
+  AssertString(Result$, "x.l|y.l", Result$)
+EndProcedureUnit
+
 ProcedureUnit Structure_ParseSkipsDirectives()
   Protected Result$ = ParseFields(~"\n  CompilerIf #PB_Compiler_64Bit\n    a.q\n  CompilerElse\n    a.l\n  CompilerEndIf\n  StructureUnion\n    b.l\n  EndStructureUnion\n")
   AssertString(Result$, "a.q|a.l|b.l", "the fields of both branches and of the union: " + Result$)
