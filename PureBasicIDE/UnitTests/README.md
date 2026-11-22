@@ -50,7 +50,7 @@ tests of some code are, and where to add a new one, without duplicates.
 
 There are three kinds of test files, from the lightest to the most complete.
 
-### 1. Self-contained code (`RadixTree.pb`, `DiffAlgorithm.pb`, `FileSystem.pb`)
+### 1. Self-contained code (`RadixTree.pb`, `DiffAlgorithm.pb`, `FileSystem.pb`, `Macro.pb`)
 
 For code that needs only declarations (structures, constants): include `CompilerFlags.pb`, `Common.pb` and the
 file to test. No `PureUnitOptions()` is needed. Such a file compiles in a fraction of a second.
