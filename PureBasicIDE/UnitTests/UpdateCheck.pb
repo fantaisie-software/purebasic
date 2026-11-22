@@ -23,13 +23,34 @@ ProcedureUnit UpdateCheck_ReadVersionFile()
                                     ~"<versions xmlns=\"" + #UpdateCheckNamespace$ + ~"\">\n" +
                                     ~"  <version category=\"bugfix\" number=\"6.21\" name=\"6.21\" />\n" +
                                     ~"  <version category=\"beta\" number=\"6.30\" beta=\"3\" name=\"6.30b3\" />\n" +
-                                    ~"  <version category=\"final\" number=\" 6.30 \" lts=\"1\" name=\"6.30\" />\n" +
+                                    ~"  <version category=\"release\" number=\" 6.30 \" lts=\"1\" name=\"6.30\" />\n" +
+                                    ~"  <version category=\"final\" number=\"6.20\" name=\"6.20\" />\n" +
                                     ~"  <version category=\"future\" number=\"9.00\" name=\"unknown category\" />\n" +
                                     ~"  <other number=\"9.00\" />\n" +
                                     ~"</versions>", "versions.xml")
   
   Assert(ReadVersionFile(File$, Releases()))
-  AssertString(ReleasesText(Releases()), "6.30:630:" + Str(#CATEGORY_Final) + ":0:1|6.30b3:630:" + Str(#CATEGORY_Beta) + ":3:0|6.21:621:" + Str(#CATEGORY_Bugfix) + ":0:0", "sorted, the newest first: " + ReleasesText(Releases()))
+  AssertString(ReleasesText(Releases()), "6.30:630:" + Str(#CATEGORY_Final) + ":0:1|6.30b3:630:" + Str(#CATEGORY_Beta) + ":3:0|6.21:621:" + Str(#CATEGORY_Bugfix) + ":0:0|6.20:620:" + Str(#CATEGORY_Final) + ":0:0", "sorted, the newest first: " + ReleasesText(Releases()))
+EndProcedureUnit
+
+; The numbers like 5.10 or 4.35 are not exact as doubles (5.10 * 100 is 509.99...), they must not be truncated
+ProcedureUnit UpdateCheck_VersionNumbers()
+  Protected NewList Releases.Release(), Major, Minor, Number$, Xml$
+  
+  Xml$ = ~"<versions xmlns=\"" + #UpdateCheckNamespace$ + ~"\">"
+  For Major = 4 To 7
+    For Minor = 0 To 99
+      Number$ = Str(Major) + "." + RSet(Str(Minor), 2, "0")
+      Xml$ + ~"<version category=\"final\" number=\"" + Number$ + ~"\" name=\"" + Number$ + ~"\" />"
+    Next Minor
+  Next Major
+  Xml$ + "</versions>"
+  
+  Assert(ReadVersionFile(WriteTestSource(Xml$, "numbers.xml"), Releases()))
+  Assert(ListSize(Releases()) = 400)
+  ForEach Releases()
+    Assert(Releases()\Number = Val(RemoveString(Releases()\Name$, ".")), Releases()\Name$ + " read as " + Str(Releases()\Number))
+  Next
 EndProcedureUnit
 
 ProcedureUnit UpdateCheck_InvalidFiles()
