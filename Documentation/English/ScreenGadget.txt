@@ -239,14 +239,14 @@
 
 ;------------------------------------------------------------------------------------
 
-@Function Result = ScreenVirtualSize(VirtualWidth, VirtualHeight)
+@Function Result.f = ScreenVirtualSize(VirtualWidth, VirtualHeight)
 
 @Description
   Defines the virtual screen dimensions to automatically adjust the position of gadgets to the resolution.
   @LineBreak
   This command is useful when the screen resolution is not known in advance.
 
-@Parameter "VirtualWidth, VirtuelHeight"
+@Parameter "VirtualWidth, VirtualHeight"
   The virtual dimensions of the screen.
  
 @ReturnValue
@@ -2043,7 +2043,7 @@
 @ReturnValue
   Possible Events are:
 @FixedFont
-  @#PB_Event_Gadget         : a @LibraryLink "gadget3d" "ScreenGadget" has been used
+  @#PB_Event_Gadget         : a @LibraryLink "screengadget" "ScreenGadget" has been used
   @#PB_Event_CloseWindow    : the window close gadget has been pushed
   @#PB_Event_SizeWindow     : the window has been resized
   @#PB_Event_MoveWindow     : the window has been moved
