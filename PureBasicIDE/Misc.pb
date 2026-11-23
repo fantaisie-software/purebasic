@@ -148,19 +148,6 @@ Procedure OptionalImageID(Image)
   EndIf
 EndProcedure
 
-Procedure FindMemoryString(*Buffer, Length, String$, Mode)
-  StrLength = Len(String$)
-  *BufferEnd = *Buffer + Length - StrLength
-  While *Buffer <= *BufferEnd
-    If CompareMemoryString(*Buffer, @String$, Mode, StrLength) = 0
-      ProcedureReturn *Buffer
-    Else
-      *Buffer + 1
-    EndIf
-  Wend
-  ProcedureReturn 0
-EndProcedure
-
 ; NOTE: length is in characters!
 Procedure FindMemoryCharacter(*Buffer.Character, Length, Character.c)
   *BufferEnd = *Buffer + Length*SizeOf(Character)

@@ -1204,74 +1204,6 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
   
 EndProcedure
 
-; Handles source files with *old* settings format
-;
-Procedure AnalyzeSettings_Old(*Source.SourceFile, *Buffer, Length)
-  ExecutableFormat$   = "WINDOWS"
-  
-  *Cursor.Ascii = *Buffer+Length
-  Found        = 0
-  
-  If Length > 0
-    While *Cursor >= *Buffer
-      
-      *LastPointer = *Cursor
-      
-      While *Cursor >= *Buffer And *Cursor\a <> 10
-        *Cursor-1
-      Wend
-      
-      If *Cursor >= *Buffer
-        Line$ = PeekS(*Cursor+1, *LastPointer - *Cursor, #PB_Ascii)
-        
-        If Line$ = "; EOF" : Found = 1
-        ElseIf Line$ =          "; EnableAsm"         : Found = 1 : *Source\EnableASM = 1
-        ElseIf Line$ =          "; EnableXP"          : Found = 1 : *Source\EnableXP  = 1
-        ElseIf Line$ =          "; EnableWayland"     : Found = 1 : *Source\EnableWayland = 1
-        ElseIf Line$ =          "; EnableOnError"     : Found = 1 : *Source\EnableOnError = 1
-        ElseIf Line$ =          "; DisableDebugger"   : Found = 1 : *Source\Debugger  = 0
-        ElseIf Left(Line$,13) = "; Executable="       : Found = 1 : *Source\ExecutableName$   = Right(Line$, Len(Line$)-13)
-        ElseIf Left(Line$,19) = "; ExecutableFormat=" : Found = 1 : ExecutableFormat$         = Right(Line$, Len(Line$)-19)
-        ElseIf Left(Line$,14) = "; CommandLine="      : Found = 1 : *Source\CommandLine$      = Right(Line$, Len(Line$)-14)
-        ElseIf Left(Line$,10) = "; UseIcon="          : Found = 1 : *Source\UseIcon = 1     : *Source\IconName$ = Right(Line$, Len(Line$)-10)
-        ElseIf Left(Line$,14) = "; UseMainFile="      : Found = 1 : *Source\UseMainFile = 1 : *Source\MainFile$ = Right(Line$, Len(Line$)-14)
-        ElseIf Left(Line$,6)  = "; CPU="              : Found = 1 : *Source\CPU               = Val(Right(Line$, Len(Line$)-6 ))
-        ElseIf Left(line$,17) = "; CursorPosition="   : Found = 1 : Loading_CurrentLine       = Val(Right(line$, Len(line$)-17)) + 1
-        ElseIf Left(line$,12) = "; FirstLine="        : Found = 1 : Loading_FirstVisibleLine  = Val(Right(line$, Len(line$)-12))
-        ElseIf Left(line$,12) = "; SubSystem="        : Found = 1 : *Source\SubSystem$        = Right(Line$, Len(Line$)-12)
-        ElseIf Left(line$,10) = "; Folding="          : Found = 1 : Loading_FoldingState$             = Right(Line$, Len(Line$)-10)
-        Else: Break
-        EndIf
-        
-        *Cursor - 1
-        If *Cursor >= *Buffer And *Cursor\a = 13
-          *Cursor - 1
-        EndIf
-      EndIf
-    Wend
-  EndIf
-  
-  Select ExecutableFormat$
-    Case "Windows"   : *Source\ExecutableFormat = 0
-    Case "Linux"     : *Source\ExecutableFormat = 0
-    Case "MacOS"     : *Source\ExecutableFormat = 0
-    Case "Console"   : *Source\ExecutableFormat = 1
-    Case "Shared Dll": *Source\ExecutableFormat = 2
-  EndSelect
-  
-  If Found
-    IsIDEConfigPresent = 1 ; we found settings (but from the old IDE), so use the standards for the options that are new
-    *Source\SubSystem$       = OptionSubSystem$
-    *Source\ErrorLog         = OptionErrorLog
-    
-    PokeB(*LastPointer+1, 0) ; 0-terminate the buffer
-    ProcedureReturn *LastPointer - *Buffer + 1; cut the settings, return new length
-    
-  Else
-    ProcedureReturn Length ; return full buffer length, nothing should be cut
-  EndIf
-EndProcedure
-
 Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the ConfigLines$ array
   ExecutableFormat$   = ""
   MarkerLines$ = ""
@@ -1693,44 +1625,36 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
   IsIDEConfigPresent = 0
   ReturnValue = Length
   
-  ; old type source file
-  ;
-  If Length > 20 And FindMemoryString(*Buffer+Length-20, 20, "; EOF", 1)
-    ReturnValue = AnalyzeSettings_Old(*Source, *Buffer, Length)
-  Else
+  If IsTempFile ; for temp file, it is only inside the current source.
+    ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
     
-    If IsTempFile ; for temp file, it is only inside the current source.
+  ElseIf SaveProjectSettings = #SAVESETTINGS_EndOfFile
+    Result = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
+    If Result < Length ; settings were found
+      ReturnValue = Result
+    ElseIf AnalyzeSettings_ConfigFile(*Source)  ; found in filename.pb.cfg
+      ReturnValue = Length
+    Else
+      AnalyzeSettings_ProjectFile(*Source)  ; check common config file
+      ReturnValue = Length
+    EndIf
+    
+  ElseIf SaveProjectSettings = #SAVESETTINGS_PerFileCfg
+    If AnalyzeSettings_ConfigFile(*Source)
+      ReturnValue = Length
+    ElseIf AnalyzeSettings_ProjectFile(*Source)
+      ReturnValue = Length
+    Else
       ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
-      
-    ElseIf SaveProjectSettings = #SAVESETTINGS_EndOfFile
-      Result = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
-      If Result < Length ; settings were found
-        ReturnValue = Result
-      ElseIf AnalyzeSettings_ConfigFile(*Source)  ; found in filename.pb.cfg
-        ReturnValue = Length
-      Else
-        AnalyzeSettings_ProjectFile(*Source)  ; check common config file
-        ReturnValue = Length
-      EndIf
-      
-    ElseIf SaveProjectSettings = #SAVESETTINGS_PerFileCfg
-      If AnalyzeSettings_ConfigFile(*Source)
-        ReturnValue = Length
-      ElseIf AnalyzeSettings_ProjectFile(*Source)
-        ReturnValue = Length
-       Else
-        ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
-      EndIf
-      
-    ElseIf SaveProjectSettings = #SAVESETTINGS_PerFolderCfg
-      If AnalyzeSettings_ProjectFile(*Source)
-        ReturnValue = Length
-      ElseIf AnalyzeSettings_ConfigFile(*Source)
-        ReturnValue = Length
-      Else
-        ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
-      EndIf
-      
+    EndIf
+    
+  ElseIf SaveProjectSettings = #SAVESETTINGS_PerFolderCfg
+    If AnalyzeSettings_ProjectFile(*Source)
+      ReturnValue = Length
+    ElseIf AnalyzeSettings_ConfigFile(*Source)
+      ReturnValue = Length
+    Else
+      ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
     EndIf
     
   EndIf
