@@ -598,11 +598,12 @@ Module HelpTool
     AddTag("noparameters",      3, 1, "")
 
     AddTag("internetlink",  0, 0, "<a href='$p1'>$p2</a>")
-    AddTag("link",          0, 0, "<a href='#' onclick='" + JsCall("lk:$p1") + "'>$p2</a>")
-    AddTag("librarylink",   0, 0, "<a href='#' onclick='" + JsCall("lk:lib_$p1") + "'>$p2 </a>")
-    AddTag("fastlink",      0, 0, "<a href='#' onclick='" + JsCall("lk:$p1") + "'>$p1 </a>")
-    AddTag("referencelink", 0, 0, "<a href='#' onclick='" + JsCall("lk:$p1") + "'>$p2 </a>")
-    AddTag("mainguidelink", 0, 0, "<a href='#' onclick='" + JsCall("lk:$p1") + "'>$p2 </a>")
+    ; $lk: page of the link, from the first parameter (see LinkPageName())
+    AddTag("link",          0, 0, "<a href='#' onclick='" + JsCall("lk:$lk") + "'>$p2</a>")
+    AddTag("librarylink",   0, 0, "<a href='#' onclick='" + JsCall("lk:$lk") + "'>$p2 </a>")
+    AddTag("fastlink",      0, 0, "<a href='#' onclick='" + JsCall("lk:$lk") + "'>$p1 </a>")
+    AddTag("referencelink", 0, 0, "<a href='#' onclick='" + JsCall("lk:$lk") + "'>$p2 </a>")
+    AddTag("mainguidelink", 0, 0, "<a href='#' onclick='" + JsCall("lk:$lk") + "'>$p2 </a>")
   EndProcedure
 
 
@@ -611,6 +612,41 @@ Module HelpTool
       ProcedureReturn *PageMap()
     EndIf
     ProcedureReturn 0
+  EndProcedure
+
+
+  ; Reference pages which have the name of a function (Ascii(), Unicode()) are renamed by BuildHelp()
+  ;
+  Procedure.s ReferencePageName(Name$)
+    Select LCase(Name$)
+      Case "ascii"
+        ProcedureReturn "asciitable"
+      Case "unicode"
+        ProcedureReturn "unicodetopic"
+    EndSelect
+    ProcedureReturn LCase(Name$)
+  EndProcedure
+
+
+  ; Page of a link target. Like DocMaker, a link to a function can name its library ('@Link "Screen/OpenScreen"')
+  ; and end with '()' ('@FastLink "FreeArray()"')
+  ;
+  Procedure.s LinkPageName(Tag$, Target$)
+    Protected Name$ = LCase(Trim(Target$))
+
+    Name$ = StringField(Name$, CountString(Name$, "/") + 1, "/")
+    If Right(Name$, 2) = "()"
+      Name$ = Left(Name$, Len(Name$) - 2)
+    EndIf
+
+    Select LCase(Tag$)
+      Case "librarylink"
+        Name$ = "lib_" + Name$
+      Case "referencelink"
+        Name$ = ReferencePageName(Name$)
+    EndSelect
+
+    ProcedureReturn Name$
   EndProcedure
 
 
@@ -677,10 +713,12 @@ Module HelpTool
 
     Repeat
       PageStart = PageEnd
-      PageEnd = FindString(Text$, "@Function ", PageStart + 1)
+      PageEnd = FindString(Text$, #LF$ + "@Function ", PageStart) ; at a line start: not in a comment (ie: '; @Function' of a function not supported yet)
       If PageEnd = 0
         PageEnd = Len(Text$) + 1
         IsLastPage = #True
+      Else
+        PageEnd + 1
       EndIf
       Page$ = Mid(Text$, PageStart, PageEnd - PageStart)
 
@@ -1470,6 +1508,15 @@ Module HelpTool
                   Position = FindString(Text$, #LF$, Position)
                 EndIf
               EndIf
+              If FindString(TagHtml$, "$lk") ; link to a page
+                Parameter$ = ReadTagParameter(@Text$, @Position)
+                LinkName$ = LinkPageName(Tag$, Parameter$)
+                If FindPage(LinkName$) = 0
+                  AddError("link not found: " + Parameter$)
+                EndIf
+                TagHtml$ = ReplaceString(TagHtml$, "$lk", EscapeHtml(LinkName$))
+                TagHtml$ = ReplaceString(TagHtml$, "$p1", EscapeHtml(Parameter$)) ; @FastLink: the target is the text
+              EndIf
               If FindString(TagHtml$, "$p1")
                 TagHtml$ = ReplaceString(TagHtml$, "$p1", EscapeHtml(ReadTagParameter(@Text$, @Position)))
               EndIf
@@ -1781,12 +1828,12 @@ Module HelpTool
       EndIf
       InitLanguage()
 
-      ; Source files (ascii.txt is renamed asciitable.txt)
+      ; Source files (ascii.txt is renamed asciitable.txt, unicode.txt unicodetopic.txt: see ReferencePageName())
       ListFiles(Files$(), Source$ + Language$, "txt")
       ForEach Files$()
         File$ = Files$()
-        If LCase(File$) = "reference/ascii.txt"
-          File$ = GetPathPart(File$) + "asciitable.txt"
+        If LCase(GetPathPart(File$)) = "reference/"
+          File$ = GetPathPart(File$) + ReferencePageName(GetFilePart(File$, #PB_FileSystem_NoExtension)) + ".txt"
         EndIf
         MakePath(GetPathPart(Destination$ + Language$ + "/" + File$))
         If ConvertSourceFile(Source$ + Language$ + "/" + Files$(), Destination$ + Language$ + "/" + File$) = 0
@@ -1800,7 +1847,8 @@ Module HelpTool
         Text$ = "@Title " + Text_Home$ + #LF$ + ContentsHtmlToSource(ReadTextFile(Path$, #False))
         Text$ = InsertString(Text$, "@Section User library" + #LF$ + "$userlib" + #LF$, FindString(Text$, "@Section", FindString(Text$, "lib_texture")))
         Text$ = InsertString(Text$, MainGuideContents(), FindString(Text$, "@Section"))
-        Text$ = ReplaceString(Text$, "@Link ascii", "@Link asciitable")
+        Text$ = ReplaceString(Text$, "@Link ascii ", "@Link asciitable ")
+        Text$ = ReplaceString(Text$, "@Link unicode ", "@Link unicodetopic ")
         If WriteTextFile(Destination$ + Language$ + "/Reference/reference.txt", Text$) = 0
           Errors$ + "Can't write: " + Destination$ + Language$ + "/Reference/reference.txt" + #LF$
         EndIf
