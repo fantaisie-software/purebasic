@@ -338,10 +338,27 @@ ifeq ($(PB_PROCESSOR),ARM64)
   GPP_FLAGS = -fPIC -DPB_64
 endif
 
+# Qt6 when available (like the Libraries' EnvironmentVariables.bash), Qt5 otherwise (Ubuntu 20.04)
+# This makefile is called with PB_QT=1 from the GTK3 environment, so PB_QT_VERSION may not be set
+ifeq ($(PB_QT_VERSION),)
+  PB_QT_VERSION := $(shell pkg-config --exists Qt6Widgets && echo 6 || echo 5)
+endif
+
+ifeq ($(PB_QT_VERSION),6)
+  QT_HEADERS := $(shell qmake6 -query QT_INSTALL_HEADERS)
+  QT_MOC     := $(shell qtpaths6 --query QT_HOST_LIBEXECS)/moc
+  # Qt 6.4's moc writes unprefixed includes (#include <QScreen>), so the module directories are needed too
+  QT_INCLUDE := -I$(QT_HEADERS) -I$(QT_HEADERS)/QtCore -I$(QT_HEADERS)/QtGui -I$(QT_HEADERS)/QtWidgets
+else
+  QT_HEADERS := $(shell qmake -query QT_INSTALL_HEADERS)
+  QT_MOC     := moc
+  QT_INCLUDE := -I$(QT_HEADERS)
+endif
+
 $(QT_HELPERS) : qt/QtHelpers.cpp qt/QtHelpers.h $(BUILD)/dummy
-	moc -D_GNU_SOURCE -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` qt/QtHelpers.h -o $(BUILD)/QtHelpers.moc.cpp
-	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` -c $(BUILD)/QtHelpers.moc.cpp -o $(BUILD)/QtHelpers.moc.o
-	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` -Iqt -c qt/QtHelpers.cpp -o $(BUILD)/QtHelpers.o
+	$(QT_MOC) -D_GNU_SOURCE -DQT_NO_VERSION_TAGGING $(QT_INCLUDE) qt/QtHelpers.h -o $(BUILD)/QtHelpers.moc.cpp
+	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING $(QT_INCLUDE) -c $(BUILD)/QtHelpers.moc.cpp -o $(BUILD)/QtHelpers.moc.o
+	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING $(QT_INCLUDE) -Iqt -c qt/QtHelpers.cpp -o $(BUILD)/QtHelpers.o
 	ar crs $(QT_HELPERS) $(BUILD)/QtHelpers.o $(BUILD)/QtHelpers.moc.o
 
 endif
