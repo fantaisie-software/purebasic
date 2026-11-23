@@ -1,7 +1,7 @@
 ﻿;
 ;     Memory library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Memory
@@ -326,11 +326,11 @@
 @Function FreeMemory(*MemoryID)
 
 @Description
-  Gibt den zuvor mittels @@AllocateMemory, @@ReAllocateMemory, @@Ascii or @@UTF8 reservierten Speicher frei.
+  Gibt den zuvor mittels @@AllocateMemory, @@ReAllocateMemory, @@Ascii, @@Unicode or @@UTF8 reservierten Speicher frei.
   
 @Parameter "*MemoryID"
   Die Adresse des frei zu gebenden Speicherbereichs. Dies muss ein Wert sein, der
-  entweder von @@AllocateMemory oder @@ReAllocateMemory oder @@Ascii oder @@UTF8 zurückgegeben wurde.
+  entweder von @@AllocateMemory oder @@ReAllocateMemory oder @@Ascii oder @@Unicode oder @@UTF8 zurückgegeben wurde.
   
 @NoReturnValue
 
@@ -347,7 +347,7 @@
   das Programm endet.
   
 @SeeAlso
-  @@AllocateMemory, @@ReAllocateMemory, @@Ascii, @@UTF8
+  @@AllocateMemory, @@ReAllocateMemory, @@Ascii, @@Unicode, @@UTF8
   
 @SupportedOS
 
@@ -393,13 +393,13 @@
   
 @Parameter "*MemoryID"
   Die Adresse des Speicherbereichs, von dem die Größe ermittelt werden soll. Dies muss
-  ein Wert sein, der entweder von @@AllocateMemory oder @@ReAllocateMemory oder @@Ascii oder @@UTF8 zurückgegeben wurde.
+  ein Wert sein, der entweder von @@AllocateMemory oder @@ReAllocateMemory oder @@Ascii oder @@Unicode oder @@UTF8 zurückgegeben wurde.
 
 @ReturnValue
   Gibt die Größe des angegebenen Speicherbereis in Bytes zurück.
 
 @SeeAlso
-  @@AllocateMemory, @@ReAllocateMemory, @@FreeMemory, @@Ascii, @@UTF8
+  @@AllocateMemory, @@ReAllocateMemory, @@FreeMemory, @@Ascii, @@Unicode, @@UTF8
 
 @SupportedOS
 
