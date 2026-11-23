@@ -68,6 +68,10 @@ ProcedureUnit Misc_ValHex()
   Assert(ValHex("0") = 0)
   Assert(ValHex("") = 0)
   Assert(ValHex("7FFFFFFF") = $7FFFFFFF)
+  ; The IDE reads the colors of old preference files with it: "FF00 " gave $FF000
+  Assert(ValHex("FF00 ") = $FF00, "stops at the first non-hex char")
+  Assert(ValHex("1G") = 1)
+  Assert(ValHex("G1") = 0)
   CompilerIf #PB_Compiler_Processor = #PB_Processor_x64 Or #PB_Compiler_Processor = #PB_Processor_Arm64
     Assert(ValHex("123456789ABCDEF0") = $123456789ABCDEF0, "64-bit addresses")
   CompilerEndIf

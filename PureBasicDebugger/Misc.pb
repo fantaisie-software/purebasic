@@ -242,13 +242,12 @@ Procedure ValHex(String$)
   Result = 0
   
   While *Cursor\c
-    Result << 4
     If *Cursor\c >= '0' And *Cursor\c <= '9'
-      Result + *Cursor\c - '0'
+      Result = (Result << 4) + *Cursor\c - '0'
     ElseIf *Cursor\c >= 'A' And *Cursor\c <= 'F'
-      Result + *Cursor\c - 'A' + 10
+      Result = (Result << 4) + *Cursor\c - 'A' + 10
     Else
-      Break
+      Break ; stop at the first non-hex char, without shifting the result
     EndIf
     *Cursor + #CharSize
   Wend
