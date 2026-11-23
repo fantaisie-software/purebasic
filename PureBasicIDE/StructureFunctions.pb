@@ -75,7 +75,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
             Break 2 ; something is weird
           ElseIf *Cursor\b = '\'
             *Cursor + 1
-            If *Cursor < *BufferEnd And *Cursor\b <> 13 Or *Cursor\b <> 10
+            If *Cursor < *BufferEnd And *Cursor\b <> 13 And *Cursor\b <> 10
               *Cursor + 1
             EndIf
           Else

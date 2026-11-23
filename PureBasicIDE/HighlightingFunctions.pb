@@ -724,7 +724,7 @@ Procedure IsCommentOrString(Prefix$)
         *Cursor + #CharSize
         If *Cursor\c = '"'
           ; escaped string
-          *Cursor\c + #CharSize
+          *Cursor + #CharSize
           While *Cursor\c <> '"'
             If *Cursor\c = 0
               ProcedureReturn 2
@@ -738,7 +738,7 @@ Procedure IsCommentOrString(Prefix$)
               *Cursor + #CharSize
             EndIf
           Wend
-          *Cursor\c + #CharSize
+          *Cursor + #CharSize
         EndIf
         
       Default
