@@ -143,7 +143,7 @@ Procedure ReadVersionFile(FileName$, List Releases.Release())
           If XMLNodeType(*Version) = #PB_XML_Normal And GetXMLNodeName(*Version) = "version"
             
             Select GetXMLAttribute(*Version, "category")
-              Case "final":  Category = #CATEGORY_Final
+              Case "release", "final": Category = #CATEGORY_Final ; "release" is the documented name (used by versions.xml)
               Case "bugfix": Category = #CATEGORY_Bugfix
               Case "beta":   Category = #CATEGORY_Beta
               Default:       Category = -1
@@ -154,7 +154,7 @@ Procedure ReadVersionFile(FileName$, List Releases.Release())
               AddElement(Releases())
               Releases()\Name$    = GetXMLAttribute(*Version, "name")
               Releases()\Category = Category
-              Releases()\Number   = Int(ValD(Trim(GetXMLAttribute(*Version, "number"))) * 100)
+              Releases()\Number   = Round(ValD(Trim(GetXMLAttribute(*Version, "number"))) * 100, #PB_Round_Nearest) ; not Int(): 5.10 * 100 is 509.99...
               
               LTS$ = GetXMLAttribute(*Version, "lts")
               If LTS$
