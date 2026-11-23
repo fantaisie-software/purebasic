@@ -1551,14 +1551,6 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   
 EndEnumeration
 
-Enumeration 1
-  #REGEX_HexNumber
-  #REGEX_BinNumber
-  #REGEX_DecNumber
-  #REGEX_FloatNumber
-  #REGEX_ScienceNumber
-EndEnumeration
-
 ;
 ;- Databases
 ;

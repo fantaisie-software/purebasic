@@ -27,22 +27,6 @@ ProcedureUnit Misc_FindMemoryCharacter()
   Assert(FindMemoryCharacter(@Text$, 0, 'O') = 0, "empty buffer")
 EndProcedureUnit
 
-ProcedureUnit Misc_ParseString()
-  Assert(ParseString("  Compile" + #TAB$ + "  /tmp/a.pb   -d ") = 3, "runs of spaces and tabs are one separator")
-  AssertString(GetStringToken(1), "Compile")
-  AssertString(GetStringToken(2), "/tmp/a.pb")
-  AssertString(GetStringToken(3), "-d")
-  AssertString(GetStringToken(0), "", "index is 1 based")
-  AssertString(GetStringToken(4), "", "after the last token")
-
-  Assert(ParseString("a b " + #CRLF$ + "c d") = 2, "a newline ends the line")
-  AssertString(GetStringToken(2), "b")
-
-  Assert(ParseString("") = 0)
-  Assert(ParseString("   ") = 0)
-  AssertString(GetStringToken(1), "")
-EndProcedureUnit
-
 ProcedureUnit Misc_StrByteSize()
   AssertString(StrByteSize(0), "0 Byte")
   AssertString(StrByteSize(1023), "1023 Byte")

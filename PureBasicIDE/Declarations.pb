@@ -397,7 +397,6 @@ Declare IsWholeWordMatch(*BufferStart, *BufferEnd, *Match, Length)              
 Declare.s GetModulePrefix(*Buffer, BufferLength, Position)                                               ; get module prefix from the given (Wordstart) position
 Declare.s GetCurrentWord()                                                                               ; get the current word of the source file.
 Declare.s GetCurrentLine()                                                                               ; return the text of the current line
-Declare.s GetNumber(Line$, Position)                                                                     ; position is 0-based
 Declare.s FindEnclosingFunction(Line$, Cursor, *StartPosition.INTEGER, *Parameter.INTEGER)               ; all arguments 0-based
 Declare InsertComments()                                                                                 ; comment this block
 Declare RemoveComments()                                                                                 ; uncomment this block
@@ -478,8 +477,6 @@ Declare EnsureWindowOnDesktop(Window)
 Declare GetUniqueID()
 Declare OptionalImageID(Image)
 Declare FindMemoryCharacter(*Buffer.Character, Length, Byte.c) ; find the byte in the memory block
-Declare ParseString(String$)                                   ; parse a string into whitespace separated tokens
-Declare.s GetStringToken(Index)                                ; return token from previously parsed string
 Declare.s StrByteSize(Size.q)                                  ; get a nice looking filesize / memory size value (with KB, MB, GB attached)
 Declare IsNumeric(Text$, *Output.INTEGER)                      ; check if a text is a valid number and return it if true
 Declare.s RGBString(Color)                                     ; turns a color into a string "RGB(a,b,c)" as a platform independent color representation
