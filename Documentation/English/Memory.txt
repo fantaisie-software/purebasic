@@ -306,11 +306,11 @@
 @Function FreeMemory(*MemoryID)
 
 @Description
-  Free the memory previously allocated with @@AllocateMemory, @@ReAllocateMemory, @@Ascii or @@UTF8.
+  Free the memory previously allocated with @@AllocateMemory, @@ReAllocateMemory, @@Ascii, @@Unicode or @@UTF8.
 
 @Parameter "*MemoryID"
   The address of the memory area to free. This must be a value returned from
-  either @@AllocateMemory or @@ReAllocateMemory or @@Ascii or @@UTF8.
+  either @@AllocateMemory or @@ReAllocateMemory or @@Ascii or @@Unicode or @@UTF8.
 
 @NoReturnValue
 
@@ -325,7 +325,7 @@
   All remaining allocated memory blocks are automatically freed when the program ends.
 
 @SeeAlso
-  @@AllocateMemory, @@ReAllocateMemory, @@Ascii, @@Utf8
+  @@AllocateMemory, @@ReAllocateMemory, @@Ascii, @@Unicode, @@UTF8
 
 @SupportedOS
 
@@ -368,13 +368,13 @@
 
 @Parameter "*MemoryID"
   The address of the memory area to get the size from. This must be a value returned from
-  either @@AllocateMemory or @@ReAllocateMemory or @@Ascii or @@UTF8.
+  either @@AllocateMemory or @@ReAllocateMemory or @@Ascii or @@Unicode or @@UTF8.
 
 @ReturnValue
   Returns the size of the given memory area in bytes.
 
 @SeeAlso
-  @@AllocateMemory, @@ReAllocateMemory, @@FreeMemory, @@Ascii, @@UTF8
+  @@AllocateMemory, @@ReAllocateMemory, @@FreeMemory, @@Ascii, @@Unicode, @@UTF8
 
 @SupportedOS
 
