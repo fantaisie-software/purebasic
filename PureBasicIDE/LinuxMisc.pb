@@ -330,27 +330,31 @@ CompilerIf #CompileLinux
     EndIf
   EndProcedure
   
-  ; Return true of PID is a running instance of this IDE
+  ; Return true if PID is a running instance of this IDE
   Procedure IsRunningIDEInstance(PID)
-    IsRunning = 0
+    Protected IsRunning, Executable$, Length, *Buffer, ReadLength
     
-    ; the other Instance isn't running (kill with '0' doesn't kill if it is still running, but returns > 0 if the PID is invalid)
-    If kill_(PID, 0) = 0
+    ; kill() with signal 0 doesn't kill: it returns 0 if the process exists and we may signal it,
+    ; and -1 otherwise (no such process, belongs to another user, ...).
+    ; PID 0 (empty or invalid lock file or session entry) would test the own process group.
+    ; Our own PID is not another instance (possible after a crash and reboot,
+    ; as the session history keeps the old PID).
+    If PID > 0 And PID <> getpid_() And kill_(PID, 0) = 0
       ;
-      ; if the IDE crashes, and then the PC is restarted, the PID in this file could be
+      ; if the IDE crashes, and then the PC is restarted, the PID handed to this procedure could be
       ; in use by another process, which will stop the IDE from starting.
       ; /proc/PID/exe is a symbolic link, so simply check if that leads to the IDE exe
       ;
-      ; This code is what ProgramFilename() does, so it can be compared
+      ; readlink() works with UTF-8 bytes and the result is not 0-terminated, so use the
+      ; byte length and decode it as UTF-8.
       ;
       Executable$ = ProgramFilename()
-      length      = Len(Executable$)
-      File$       = "/proc/"+Str(PID)+"/exe"
-      *Buffer     = AllocateMemory(length+20) ; do not use the exe length alone, as else we cannot tell if the link name is longer than that
+      Length = StringByteLength(Executable$, #PB_UTF8)
+      *Buffer = AllocateMemory(Length+1) ; do not use the exe length alone, as else we cannot tell if the link name is longer
       
       If *Buffer
-        readlength = readlink_(ToAscii(File$), *Buffer, length+20)
-        If readlength = length And PeekS(*Buffer, length, #PB_Ascii) = Executable$ ; *Buffer is not 0-terminated!
+        ReadLength = readlink_(ToAscii("/proc/"+Str(PID)+"/exe"), *Buffer, Length+1)
+        If ReadLength = Length And PeekS(*Buffer, Length, #PB_UTF8 | #PB_ByteLength) = Executable$
           IsRunning = 1
         EndIf
         
