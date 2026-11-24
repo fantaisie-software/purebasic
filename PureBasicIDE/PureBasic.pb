@@ -366,7 +366,7 @@ If ToolsPanelVisible
     SetGadgetState(#GADGET_ToolsSplitter, ToolsPanelWidth)
   EndIf
   
-  ApplyToolWidth(CurrentToolId()) ; width of the first tool, if it has one
+  ApplyToolWidth() ; width of the first tool, if it has one
   
   CompilerIf #CompileMac
     ; SetGadgetState() doesn't send a splitter event on OS X, so resize the current tool here,

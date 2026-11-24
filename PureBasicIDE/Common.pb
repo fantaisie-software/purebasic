@@ -2496,6 +2496,7 @@ Structure ToolsPanelEntry
   ToolMinWindowHeight.l
   ToolStayOnTop.i        ; a #PB_Any Gadget
   IsToolStayOnTop.l
+  PanelWidth.l           ; width of the tools panel while this tool is displayed (0 = not set), saved in the preferences
   
   ; values set up in the init procedure
   ;
@@ -2610,8 +2611,6 @@ Global AutoReload, MemorizeWindow, CurrentLanguage$, EnableColoring, EnableCaseC
 Global AutoSave, AutoSaveAll, Editor_RunOnce, ShowMainToolbar, TabLength, MemorizeCursor, VisualDesigner$
 Global ToolsPanelMode, ToolsPanelWidth, ToolsPanelSide, SplitterMoving, SplitterCursor, SelectedFilePattern
 
-; Tools panel width per tool (key = LCase(ToolID$), value = width in logical pixels)
-Global NewMap ToolsPanelWidths()
 Global ToolsPanelWidthsReady ; set once the startup width is applied: before that, nothing is stored nor applied
 
 Global FileViewerX, FileViewerY, FileViewerWidth, FileViewerHeight, FileViewerPattern, FileViewerMaximize

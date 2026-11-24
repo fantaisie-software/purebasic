@@ -25,36 +25,27 @@ Procedure SetToolsPanelWidth(Width)
   EndIf
 EndProcedure
 
-; ToolID$ of the displayed tool, empty if none
-;
-Procedure.s CurrentToolId()
-  Protected *Tool.ToolsPanelEntry = CurrentTool
-  If *Tool
-    ProcedureReturn *Tool\ToolID$
-  EndIf
-  ProcedureReturn ""
-EndProcedure
-
-; Store the current panel width for the displayed tool (call BEFORE CurrentTool changes)
+; Store the current panel width in the displayed tool (call BEFORE CurrentTool changes)
 ;
 Procedure RememberToolWidth()
-  Protected Id$ = LCase(CurrentToolId())
+  Protected *Tool.ToolsPanelEntry = CurrentTool
   Protected Width
-  If Id$ <> "" And ToolsPanelWidthsReady And ToolsPanelMode And ToolsPanelVisible
+  If *Tool And ToolsPanelWidthsReady And ToolsPanelMode And ToolsPanelVisible
     Width = GetToolsPanelWidth()
     If Width >= #ToolsPanel_MinStoredWidth
-      ToolsPanelWidths(Id$) = Width
+      *Tool\PanelWidth = Width
     EndIf
   EndIf
 EndProcedure
 
-; Apply the stored width of a tool.
+; Apply the stored width of the displayed tool (CurrentTool).
 ; No stored width: UseDefault = #False keeps the current width, #True sets the default width.
 ;
-Procedure ApplyToolWidth(ToolID$, UseDefault = #False)
-  If ToolID$ <> "" And ToolsPanelWidthsReady And ToolsPanelMode And ToolsPanelVisible
-    If FindMapElement(ToolsPanelWidths(), LCase(ToolID$))
-      SetToolsPanelWidth(ToolsPanelWidths())
+Procedure ApplyToolWidth(UseDefault = #False)
+  Protected *Tool.ToolsPanelEntry = CurrentTool
+  If *Tool And ToolsPanelWidthsReady And ToolsPanelMode And ToolsPanelVisible
+    If *Tool\PanelWidth > 0
+      SetToolsPanelWidth(*Tool\PanelWidth)
     ElseIf UseDefault
       SetToolsPanelWidth(#ToolsPanel_DefaultToolWidth)
     EndIf
@@ -77,7 +68,7 @@ Procedure ActivateTool(Name$, PanelOnly = #False)
           RememberToolWidth() ; width of the tool we leave (CurrentTool is still the old one)
           SetGadgetState(#GADGET_ToolsPanel, ListIndex(UsedPanelTools()))
           CurrentTool = UsedPanelTools()
-          ApplyToolWidth(*PanelToolData\ToolID$, #True)
+          ApplyToolWidth(#True)
           CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
         EndIf
         Opened = 1
@@ -458,7 +449,7 @@ Procedure ToolsPanel_Update()
     FreeGadget(DummyGadget)
   EndIf
   
-  ApplyToolWidth(CurrentToolId()) ; CurrentTool is the first tool of the new list
+  ApplyToolWidth() ; CurrentTool is the first tool of the new list
   
   If ToolsPanelVisible = 0
     HideGadget(#GADGET_ToolsPanelFake, 0)
@@ -602,7 +593,7 @@ Procedure ToolsPanel_Show()
     Else
       SetGadgetState(#GADGET_ToolsSplitter, ToolsPanelWidth_Hidden)
     EndIf
-    ApplyToolWidth(CurrentToolId()) ; width of the displayed tool, if it has one
+    ApplyToolWidth() ; width of the displayed tool, if it has one
     
     If ErrorLogVisible
       SetGadgetState(#GADGET_LogSplitter, State)

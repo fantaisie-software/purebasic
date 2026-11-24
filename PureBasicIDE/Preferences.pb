@@ -820,9 +820,9 @@ Procedure LoadPreferences()
     AvailablePanelTools()\ToolWindowWidth  = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Width", 250)
     AvailablePanelTools()\ToolWindowHeight = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Height", 460)
     AvailablePanelTools()\IsToolStayOnTop  = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_Top", 0)
-    PanelWidth = ReadPreferenceLong(AvailablePanelTools()\ToolID$+"_PanelWidth", 0) ; 0 = none
+    PanelWidth = ReadPreferenceLong(AvailablePanelTools()\ToolName$+"_PanelWidth", 0) ; 0 = not set
     If PanelWidth >= #ToolsPanel_MinStoredWidth
-      ToolsPanelWidths(LCase(AvailablePanelTools()\ToolID$)) = PanelWidth
+      AvailablePanelTools()\PanelWidth = PanelWidth
     EndIf
   Next AvailablePanelTools()
   
@@ -1515,8 +1515,8 @@ Procedure SavePreferences()
       WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Width", AvailablePanelTools()\ToolWindowWidth)
       WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Height", AvailablePanelTools()\ToolWindowHeight)
       WritePreferenceLong(AvailablePanelTools()\ToolName$+"_Top", AvailablePanelTools()\IsToolStayOnTop)
-      If FindMapElement(ToolsPanelWidths(), LCase(AvailablePanelTools()\ToolID$))
-        WritePreferenceLong(AvailablePanelTools()\ToolID$+"_PanelWidth", ToolsPanelWidths())
+      If AvailablePanelTools()\PanelWidth > 0
+        WritePreferenceLong(AvailablePanelTools()\ToolName$+"_PanelWidth", AvailablePanelTools()\PanelWidth)
       EndIf
     Next AvailablePanelTools()
     
