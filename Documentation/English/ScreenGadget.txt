@@ -206,7 +206,7 @@
 
 ;------------------------------------------------------------------------------------
 
-@Function Result = SetScreenGadgetFont(#ScreenGadget, FontID)
+@Function SetScreenGadgetFont(#ScreenGadget, FontID)
 
 @Description
   Change the font of a gadget.
@@ -214,6 +214,7 @@
 @Parameter "#ScreenGadget"
   The gadget to use.
   If the value of #ScreenGadget is @#PB_Default, then the default font used by new gadgets is changed by the new value.
+
 @Parameter "FontID"
   The font identification number to use. @@FontID can be used to get a valid FontID.
  
@@ -223,7 +224,7 @@
 
 ;------------------------------------------------------------------------------------
 
-@Function Result = ScreenMouseVisible(State)
+@Function ScreenMouseVisible(State)
 
 @Description
   Shows or hides the mouse pointer.

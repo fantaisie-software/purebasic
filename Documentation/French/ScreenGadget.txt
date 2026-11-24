@@ -55,15 +55,15 @@
 
 ;------------------------------------------------------------------------------------
 
-@Function ScreenWindowAnimation(#ScreenWindow, Sens, Durée [, AnimTransparence [, AnimZoom, [,X [,Y [, Rotation]]]])
+@Function ScreenWindowAnimation(#Fenetre, Option, Temps [, Transparence [, Zoom, [,X [,Y [, Rotation]]]])
 
 @Description
   Fait apparaitre/disparaitre la fenêtre avec une animation.
  
-@Parameter "#ScreenWindow"
+@Parameter "#Fenetre"
   La fenêtre à animer.
   
-@Parameter "Sens"
+@Parameter "Option"
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
   1 : Apparition.
@@ -71,17 +71,17 @@
   3 : Apparition et disparition.
 @EndFixedFont
   
-@Parameter "Durée"
-  En millisecondes.
+@Parameter "Temps"
+  Durée de l'animation en millisecondes.
   
-@OptionalParameter "AnimTransparence"
+@OptionalParameter "Transparence"
  Peut prendre l'une des valeurs suivantes:
 @FixedFont
   @#False: Animation sans transparence. 
   @#True : Animation avec transparence (fading).
 @EndFixedFont
   
-@OptionalParameter "AnimZoom"
+@OptionalParameter "Zoom"
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
   @#False : Animation sans Zoom. 
@@ -265,7 +265,7 @@
 
 ;------------------------------------------------------------------------------------
 
-@Function Resultat = SetScreenGadgetFont(#ScreenGadget, PoliceID)
+@Function SetScreenGadgetFont(#ScreenGadget, PoliceID)
 
 @Description
   Change la police d'un gadget.
@@ -285,7 +285,7 @@
 
 ;------------------------------------------------------------------------------------
 
-@Function Resultat = ScreenMouseVisible(Etat)
+@Function ScreenMouseVisible(Etat)
 
 @Description
   Affiche ou masque le pointeur de la souris.
@@ -308,7 +308,7 @@
 @Description
   Définit les dimensions virtuelles de l'écran pour ajuster automatiquement la position des gadgets.
  
-@Parameter "VirtualWidth, VirtuelHeight"
+@Parameter "LargeurVirtuelle, HauteurVirtuelle"
   Les dimensions virtuelles de l'écran. 
  
 @ReturnValue
@@ -326,8 +326,8 @@
 @Example
 @Code
   ...
-    fontratio.f = ScreenVirtualSize(1000, 500)
-    SetScreenGadgetFont(#PB_Default, LoadFont(0, "Arial", 24*fontratio))
+    PoliceRatio.f = ScreenVirtualSize(1000, 500)
+    SetScreenGadgetFont(#PB_Default, LoadFont(0, "Arial", 24*PoliceRatio))
   ...
 @EndCode
 
@@ -704,6 +704,21 @@
 
 @Remarks
   Tous les gadgets restants sont automatiquement supprimés quand le programme se termine. 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ScreenGadgetID(#ScreenGadget)
+
+@Description
+  Renvoie l'identifiant système unique du gadget.
+
+@Parameter "#ScreenGadget"
+  Le gadget à utiliser.
+
+@ReturnValue
+  L'identifiant système unique du gadget.
 
 @SupportedOS
 
@@ -1958,17 +1973,9 @@
   Les valeurs suivantes sont possibles lorsqu'un évènement du type @#PB_Event_Gadget 
   (bibliothèque @LibraryLink "ScreenGadget" "ScreenGadget") survient:
 @FixedFont
-  @#PB_ScreenEventType_Focus     : Obtention du focus.
-  @#PB_ScreenEventType_LostFocus : Perte du focus.
-  @#PB_ScreenEventType_Change    : Le contenu a changé.
+  @#PB_ScreenEventType_LeftClick : Le gadget a été cliqué.
+  @#PB_ScreenEventType_Change    : L'état ou le contenu du gadget a changé.
 @EndFixedFont  
-
-  Peut être utilisé avec les gadgets suivants :
-@LineBreak
-@LineBreak
-  - @@StringScreenGadget @LineBreak
-@LineBreak  
-  (Voir la définition du gadget pour connaître les évènements valides)
 
 @SeeAlso
   @@ScreenWindowEvent
@@ -1990,7 +1997,61 @@
 ;   Renvoie le numéro de la fenêtre où s'est produit le dernier évènement.
 ; 
 ; @SupportedOS
-; 
+;
+;--------------------------------------------------------------------------------------------------------
+
+@Function InputEvent(X, Y, BoutonGauche [, Texte$, ToucheSpecial])
+
+@Description
+  Envoie un évènement au système d'interface graphique.
+
+@Parameter "X, Y"
+  Les coordonnées de la souris à utiliser.
+
+@Parameter "BoutonGauche"
+  L'état du bouton gauche de la souris. Peut prendre l'une des valeurs suivantes :
+@FixedFont 
+  @#False : Le bouton gauche de la souris est relâché.
+  @#True  : Le bouton gauche de la souris est enfoncé.
+@EndFixedFont
+
+@OptionalParameter "Texte$"
+  Le texte à utiliser comme entrée.
+
+@OptionalParameter "ToucheSpecial"
+  Touche spéciale du claver à utiliser. Peut prendre l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Key_Back    (Retour arrière)
+  @#PB_Key_Delete  (Supprimer)
+  @#PB_Key_Return  (Entrée)
+  @#PB_Key_Up      (Haut)
+  @#PB_Key_Down    (Bas)
+  @#PB_Key_Left    (Gauche)
+  @#PB_Key_Right   (Droit)
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  L'utilisation de la fonction @@ScreenWindowEvent est requise .
+
+@Example
+@Code
+  ;
+  ; Code type à utiliser pour envoyer au système d'interface graphique des événements réels de la souris et du clavier
+  ;
+  If ExamineKeyboard() And ExamineMouse()
+    Input$ = KeyboardInkey()
+    
+    InputEvent(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left), Input$, 0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ScreenWindowEvent
+
+@SupportedOS
+ 
 ; ;--------------------------------------------------------------------------------------------------------
 ; 
 ; @Function Resultat = GetActiveScreenWindow()
@@ -2198,7 +2259,7 @@
 @ReturnValue
   Les évènements possibles sont :
 @FixedFont
-  @#PB_Event_Gadget         : Un @LibraryLink "gadget3d" "ScreenGadget" a été utilisé
+  @#PB_Event_Gadget         : Un @LibraryLink "screengadget" "ScreenGadget" a été utilisé
   @#PB_Event_CloseWindow    : L'icône de fermeture de fenêtre a été cliquée
   @#PB_Event_SizeWindow     : La fenêtre a été redimensionnée
   @#PB_Event_MoveWindow     : La fenêtre a été déplacée
@@ -2209,12 +2270,9 @@
   Cette fonction est à retour immédiat, elle renvoie le prochain événement de la file d'attente 
   ou zéro s'il n'y en a plus.@LineBreak
   Elle n'attend pas pour le prochain évènement. 
-; @LineBreak
-; @LineBreak
-;  Pour obtenir le numéro de fenêtre où s'est produit l'évènement, utiliser la fonction @@EventScreenWindow. 
 
-; @SeeAlso
-;  @@EventScreenWindow
+@SeeAlso
+  @@InputEvent
 
 @SupportedOS
 
@@ -2223,7 +2281,7 @@
 ; @Function Resultat = ScreenWindowHeight(#Fenetre)
 ; 
 ; @Description 
-;   @red "!!! Not yet supported !!!"
+;   @Fred "!!! Not yet supported !!!"
 ; @LineBreak
 ; 
 ;   Renvoie la hauteur d'une fenêtre.
@@ -2239,6 +2297,21 @@
 ;   
 ; @SupportedOS
 ; 
+;;--------------------------------------------------------------------------------------------------------
+;
+; @Function Resultat = ScreenWindowID(#Fenetre)
+; 
+; @Description
+;   Renvoie l'identifiant système unique de la fenêtre.
+; 
+; @Parameter "#ScreenWindow"
+;   La fenêtre à utiliser.
+; 
+; @ReturnValue
+;   L'identifiant système unique de la fenêtre.
+; 
+; @SupportedOS
+
 ; ;--------------------------------------------------------------------------------------------------------
 ; 
 ; @Function Resultat = ScreenWindowWidth(#Fenetre)  
