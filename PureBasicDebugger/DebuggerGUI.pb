@@ -108,6 +108,33 @@ Procedure Debugger_UpdateWindowPreferences()
   
 EndProcedure
 
+; memorize the position and size of a debugger window while it is in the normal state (not maximized or minimized)
+; the windows only memorize these when closed in the normal state, so without this a window moved to another
+; screen and then closed while maximized would open maximized on the old screen
+;
+Procedure Debugger_MemorizeWindowRect(WindowIndex, Window)
+  If DebuggerMemorizeWindows And IsWindowMaximized(Window) = 0 And IsWindowMinimized(Window) = 0
+    Select WindowIndex
+      Case #DEBUGGER_WINDOW_Debug: *X.INTEGER = @DebugWindowX : *Y.INTEGER = @DebugWindowY : *Width.INTEGER = @DebugWindowWidth : *Height.INTEGER = @DebugWindowHeight
+      Case #DEBUGGER_WINDOW_Asm: *X = @AsmWindowX : *Y = @AsmWindowY : *Width = @AsmWindowWidth : *Height = @AsmWindowHeight
+      Case #DEBUGGER_WINDOW_Memory: *X = @MemoryViewerX : *Y = @MemoryViewerY : *Width = @MemoryViewerWidth : *Height = @MemoryViewerHeight
+      Case #DEBUGGER_WINDOW_Variable: *X = @VariableWindowX : *Y = @VariableWindowY : *Width = @VariableWindowWidth : *Height = @VariableWindowHeight
+      Case #DEBUGGER_WINDOW_History: *X = @HistoryWindowX : *Y = @HistoryWindowY : *Width = @HistoryWindowWidth : *Height = @HistoryWindowHeight
+      Case #DEBUGGER_WINDOW_WatchList: *X = @WatchListWindowX : *Y = @WatchListWindowY : *Width = @WatchListWindowWidth : *Height = @WatchListWindowHeight
+      Case #DEBUGGER_WINDOW_Library: *X = @LibraryViewerX : *Y = @LibraryViewerY : *Width = @LibraryViewerWidth : *Height = @LibraryViewerHeight
+      Case #DEBUGGER_WINDOW_Profiler: *X = @ProfilerX : *Y = @ProfilerY : *Width = @ProfilerWidth : *Height = @ProfilerHeight
+      Case #DEBUGGER_WINDOW_DataBreakPoints: *X = @DataBreakpointWindowX : *Y = @DataBreakpointWindowY : *Width = @DataBreakpointWindowWidth : *Height = @DataBreakpointWindowHeight
+      Default
+        ProcedureReturn
+    EndSelect
+    
+    *X\i      = WindowX(Window)
+    *Y\i      = WindowY(Window)
+    *Width\i  = WindowWidth(Window)
+    *Height\i = WindowHeight(Window)
+  EndIf
+EndProcedure
+
 ; checks if an event is coming from a debugger window and dispatches it
 ; to the right procedure
 ; returns 1 if it was a debugger event and 0 if not
@@ -149,6 +176,10 @@ Procedure Debugger_ProcessEvents(EventWindowID, EventID)
             SetWindowForeground_NoActivate(RunningDebuggers()\Windows[i])
             
           EndIf
+        EndIf
+        
+        If EventID = #PB_Event_MoveWindow Or EventID = #PB_Event_SizeWindow
+          Debugger_MemorizeWindowRect(i, EventWindowID)
         EndIf
         
         ; dispatch the event to the right procedure
