@@ -1129,6 +1129,16 @@ Procedure MainMenuEvent(MenuItemID)
       ReloadSource()
       
     Case #MENU_Close
+      CompilerIf #CompileMac
+        ; The menu bar is shared by all windows on macOS, so Cmd+W comes here even when another window
+        ; (Debug Output, Help, ...) is in front: close that window, like any other macOS application
+        KeyWindow = CocoaMessage(0, CocoaMessage(0, 0, "NSApplication sharedApplication"), "keyWindow")
+        If KeyWindow And KeyWindow <> WindowID(#WINDOW_Main)
+          CocoaMessage(0, KeyWindow, "performClose:", #Null)
+          ProcedureReturn 0
+        EndIf
+      CompilerEndIf
+      
       If *ActiveSource = *ProjectInfo
         ; 'Close' on the project tab (tab popup menu, shortcut) closes the project (https://www.purebasic.fr/english/viewtopic.php?t=68181)
         CloseProject()
