@@ -2820,6 +2820,12 @@ Module HelpTool
     EndIf
     File$ = PageDirectory(*CurrentPage) + *CurrentPage\File$
 
+    CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+      File$ = ReplaceString(File$, "/", "\")
+    CompilerElse
+      File$ = ReplaceString(File$, "\", "/")
+    CompilerEndIf
+
     CompilerIf #Standalone
       RunProgram("notepad++.exe", #DQUOTE$ + File$ + #DQUOTE$ + " -p" + *CurrentPage\Position, "")
     CompilerElse ; IDE: opens the file in a tab, at the page line
