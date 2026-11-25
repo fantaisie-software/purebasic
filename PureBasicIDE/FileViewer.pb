@@ -345,7 +345,7 @@ Procedure FileViewer_OpenFile(Filename$)
             
           EndIf
           
-          SetGadgetAttribute(FileViewer()\Gadget, #PB_Editor_ReadOnly, 1)
+          ScintillaSendMessage(FileViewer()\Gadget, #SCI_SETREADONLY, 1, 0) ; #PB_Editor_ReadOnly is an EditorGadget() attribute, it has no effect on a ScintillaGadget()
         Else
           MessageRequester(#ProductName$, Language("FileStuff","MiscLoadError"), #FLAG_Error)
         EndIf
