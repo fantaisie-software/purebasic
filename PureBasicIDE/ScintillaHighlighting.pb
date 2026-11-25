@@ -1176,8 +1176,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   Procedure StreamTextIn(*Buffer, Length)
     NoUserChange = 1
+    SendEditorMessage(#SCI_SETUNDOCOLLECTION, #False, 0) ; the undo buffer would keep a whole copy of the loaded text
     SendEditorMessage(#SCI_CLEARALL, 0, 0) ; should completely erase the old document and create a new one
     SendEditorMessage(#SCI_SETTEXT, 0, *Buffer)
+    SendEditorMessage(#SCI_SETUNDOCOLLECTION, #True, 0)
     SendEditorMessage(#SCI_EMPTYUNDOBUFFER, 0, 0) ; so this loading cannot be undone
     NoUserChange = 0
   EndProcedure
@@ -3119,6 +3121,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         
         
       Case #SCN_MODIFIED
+        If *scinotify\modificationType & (#SC_MOD_INSERTTEXT | #SC_MOD_DELETETEXT)
+          EditorChangeCount(Str(EditorGadget)) = EditorChangeCount(Str(EditorGadget)) + 1 ; per gadget: the change may not be in the active source
+        EndIf
+        
         If *ActiveSource\IsCode
           *ActiveSource\ModifiedSinceUpdate = 1 ; the source has been modified
           If EnableLineNumbers And *scinotify\modificationType & (#SC_MOD_INSERTTEXT | #SC_MOD_DELETETEXT)
@@ -4364,6 +4370,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndProcedure
   
   Procedure FreeEditorGadget(Gadget)
+    DeleteMapElement(EditorChangeCount(), Str(Gadget)) ; a new editor may get this number later
+    DeleteMapElement(EditorScanCount(), Str(Gadget))
     FreeGadget(Gadget)
   EndProcedure
   

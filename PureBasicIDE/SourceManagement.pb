@@ -308,9 +308,18 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   UpdateCursorPosition()
   
   ; enabled the folding update again, as strangely the fold mark in first line disappears otherwise !?
+  ; The whole source is only scanned again when its text changed since the last full scan (this was
+  ; done on every tab change, and twice for a loaded file); otherwise only the first lines' folding
+  ; is updated for the fold mark problem above.
   If *ActiveSource <> *ProjectInfo And Not *ActiveSource\IsForm
-    FullSourceScan(*ActiveSource)
-    UpdateFolding(*ActiveSource, 0, -1)
+    Key$ = Str(*ActiveSource\EditorGadget)
+    If FindMapElement(EditorScanCount(), Key$) = 0 Or EditorScanCount(Key$) <> EditorChangeCount(Key$)
+      FullSourceScan(*ActiveSource)
+      UpdateFolding(*ActiveSource, 0, -1)
+      EditorScanCount(Key$) = EditorChangeCount(Key$)
+    Else
+      UpdateFolding(*ActiveSource, 0, 2)
+    EndIf
   EndIf
   
   UpdateProcedureList(*ActiveSource\ProcedureBrowserScroll) ; apply previous scroll position (if any)
@@ -1897,6 +1906,7 @@ Procedure LoadSourceFile(FileName$, Activate = 1, AddToRecentFiles = 1)
       AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)
       FullSourceScan(*ActiveSource)
       UpdateFolding(*ActiveSource, 0, -1)
+      EditorScanCount(Str(*ActiveSource\EditorGadget)) = EditorChangeCount(Str(*ActiveSource\EditorGadget)) ; just scanned
       UpdateSelectionRepeat()
       
       ; check if the first source was an empty new file and remove that..

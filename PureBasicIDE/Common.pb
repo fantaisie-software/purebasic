@@ -2924,6 +2924,11 @@ Global Dim IssueStyleColor(0) ; color of each issue style (index is Style - #STY
 Global NewList BlockSelectionStack.SelectedBlock()
 Global BlockSelectionUpdated
 
+; Text changes per editor gadget (key: Str(gadget)), counted in #SCN_MODIFIED, and that count when the
+; source was last fully scanned. A tab change only scans the whole source again when they differ.
+Global NewMap EditorChangeCount.i()
+Global NewMap EditorScanCount.i()
+
 ; useful mini procedures
 
 CompilerIf Defined(Max, #PB_Procedure) = 0

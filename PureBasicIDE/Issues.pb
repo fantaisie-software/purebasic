@@ -246,6 +246,8 @@ Procedure UpdateIssueList()
       *tree_model = gtk_tree_view_get_model_(GadgetID(#GADGET_Issues_List))
       g_object_ref_(*tree_model) ; must be ref'ed or it is destroyed
       gtk_tree_view_set_model_(GadgetID(#GADGET_Issues_List), #Null) ; disconnect the model for a faster update
+    CompilerElse
+      StartGadgetFlickerFix(#GADGET_Issues_List) ; no repaint per row (this list is refilled with every Procedure Browser update)
     CompilerEndIf
     
     ClearGadgetItems(#GADGET_Issues_List)
@@ -284,6 +286,8 @@ Procedure UpdateIssueList()
     CompilerIf #CompileLinuxGtk
       gtk_tree_view_set_model_(GadgetID(#GADGET_Issues_List), *tree_model) ; reconnect the model
       g_object_unref_(*tree_model)                                         ; release reference
+    CompilerElse
+      StopGadgetFlickerFix(#GADGET_Issues_List)
     CompilerEndIf
     
     ; restore selection
