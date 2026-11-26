@@ -4,10 +4,7 @@
 
 ; IKsReferenceClock interface definition
 ;
-Interface IKsReferenceClock
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsReferenceClock Extends IUnknown
   GetTime()
   GetPhysicalTime()
   GetCorrelatedTime(a.l)

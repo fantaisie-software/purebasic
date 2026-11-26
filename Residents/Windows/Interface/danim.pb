@@ -1,27 +1,13 @@
 ﻿
 ; IDAViewSite interface definition
 ;
-Interface IDAViewSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAViewSite Extends IDispatch
   SetStatusText(a.l)
 EndInterface
 
 ; IDAView interface definition
 ;
-Interface IDAView
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAView Extends IDispatch
   get_SimulationTime(a.l)
   Tick(a.l, b.l)
   Render()
@@ -55,14 +41,7 @@ EndInterface
 
 ; IDABehavior interface definition
 ;
-Interface IDABehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDABehavior Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -81,14 +60,7 @@ EndInterface
 
 ; IDANumber interface definition
 ;
-Interface IDANumber
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDANumber Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -111,23 +83,13 @@ EndInterface
 
 ; IDABvrHook interface definition
 ;
-Interface IDABvrHook
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDABvrHook Extends IUnknown
   Notify(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
 EndInterface
 
 ; IDADrawingSurface interface definition
 ;
-Interface IDADrawingSurface
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDADrawingSurface Extends IDispatch
   get_Image(a.l)
   put_LineStyle(a.l)
   put_BorderStyle(a.l)
@@ -194,14 +156,7 @@ EndInterface
 
 ; IDAPickableResult interface definition
 ;
-Interface IDAPickableResult
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAPickableResult Extends IDispatch
   get_Image(a.l)
   get_Geometry(a.l)
   get_PickEvent(a.l)
@@ -209,14 +164,7 @@ EndInterface
 
 ; IDAEvent interface definition
 ;
-Interface IDAEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAEvent Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -239,14 +187,7 @@ EndInterface
 
 ; IDA2Behavior interface definition
 ;
-Interface IDA2Behavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2Behavior Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -268,14 +209,7 @@ EndInterface
 
 ; IDAImport interface definition
 ;
-Interface IDAImport
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAImport Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -298,14 +232,7 @@ EndInterface
 
 ; IDAModifiableBehavior interface definition
 ;
-Interface IDAModifiableBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAModifiableBehavior Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -327,27 +254,13 @@ EndInterface
 
 ; IDAUntilNotifier interface definition
 ;
-Interface IDAUntilNotifier
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAUntilNotifier Extends IDispatch
   Notify(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IDABoolean interface definition
 ;
-Interface IDABoolean
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDABoolean Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -367,14 +280,7 @@ EndInterface
 
 ; IDACamera interface definition
 ;
-Interface IDACamera
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDACamera Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -398,14 +304,7 @@ EndInterface
 
 ; IDAColor interface definition
 ;
-Interface IDAColor
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAColor Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -430,14 +329,7 @@ EndInterface
 
 ; IDAGeometry interface definition
 ;
-Interface IDAGeometry
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAGeometry Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -474,14 +366,7 @@ EndInterface
 
 ; IDAImage interface definition
 ;
-Interface IDAImage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAImage Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -514,14 +399,7 @@ EndInterface
 
 ; IDAMatte interface definition
 ;
-Interface IDAMatte
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAMatte Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -541,14 +419,7 @@ EndInterface
 
 ; IDAMicrophone interface definition
 ;
-Interface IDAMicrophone
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAMicrophone Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -568,14 +439,7 @@ EndInterface
 
 ; IDAMontage interface definition
 ;
-Interface IDAMontage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAMontage Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -595,14 +459,7 @@ EndInterface
 
 ; IDAPath2 interface definition
 ;
-Interface IDAPath2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAPath2 Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -626,14 +483,7 @@ EndInterface
 
 ; IDAPoint2 interface definition
 ;
-Interface IDAPoint2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAPoint2 Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -659,14 +509,7 @@ EndInterface
 
 ; IDAPoint3 interface definition
 ;
-Interface IDAPoint3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAPoint3 Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -693,14 +536,7 @@ EndInterface
 
 ; IDASound interface definition
 ;
-Interface IDASound
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDASound Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -728,14 +564,7 @@ EndInterface
 
 ; IDAString interface definition
 ;
-Interface IDAString
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAString Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -756,14 +585,7 @@ EndInterface
 
 ; IDATransform2 interface definition
 ;
-Interface IDATransform2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDATransform2 Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -784,14 +606,7 @@ EndInterface
 
 ; IDATransform3 interface definition
 ;
-Interface IDATransform3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDATransform3 Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -813,14 +628,7 @@ EndInterface
 
 ; IDAVector2 interface definition
 ;
-Interface IDAVector2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAVector2 Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -851,14 +659,7 @@ EndInterface
 
 ; IDAVector3 interface definition
 ;
-Interface IDAVector3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAVector3 Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -891,14 +692,7 @@ EndInterface
 
 ; IDAFontStyle interface definition
 ;
-Interface IDAFontStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAFontStyle Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -929,14 +723,7 @@ EndInterface
 
 ; IDALineStyle interface definition
 ;
-Interface IDALineStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDALineStyle Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -963,14 +750,7 @@ EndInterface
 
 ; IDAEndStyle interface definition
 ;
-Interface IDAEndStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAEndStyle Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -989,14 +769,7 @@ EndInterface
 
 ; IDAJoinStyle interface definition
 ;
-Interface IDAJoinStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAJoinStyle Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1015,14 +788,7 @@ EndInterface
 
 ; IDADashStyle interface definition
 ;
-Interface IDADashStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDADashStyle Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1041,14 +807,7 @@ EndInterface
 
 ; IDABbox2 interface definition
 ;
-Interface IDABbox2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDABbox2 Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1069,14 +828,7 @@ EndInterface
 
 ; IDABbox3 interface definition
 ;
-Interface IDABbox3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDABbox3 Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1097,14 +849,7 @@ EndInterface
 
 ; IDAPair interface definition
 ;
-Interface IDAPair
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAPair Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1125,14 +870,7 @@ EndInterface
 
 ; IDAArray interface definition
 ;
-Interface IDAArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAArray Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1153,14 +891,7 @@ EndInterface
 
 ; IDATuple interface definition
 ;
-Interface IDATuple
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDATuple Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1181,14 +912,7 @@ EndInterface
 
 ; IDAUserData interface definition
 ;
-Interface IDAUserData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAUserData Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1208,14 +932,7 @@ EndInterface
 
 ; IDA2Geometry interface definition
 ;
-Interface IDA2Geometry
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2Geometry Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1262,14 +979,7 @@ EndInterface
 
 ; IDA2Image interface definition
 ;
-Interface IDA2Image
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2Image Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1306,14 +1016,7 @@ EndInterface
 
 ; IDA2FontStyle interface definition
 ;
-Interface IDA2FontStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2FontStyle Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1345,14 +1048,7 @@ EndInterface
 
 ; IDA2LineStyle interface definition
 ;
-Interface IDA2LineStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2LineStyle Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1384,14 +1080,7 @@ EndInterface
 
 ; IDA2Event interface definition
 ;
-Interface IDA2Event
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2Event Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1415,14 +1104,7 @@ EndInterface
 
 ; IDA2Array interface definition
 ;
-Interface IDA2Array
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2Array Extends IDispatch
   GetClassName(a.l)
   Init(a.l)
   Importance(a.l, b.l)
@@ -1445,14 +1127,7 @@ EndInterface
 
 ; IDAPreferences interface definition
 ;
-Interface IDAPreferences
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAPreferences Extends IDispatch
   PutPreference(a.l, b.l)
   GetPreference(a.l, b.l)
   Propagate()
@@ -1460,14 +1135,7 @@ EndInterface
 
 ; IDA2View interface definition
 ;
-Interface IDA2View
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2View Extends IDispatch
   get_SimulationTime(a.l)
   Tick(a.l, b.l)
   Render()
@@ -1506,14 +1174,7 @@ EndInterface
 
 ; IDASite interface definition
 ;
-Interface IDASite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDASite Extends IDispatch
   SetStatusText(a.l)
   ReportError(a.l, b.l)
   ReportGC(a.l)
@@ -1521,14 +1182,7 @@ EndInterface
 
 ; IDAImportationResult interface definition
 ;
-Interface IDAImportationResult
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAImportationResult Extends IDispatch
   get_Image(a.l)
   get_Sound(a.l)
   get_Geometry(a.l)
@@ -1540,14 +1194,7 @@ EndInterface
 
 ; IDADXTransformResult interface definition
 ;
-Interface IDADXTransformResult
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDADXTransformResult Extends IDispatch
   get_OutputBvr(a.l)
   get_TheTransform(a.l)
   PutBvrAsProperty(a.l, b.l)
@@ -1555,14 +1202,7 @@ EndInterface
 
 ; IDAStatics interface definition
 ;
-Interface IDAStatics
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAStatics Extends IDispatch
   get_VersionString(a.l)
   get_Site(a.l)
   put_Site(a.l)
@@ -1934,14 +1574,7 @@ EndInterface
 
 ; IDA2Statics interface definition
 ;
-Interface IDA2Statics
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2Statics Extends IDispatch
   get_VersionString(a.l)
   get_Site(a.l)
   put_Site(a.l)
@@ -2330,14 +1963,7 @@ EndInterface
 
 ; IDAViewerControl interface definition
 ;
-Interface IDAViewerControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAViewerControl Extends IDispatch
   get_UpdateInterval(a.l)
   put_UpdateInterval(a.l)
   get_View(a.l)
@@ -2362,14 +1988,7 @@ EndInterface
 
 ; IDAViewerControlWindowed interface definition
 ;
-Interface IDAViewerControlWindowed
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDAViewerControlWindowed Extends IDispatch
   get_UpdateInterval(a.l)
   put_UpdateInterval(a.l)
   get_View(a.l)
@@ -2394,14 +2013,7 @@ EndInterface
 
 ; IDA2ViewerControl interface definition
 ;
-Interface IDA2ViewerControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2ViewerControl Extends IDispatch
   get_UpdateInterval(a.l)
   put_UpdateInterval(a.l)
   get_View(a.l)
@@ -2428,14 +2040,7 @@ EndInterface
 
 ; IDA2ViewerControlWindowed interface definition
 ;
-Interface IDA2ViewerControlWindowed
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDA2ViewerControlWindowed Extends IDispatch
   get_UpdateInterval(a.l)
   put_UpdateInterval(a.l)
   get_View(a.l)

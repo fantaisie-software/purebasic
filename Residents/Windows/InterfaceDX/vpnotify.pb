@@ -1,44 +1,27 @@
 ﻿
 ; IVPBaseNotify interface definition
 ;
-Interface IVPBaseNotify
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IVPBaseNotify Extends IUnknown
   RenegotiateVPParameters()
 EndInterface
 
 ; IVPNotify interface definition
 ;
-Interface IVPNotify
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  RenegotiateVPParameters()
+Interface IVPNotify Extends IVPBaseNotify
   SetDeinterlaceMode(a.l)
   GetDeinterlaceMode(a.l)
 EndInterface
 
 ; IVPNotify2 interface definition
 ;
-Interface IVPNotify2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  RenegotiateVPParameters()
-  SetDeinterlaceMode(a.l)
-  GetDeinterlaceMode(a.l)
+Interface IVPNotify2 Extends IVPNotify
   SetVPSyncMaster(a.l)
   GetVPSyncMaster(a.l)
 EndInterface
 
 ; IVPVBINotify interface definition
 ;
-Interface IVPVBINotify
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  RenegotiateVPParameters()
+Interface IVPVBINotify Extends IVPBaseNotify
   SetDeinterlaceMode(a.l)
   GetDeinterlaceMode(a.l)
   SetVPSyncMaster(a.l)

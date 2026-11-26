@@ -1,10 +1,7 @@
 ﻿
 ; IPropertyStorage interface definition
 ;
-Interface IPropertyStorage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertyStorage Extends IUnknown
   ReadMultiple(a.l, b.l, c.l)
   WriteMultiple(a.l, b.l, c.l, d.l)
   DeleteMultiple(a.l, b.l)
@@ -21,10 +18,7 @@ EndInterface
 
 ; IPropertySetStorage interface definition
 ;
-Interface IPropertySetStorage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertySetStorage Extends IUnknown
   Create(a.l, b.l, c.l, d.l, e.l)
   Open(a.l, b.l, c.l)
   Delete(a.l)
@@ -33,10 +27,7 @@ EndInterface
 
 ; IEnumSTATPROPSTG interface definition
 ;
-Interface IEnumSTATPROPSTG
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumSTATPROPSTG Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -45,10 +36,7 @@ EndInterface
 
 ; IEnumSTATPROPSETSTG interface definition
 ;
-Interface IEnumSTATPROPSETSTG
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumSTATPROPSETSTG Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()

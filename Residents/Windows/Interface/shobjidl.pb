@@ -1,42 +1,26 @@
 ﻿
 ; IPersistFolder interface definition
 ;
-Interface IPersistFolder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
+Interface IPersistFolder Extends IPersist
   Initialize(a.l)
 EndInterface
 
 ; IPersistFolder2 interface definition
 ;
-Interface IPersistFolder2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
-  Initialize(a.l)
+Interface IPersistFolder2 Extends IPersistFolder
   GetCurFolder(a.l)
 EndInterface
 
 ; IPersistIDList interface definition
 ;
-Interface IPersistIDList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
+Interface IPersistIDList Extends IPersist
   SetIDList(a.l)
   GetIDList(a.l)
 EndInterface
 
 ; IEnumIDList interface definition
 ;
-Interface IEnumIDList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumIDList Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -45,10 +29,7 @@ EndInterface
 
 ; IShellFolder interface definition
 ;
-Interface IShellFolder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IShellFolder Extends IUnknown
   ParseDisplayName(a.l, b.l, c.p-unicode, d.l, e.l, f.l)
   EnumObjects(a.l, b.l, c.l)
   BindToObject(a.l, b.l, c.l, d.l)
@@ -63,10 +44,7 @@ EndInterface
 
 ; IEnumExtraSearch interface definition
 ;
-Interface IEnumExtraSearch
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumExtraSearch Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -75,20 +53,7 @@ EndInterface
 
 ; IShellFolder2 interface definition
 ;
-Interface IShellFolder2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  ParseDisplayName(a.l, b.l, c.p-unicode, d.l, e.l, f.l)
-  EnumObjects(a.l, b.l, c.l)
-  BindToObject(a.l, b.l, c.l, d.l)
-  BindToStorage(a.l, b.l, c.l, d.l)
-  CompareIDs(a.l, b.l, c.l)
-  CreateViewObject(a.l, b.l, c.l)
-  GetAttributesOf(a.l, b.l, c.l)
-  GetUIObjectOf(a.l, b.l, c.l, d.l, e.l, f.l)
-  GetDisplayNameOf(a.l, b.l, c.l)
-  SetNameOf(a.l, b.l, c.l, d.l, e.l)
+Interface IShellFolder2 Extends IShellFolder
   GetDefaultSearchGUID(a.l)
   EnumSearches(a.l)
   GetDefaultColumn(a.l, b.l, c.l)
@@ -100,12 +65,7 @@ EndInterface
 
 ; IShellView interface definition
 ;
-Interface IShellView
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
+Interface IShellView Extends IOleWindow
   TranslateAccelerator(a.l)
   EnableModeless(a.l)
   UIActivate(a.l)
@@ -121,23 +81,7 @@ EndInterface
 
 ; IShellView2 interface definition
 ;
-Interface IShellView2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
-  TranslateAccelerator(a.l)
-  EnableModeless(a.l)
-  UIActivate(a.l)
-  Refresh()
-  CreateViewWindow(a.l, b.l, c.l, d.l, e.l)
-  DestroyViewWindow()
-  GetCurrentInfo(a.l)
-  AddPropertySheetPages(a.l, b.l, c.l)
-  SaveViewState()
-  SelectItem(a.l, b.l)
-  GetItemObject(a.l, b.l, c.l)
+Interface IShellView2 Extends IShellView
   GetView(a.l, b.l)
   CreateViewWindow2(a.l)
   HandleRename(a.l)
@@ -146,10 +90,7 @@ EndInterface
 
 ; IFolderView interface definition
 ;
-Interface IFolderView
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IFolderView Extends IUnknown
   GetCurrentViewMode(a.l)
   SetCurrentViewMode(a.l)
   GetFolder(a.l, b.l)
@@ -168,31 +109,20 @@ EndInterface
 
 ; IFolderFilterSite interface definition
 ;
-Interface IFolderFilterSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IFolderFilterSite Extends IUnknown
   SetFilter(a.l)
 EndInterface
 
 ; IFolderFilter interface definition
 ;
-Interface IFolderFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IFolderFilter Extends IUnknown
   ShouldShow(a.l, b.l, c.l)
   GetEnumFlags(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IShellBrowser interface definition
 ;
-Interface IShellBrowser
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
+Interface IShellBrowser Extends IOleWindow
   InsertMenusSB(a.l, b.l)
   SetMenuSB(a.l, b.l, c.l)
   RemoveMenusSB(a.l)
@@ -210,20 +140,14 @@ EndInterface
 
 ; IProfferService interface definition
 ;
-Interface IProfferService
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IProfferService Extends IUnknown
   ProfferService(a.l, b.l, c.l)
   RevokeService(a.l)
 EndInterface
 
 ; IPropertyUI interface definition
 ;
-Interface IPropertyUI
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertyUI Extends IUnknown
   ParsePropertyName(a.l, b.l, c.l, d.l)
   GetCannonicalName(a.l, b.l, c.p-unicode, d.l)
   GetDisplayName(a.l, b.l, c.l, d.p-unicode, e.l)
@@ -236,10 +160,7 @@ EndInterface
 
 ; ICategoryProvider interface definition
 ;
-Interface ICategoryProvider
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICategoryProvider Extends IUnknown
   CanCategorizeOnSCID(a.l)
   GetDefaultCategory(a.l, b.l)
   GetCategoryForSCID(a.l, b.l)
@@ -250,10 +171,7 @@ EndInterface
 
 ; ICategorizer interface definition
 ;
-Interface ICategorizer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICategorizer Extends IUnknown
   GetDescription(a.p-unicode, b.l)
   GetCategory(a.l, b.l, c.l)
   GetCategoryInfo(a.l, b.l)
@@ -262,10 +180,7 @@ EndInterface
 
 ; IShellLinkA interface definition
 ;
-Interface IShellLinkA
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IShellLinkA Extends IUnknown
   GetPath(a.p-ascii, b.l, c.l, d.l)
   GetIDList(a.l)
   SetIDList(a.l)
@@ -288,10 +203,7 @@ EndInterface
 
 ; IShellLinkW interface definition
 ;
-Interface IShellLinkW
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IShellLinkW Extends IUnknown
   GetPath(a.i, b.l, c.l, d.l)  ; the user has to pass a buffer, so auto conversion with p-unicode is wrong here
   GetIDList(a.l)
   SetIDList(a.l)
@@ -314,20 +226,14 @@ EndInterface
 
 ; IActionProgressDialog interface definition
 ;
-Interface IActionProgressDialog
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IActionProgressDialog Extends IUnknown
   Initialize(a.l, b.l, c.l)
   Stop()
 EndInterface
 
 ; IHWEventHandler interface definition
 ;
-Interface IHWEventHandler
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHWEventHandler Extends IUnknown
   Initialize(a.l)
   HandleEvent(a.l, b.l, c.l)
   HandleEventWithContent(a.l, b.l, c.l, d.l, e.l)
@@ -335,19 +241,13 @@ EndInterface
 
 ; IQueryCancelAutoPlay interface definition
 ;
-Interface IQueryCancelAutoPlay
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IQueryCancelAutoPlay Extends IUnknown
   AllowAutoPlay(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IActionProgress interface definition
 ;
-Interface IActionProgress
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IActionProgress Extends IUnknown
   Begin(a.l, b.l)
   UpdateProgress(a.l, b.l)
   UpdateText(a.l, b.l, c.l)
@@ -358,47 +258,32 @@ EndInterface
 
 ; IShellExtInit interface definition
 ;
-Interface IShellExtInit
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IShellExtInit Extends IUnknown
   Initialize(a.l, b.l, c.l)
 EndInterface
 
 ; IShellPropSheetExt interface definition
 ;
-Interface IShellPropSheetExt
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IShellPropSheetExt Extends IUnknown
   AddPages(a.l, b.l)
   ReplacePage(a.l, b.l, c.l)
 EndInterface
 
 ; IRemoteComputer interface definition
 ;
-Interface IRemoteComputer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRemoteComputer Extends IUnknown
   Initialize(a.l, b.l)
 EndInterface
 
 ; IQueryContinue interface definition
 ;
-Interface IQueryContinue
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IQueryContinue Extends IUnknown
   QueryContinue()
 EndInterface
 
 ; IUserNotification interface definition
 ;
-Interface IUserNotification
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IUserNotification Extends IUnknown
   SetBalloonInfo(a.l, b.l, c.l)
   SetBalloonRetry(a.l, b.l, c.l)
   SetIconInfo(a.l, b.l)
@@ -408,59 +293,39 @@ EndInterface
 
 ; IItemNameLimits interface definition
 ;
-Interface IItemNameLimits
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IItemNameLimits Extends IUnknown
   GetValidCharacters(a.l, b.l)
   GetMaxLength(a.l, b.l)
 EndInterface
 
 ; INetCrawler interface definition
 ;
-Interface INetCrawler
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface INetCrawler Extends IUnknown
   Update(a.l)
 EndInterface
 
 ; IExtractImage interface definition
 ;
-Interface IExtractImage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IExtractImage Extends IUnknown
   GetLocation(a.p-unicode, b.l, c.l, d.l, e.l, f.l)
   Extract(a.l)
 EndInterface
 
 ; IExtractImage2 interface definition
 ;
-Interface IExtractImage2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetLocation(a.p-unicode, b.l, c.l, d.l, e.l, f.l)
-  Extract(a.l)
+Interface IExtractImage2 Extends IExtractImage
   GetDateStamp(a.l)
 EndInterface
 
 ; IUserEventTimerCallback interface definition
 ;
-Interface IUserEventTimerCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IUserEventTimerCallback Extends IUnknown
   UserEventTimerProc(a.l, b.l)
 EndInterface
 
 ; IUserEventTimer interface definition
 ;
-Interface IUserEventTimer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IUserEventTimer Extends IUnknown
   SetUserEventTimer(a.l, b.l, c.l, d.l, e.l)
   KillUserEventTimer(a.l, b.l)
   GetUserEventTimerElapsed(a.l, b.l, c.l)
@@ -469,12 +334,7 @@ EndInterface
 
 ; IDockingWindow interface definition
 ;
-Interface IDockingWindow
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
+Interface IDockingWindow Extends IOleWindow
   ShowDW(a.l)
   CloseDW(a.l)
   ResizeBorderDW(a.l, b.l, c.l)
@@ -482,24 +342,13 @@ EndInterface
 
 ; IDeskBand interface definition
 ;
-Interface IDeskBand
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
-  ShowDW(a.l)
-  CloseDW(a.l)
-  ResizeBorderDW(a.l, b.l, c.l)
+Interface IDeskBand Extends IDockingWindow
   GetBandInfo(a.l, b.l, c.l)
 EndInterface
 
 ; ITaskbarList interface definition
 ;
-Interface ITaskbarList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITaskbarList Extends IUnknown
   HrInit()
   AddTab(a.l)
   DeleteTab(a.l)
@@ -509,15 +358,7 @@ EndInterface
 
 ; ITaskbarList2 interface definition
 ;
-Interface ITaskbarList2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  HrInit()
-  AddTab(a.l)
-  DeleteTab(a.l)
-  ActivateTab(a.l)
-  SetActiveAlt(a.l)
+Interface ITaskbarList2 Extends ITaskbarList
   MarkFullscreenWindow(a.l, b.l)
 EndInterface
 
@@ -534,10 +375,7 @@ EndInterface
 
 ; IWizardSite interface definition
 ;
-Interface IWizardSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWizardSite Extends IUnknown
   GetPreviousPage(a.l)
   GetNextPage(a.l)
   GetCancelledPage(a.l)
@@ -545,10 +383,7 @@ EndInterface
 
 ; IWizardExtension interface definition
 ;
-Interface IWizardExtension
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWizardExtension Extends IUnknown
   AddPages(a.l, b.l, c.l)
   GetFirstPage(a.l)
   GetLastPage(a.l)
@@ -556,104 +391,66 @@ EndInterface
 
 ; IWebWizardExtension interface definition
 ;
-Interface IWebWizardExtension
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  AddPages(a.l, b.l, c.l)
-  GetFirstPage(a.l)
-  GetLastPage(a.l)
+Interface IWebWizardExtension Extends IWizardExtension
   SetInitialURL(a.l)
   SetErrorURL(a.l)
 EndInterface
 
 ; IPublishingWizard interface definition
 ;
-Interface IPublishingWizard
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  AddPages(a.l, b.l, c.l)
-  GetFirstPage(a.l)
-  GetLastPage(a.l)
+Interface IPublishingWizard Extends IWizardExtension
   Initialize(a.l, b.l, c.l)
   GetTransferManifest(a.l, b.l)
 EndInterface
 
 ; IFolderViewHost interface definition
 ;
-Interface IFolderViewHost
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IFolderViewHost Extends IUnknown
   Initialize(a.l, b.l, c.l)
 EndInterface
 
 ; IAutoCompleteDropDown interface definition
 ;
-Interface IAutoCompleteDropDown
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAutoCompleteDropDown Extends IUnknown
   GetDropDownStatus(a.l, b.l)
   ResetEnumerator()
 EndInterface
 
 ; IModalWindow interface definition
 ;
-Interface IModalWindow
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IModalWindow Extends IUnknown
   Show(a.l)
 EndInterface
 
 ; IPassportWizard interface definition
 ;
-Interface IPassportWizard
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPassportWizard Extends IUnknown
   Show(a.l)
   SetOptions(a.l)
 EndInterface
 
 ; ICDBurnExt interface definition
 ;
-Interface ICDBurnExt
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICDBurnExt Extends IUnknown
   GetSupportedActionTypes(a.l)
 EndInterface
 
 ; IDVGetEnum interface definition
 ;
-Interface IDVGetEnum
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDVGetEnum Extends IUnknown
   SetEnumReadyCallback(a.l, b.l)
   CreateEnumIDListFromContents(a.l, b.l, c.l)
 EndInterface
 
 ; IInsertItem interface definition
 ;
-Interface IInsertItem
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInsertItem Extends IUnknown
   InsertItem(a.l)
 EndInterface
 
 ; IDeskBar interface definition
 ;
-Interface IDeskBar
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
+Interface IDeskBar Extends IOleWindow
   SetClient(a.l)
   GetClient(a.l)
   OnPosRectChangeDB(a.l)
@@ -661,20 +458,14 @@ EndInterface
 
 ; IMenuBand interface definition
 ;
-Interface IMenuBand
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMenuBand Extends IUnknown
   IsMenuMessage(a.l)
   TranslateMenuMessage(a.l, b.l)
 EndInterface
 
 ; IFolderBandPriv interface definition
 ;
-Interface IFolderBandPriv
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IFolderBandPriv Extends IUnknown
   SetCascade(a.l)
   SetAccelerators(a.l)
   SetNoIcons(a.l)
@@ -683,10 +474,7 @@ EndInterface
 
 ; IBandSite interface definition
 ;
-Interface IBandSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBandSite Extends IUnknown
   AddBand(a.l)
   EnumBands(a.l, b.l)
   QueryBand(a.l, b.l, c.l, d.p-unicode, e.l)
@@ -699,10 +487,7 @@ EndInterface
 
 ; INamespaceWalkCB interface definition
 ;
-Interface INamespaceWalkCB
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface INamespaceWalkCB Extends IUnknown
   FoundItem(a.l, b.l)
   EnterFolder(a.l, b.l)
   LeaveFolder(a.l, b.l)
@@ -711,35 +496,21 @@ EndInterface
 
 ; INamespaceWalk interface definition
 ;
-Interface INamespaceWalk
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface INamespaceWalk Extends IUnknown
   Walk(a.l, b.l, c.l, d.l)
   GetIDArrayResult(a.l, b.l)
 EndInterface
 
 ; IRegTreeItem interface definition
 ;
-Interface IRegTreeItem
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRegTreeItem Extends IUnknown
   GetCheckState(a.l)
   SetCheckState(a.l)
 EndInterface
 
 ; IMenuPopup interface definition
 ;
-Interface IMenuPopup
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
-  SetClient(a.l)
-  GetClient(a.l)
-  OnPosRectChangeDB(a.l)
+Interface IMenuPopup Extends IDeskBar
   Popup(a.l, b.l, c.l)
   OnSelect(a.l)
   SetSubMenu(a.l, b.l)
@@ -747,10 +518,7 @@ EndInterface
 
 ; IShellItem interface definition
 ;
-Interface IShellItem
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IShellItem Extends IUnknown
   BindToHandler(a.l, b.l, c.l, d.l)
   GetParent(a.l)
   GetDisplayName(a.l, b.l)
@@ -760,73 +528,49 @@ EndInterface
 
 ; IImageRecompress interface definition
 ;
-Interface IImageRecompress
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IImageRecompress Extends IUnknown
   RecompressImage(a.l, b.l, c.l, d.l, e.l, f.l)
 EndInterface
 
 ; IDefViewSafety interface definition
 ;
-Interface IDefViewSafety
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDefViewSafety Extends IUnknown
   IsSafePage()
 EndInterface
 
 ; IContextMenuSite interface definition
 ;
-Interface IContextMenuSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IContextMenuSite Extends IUnknown
   DoContextMenuPopup(a.l, b.l, c.l)
 EndInterface
 
 ; IDelegateFolder interface definition
 ;
-Interface IDelegateFolder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDelegateFolder Extends IUnknown
   SetItemAlloc(a.l)
 EndInterface
 
 ; IBrowserFrameOptions interface definition
 ;
-Interface IBrowserFrameOptions
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBrowserFrameOptions Extends IUnknown
   GetFrameOptions(a.l, b.l)
 EndInterface
 
 ; INewWindowManager interface definition
 ;
-Interface INewWindowManager
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface INewWindowManager Extends IUnknown
   EvaluateNewWindow(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
 EndInterface
 
 ; IShellMenuCallback interface definition
 ;
-Interface IShellMenuCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IShellMenuCallback Extends IUnknown
   CallbackSM(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IAttachmentExecute interface definition
 ;
-Interface IAttachmentExecute
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAttachmentExecute Extends IUnknown
   SetClientTitle(a.l)
   SetClientGuid(a.l)
   SetLocalPath(a.l)
@@ -843,10 +587,7 @@ EndInterface
 
 ; IShellMenu interface definition
 ;
-Interface IShellMenu
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IShellMenu Extends IUnknown
   Initialize(a.l, b.l, c.l, d.l)
   GetMenuInfo(a.l, b.l, c.l, d.l)
   SetShellFolder(a.l, b.l, c.l, d.l)

@@ -1,10 +1,7 @@
 ﻿
 ; IDirectMusic interface definition
 ;
-Interface IDirectMusic
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusic Extends IUnknown
   EnumPort(a.l, b.l)
   CreateMusicBuffer(a.l, b.l, c.l)
   CreatePort(a.l, b.l, c.l, d.l)
@@ -18,28 +15,13 @@ EndInterface
 
 ; IDirectMusic8 interface definition
 ;
-Interface IDirectMusic8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  EnumPort(a.l, b.l)
-  CreateMusicBuffer(a.l, b.l, c.l)
-  CreatePort(a.l, b.l, c.l, d.l)
-  EnumMasterClock(a.l, b.l)
-  GetMasterClock(a.l, b.l)
-  SetMasterClock(a.l)
-  Activate(a.l)
-  GetDefaultPort(a.l)
-  SetDirectSound(a.l, b.l)
+Interface IDirectMusic8 Extends IDirectMusic
   SetExternalMasterClock(a.l)
 EndInterface
 
 ; IDirectMusicBuffer interface definition
 ;
-Interface IDirectMusicBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicBuffer Extends IUnknown
   Flush()
   TotalTime(a.l)
   PackStructured(a.q, b.l, c.l)
@@ -57,47 +39,32 @@ EndInterface
 
 ; IDirectMusicInstrument interface definition
 ;
-Interface IDirectMusicInstrument
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicInstrument Extends IUnknown
   GetPatch(a.l)
   SetPatch(a.l)
 EndInterface
 
 ; IDirectMusicDownloadedInstrument interface definition
 ;
-Interface IDirectMusicDownloadedInstrument
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicDownloadedInstrument Extends IUnknown
 EndInterface
 
 ; IDirectMusicCollection interface definition
 ;
-Interface IDirectMusicCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicCollection Extends IUnknown
   GetInstrument(a.l, b.l)
   EnumInstrument(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IDirectMusicDownload interface definition
 ;
-Interface IDirectMusicDownload
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicDownload Extends IUnknown
   GetBuffer(a.l, b.l)
 EndInterface
 
 ; IDirectMusicPortDownload interface definition
 ;
-Interface IDirectMusicPortDownload
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicPortDownload Extends IUnknown
   GetBuffer(a.l, b.l)
   AllocateBuffer(a.l, b.l)
   GetDLId(a.l, b.l)
@@ -108,10 +75,7 @@ EndInterface
 
 ; IDirectMusicPort interface definition
 ;
-Interface IDirectMusicPort
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicPort Extends IUnknown
   PlayBuffer(a.l)
   SetReadNotificationHandle(a.l)
   Read(a.l)
@@ -133,19 +97,13 @@ EndInterface
 
 ; IDirectMusicThru interface definition
 ;
-Interface IDirectMusicThru
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicThru Extends IUnknown
   ThruChannel(a.l, b.l, c.l, d.l, e.l)
 EndInterface
 
 ; IReferenceClock interface definition
 ;
-Interface IReferenceClock
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IReferenceClock Extends IUnknown
   GetTime(a.l)
   AdviseTime(a.q, b.q, c.l, d.l)
   AdvisePeriodic(a.q, b.q, c.l, d.l)

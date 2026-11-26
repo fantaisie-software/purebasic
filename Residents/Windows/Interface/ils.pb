@@ -1,10 +1,7 @@
 ﻿
 ; IIlsServer interface definition
 ;
-Interface IIlsServer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IIlsServer Extends IUnknown
   SetAuthenticationMethod(a.l)
   SetLogonName(a.l)
   SetLogonPassword(a.l)
@@ -16,10 +13,7 @@ EndInterface
 
 ; IIlsMain interface definition
 ;
-Interface IIlsMain
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IIlsMain Extends IUnknown
   Initialize()
   CreateServer(a.l, b.l)
   CreateUser(a.l, b.l, c.l)
@@ -35,10 +29,7 @@ EndInterface
 
 ; IIlsNotify interface definition
 ;
-Interface IIlsNotify
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IIlsNotify Extends IUnknown
   GetUserResult(a.l, b.l, c.l)
   EnumUserNamesResult(a.l, b.l, c.l)
   EnumUsersResult(a.l, b.l, c.l)
@@ -46,10 +37,7 @@ EndInterface
 
 ; IIlsUser interface definition
 ;
-Interface IIlsUser
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IIlsUser Extends IUnknown
   GetState(a.l)
   GetStandardAttribute(a.l, b.l)
   SetStandardAttribute(a.l, b.l)
@@ -75,10 +63,7 @@ EndInterface
 
 ; IIlsProtocol interface definition
 ;
-Interface IIlsProtocol
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IIlsProtocol Extends IUnknown
   IsWritable(a.l)
   GetPortNumber(a.l)
   GetStandardAttribute(a.l, b.l)
@@ -92,19 +77,13 @@ EndInterface
 
 ; IIlsProtocolNotify interface definition
 ;
-Interface IIlsProtocolNotify
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IIlsProtocolNotify Extends IUnknown
   UpdateResult(a.l, b.l)
 EndInterface
 
 ; IIlsUserNotify interface definition
 ;
-Interface IIlsUserNotify
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IIlsUserNotify Extends IUnknown
   RegisterResult(a.l, b.l)
   UpdateResult(a.l, b.l)
   ProtocolChangeResult(a.l, b.l)
@@ -115,10 +94,7 @@ EndInterface
 
 ; IIlsAttributes interface definition
 ;
-Interface IIlsAttributes
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IIlsAttributes Extends IUnknown
   SetAttribute(a.l, b.l)
   GetAttribute(a.l, b.l)
   EnumAttributes(a.l)
@@ -127,10 +103,7 @@ EndInterface
 
 ; IIlsFilter interface definition
 ;
-Interface IIlsFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IIlsFilter Extends IUnknown
   AddSubFilter(a.l)
   RemoveSubFilter(a.l)
   GetCount(a.l)
@@ -141,10 +114,7 @@ EndInterface
 
 ; IEnumIlsProtocols interface definition
 ;
-Interface IEnumIlsProtocols
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumIlsProtocols Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -153,10 +123,7 @@ EndInterface
 
 ; IEnumIlsUsers interface definition
 ;
-Interface IEnumIlsUsers
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumIlsUsers Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -165,10 +132,7 @@ EndInterface
 
 ; IEnumIlsNames interface definition
 ;
-Interface IEnumIlsNames
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumIlsNames Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()

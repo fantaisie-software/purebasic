@@ -1,10 +1,7 @@
 ﻿
 ; IKsClockPropertySet interface definition
 ;
-Interface IKsClockPropertySet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsClockPropertySet Extends IUnknown
   KsGetTime(a.l)
   KsSetTime(a.q)
   KsGetPhysicalTime(a.l)
@@ -19,10 +16,7 @@ EndInterface
 
 ; IKsAllocator interface definition
 ;
-Interface IKsAllocator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsAllocator Extends IUnknown
   KsGetAllocatorHandle()
   KsGetAllocatorMode()
   KsGetAllocatorStatus(a.l)
@@ -31,10 +25,7 @@ EndInterface
 
 ; IKsAllocatorEx interface definition
 ;
-Interface IKsAllocatorEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsAllocatorEx Extends IUnknown
   KsGetProperties()
   KsSetProperties(a.l)
   KsSetAllocatorHandle(a.l)
@@ -43,10 +34,7 @@ EndInterface
 
 ; IKsPin interface definition
 ;
-Interface IKsPin
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsPin Extends IUnknown
   KsQueryMediums(a.l)
   KsQueryInterfaces(a.l)
   KsCreateSinkPinHandle(a.l, b.l)
@@ -64,19 +52,13 @@ EndInterface
 
 ; IKsPinEx interface definition
 ;
-Interface IKsPinEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsPinEx Extends IUnknown
   KsNotifyError(a.l, b.l)
 EndInterface
 
 ; IKsPinPipe interface definition
 ;
-Interface IKsPinPipe
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsPinPipe Extends IUnknown
   KsGetPinFramingCache(a.l, b.l, c.l)
   KsSetPinFramingCache(a.l, b.l, c.l)
   KsGetConnectedPin()
@@ -92,19 +74,13 @@ EndInterface
 
 ; IKsPinFactory interface definition
 ;
-Interface IKsPinFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsPinFactory Extends IUnknown
   KsPinFactory(a.l)
 EndInterface
 
 ; IKsDataTypeHandler interface definition
 ;
-Interface IKsDataTypeHandler
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsDataTypeHandler Extends IUnknown
   KsCompleteIoOperation(a.l, b.l, c.l, d.l)
   KsIsMediaTypeInRanges(a.l)
   KsPrepareIoOperation(a.l, b.l, c.l)
@@ -114,19 +90,13 @@ EndInterface
 
 ; IKsDataTypeCompletion interface definition
 ;
-Interface IKsDataTypeCompletion
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsDataTypeCompletion Extends IUnknown
   KsCompleteMediaType(a.l, b.l, c.l)
 EndInterface
 
 ; IKsInterfaceHandler interface definition
 ;
-Interface IKsInterfaceHandler
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsInterfaceHandler Extends IUnknown
   KsSetPin(a.l)
   KsProcessMediaSamples(a.l, b.l, c.l, d.l, e.l)
   KsCompleteIo(a.l)
@@ -134,28 +104,19 @@ EndInterface
 
 ; IKsObject interface definition
 ;
-Interface IKsObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsObject Extends IUnknown
   KsGetObjectHandle()
 EndInterface
 
 ; IKsQualityForwarder interface definition
 ;
-Interface IKsQualityForwarder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsQualityForwarder Extends IUnknown
   KsFlushClient(a.l)
 EndInterface
 
 ; IKsNotifyEvent interface definition
 ;
-Interface IKsNotifyEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsNotifyEvent Extends IUnknown
   KsNotifyEvent(a.l, b.l, c.l)
 EndInterface
 
@@ -169,19 +130,13 @@ EndInterface
 
 ; IKsAggregateControl interface definition
 ;
-Interface IKsAggregateControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsAggregateControl Extends IUnknown
   KsAddAggregate(a.l)
   KsRemoveAggregate(a.l)
 EndInterface
 
 ; IKsTopology interface definition
 ;
-Interface IKsTopology
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsTopology Extends IUnknown
   CreateNodeInstance(a.l, b.l, c.l, d.l, e.l, f.l)
 EndInterface

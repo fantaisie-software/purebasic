@@ -1,10 +1,7 @@
 ﻿
 ; ICreateTypeInfo interface definition
 ;
-Interface ICreateTypeInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICreateTypeInfo Extends IUnknown
   SetGuid(a.l)
   SetTypeFlags(a.l)
   SetDocString(a.p-unicode)
@@ -32,33 +29,7 @@ EndInterface
 
 ; ICreateTypeInfo2 interface definition
 ;
-Interface ICreateTypeInfo2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  SetGuid(a.l)
-  SetTypeFlags(a.l)
-  SetDocString(a.p-unicode)
-  SetHelpContext(a.l)
-  SetVersion(a.l, b.l)
-  AddRefTypeInfo(a.l, b.l)
-  AddFuncDesc(a.l, b.l)
-  AddImplType(a.l, b.l)
-  SetImplTypeFlags(a.l, b.l)
-  SetAlignment(a.l)
-  SetSchema(a.p-unicode)
-  AddVarDesc(a.l, b.l)
-  SetFuncAndParamNames(a.l, b.l, c.l)
-  SetVarName(a.l, b.p-unicode)
-  SetTypeDescAlias(a.l)
-  DefineFuncAsDllEntry(a.l, b.p-unicode, c.p-unicode)
-  SetFuncDocString(a.l, b.p-unicode)
-  SetVarDocString(a.l, b.p-unicode)
-  SetFuncHelpContext(a.l, b.l)
-  SetVarHelpContext(a.l, b.l)
-  SetMops(a.l, b.p-bstr)
-  SetTypeIdldesc(a.l)
-  LayOut()
+Interface ICreateTypeInfo2 Extends ICreateTypeInfo
   DeleteFuncDesc(a.l)
   DeleteFuncDescByMemId(a.l, b.l)
   DeleteVarDesc(a.l)
@@ -78,10 +49,7 @@ EndInterface
 
 ; ICreateTypeLib interface definition
 ;
-Interface ICreateTypeLib
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICreateTypeLib Extends IUnknown
   CreateTypeInfo(a.p-unicode, b.l, c.l)
   SetName(a.p-unicode)
   SetVersion(a.l, b.l)
@@ -96,20 +64,7 @@ EndInterface
 
 ; ICreateTypeLib2 interface definition
 ;
-Interface ICreateTypeLib2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  CreateTypeInfo(a.p-unicode, b.l, c.l)
-  SetName(a.p-unicode)
-  SetVersion(a.l, b.l)
-  SetGuid(a.l)
-  SetDocString(a.p-unicode)
-  SetHelpFileName(a.p-unicode)
-  SetHelpContext(a.l)
-  SetLcid(a.l)
-  SetLibFlags(a.l)
-  SaveAllChanges()
+Interface ICreateTypeLib2 Extends ICreateTypeLib
   DeleteTypeInfo(a.p-unicode)
   SetCustData(a.l, b.l)
   SetHelpStringContext(a.l)
@@ -118,10 +73,7 @@ EndInterface
 
 ; IDispatch interface definition
 ;
-Interface IDispatch
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDispatch Extends IUnknown
   GetTypeInfoCount(a.l)
   GetTypeInfo(a.l, b.l, c.l)
   GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
@@ -130,10 +82,7 @@ EndInterface
 
 ; IEnumVARIANT interface definition
 ;
-Interface IEnumVARIANT
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumVARIANT Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -142,20 +91,14 @@ EndInterface
 
 ; ITypeComp interface definition
 ;
-Interface ITypeComp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITypeComp Extends IUnknown
   Bind(a.p-unicode, b.l, c.l, d.l, e.l, f.l)
   BindType(a.p-unicode, b.l, c.l, d.l)
 EndInterface
 
 ; ITypeInfo interface definition
 ;
-Interface ITypeInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITypeInfo Extends IUnknown
   GetTypeAttr(a.l)
   GetTypeComp(a.l)
   GetFuncDesc(a.l, b.l)
@@ -179,29 +122,7 @@ EndInterface
 
 ; ITypeInfo2 interface definition
 ;
-Interface ITypeInfo2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeAttr(a.l)
-  GetTypeComp(a.l)
-  GetFuncDesc(a.l, b.l)
-  GetVarDesc(a.l, b.l)
-  GetNames(a.l, b.l, c.l, d.l)
-  GetRefTypeOfImplType(a.l, b.l)
-  GetImplTypeFlags(a.l, b.l)
-  GetIDsOfNames(a.l, b.l, c.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
-  GetDocumentation(a.l, b.l, c.l, d.l, e.l)
-  GetDllEntry(a.l, b.l, c.l, d.l, e.l)
-  GetRefTypeInfo(a.l, b.l)
-  AddressOfMember(a.l, b.l, c.l)
-  CreateInstance(a.l, b.l, c.l)
-  GetMops(a.l, b.l)
-  GetContainingTypeLib(a.l, b.l)
-  ReleaseTypeAttr(a.l)
-  ReleaseFuncDesc(a.l)
-  ReleaseVarDesc(a.l)
+Interface ITypeInfo2 Extends ITypeInfo
   GetTypeKind(a.l)
   GetTypeFlags(a.l)
   GetFuncIndexOfMemId(a.l, b.l, c.l)
@@ -221,10 +142,7 @@ EndInterface
 
 ; ITypeLib interface definition
 ;
-Interface ITypeLib
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITypeLib Extends IUnknown
   GetTypeInfoCount()
   GetTypeInfo(a.l, b.l)
   GetTypeInfoType(a.l, b.l)
@@ -239,20 +157,7 @@ EndInterface
 
 ; ITypeLib2 interface definition
 ;
-Interface ITypeLib2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount()
-  GetTypeInfo(a.l, b.l)
-  GetTypeInfoType(a.l, b.l)
-  GetTypeInfoOfGuid(a.l, b.l)
-  GetLibAttr(a.l)
-  GetTypeComp(a.l)
-  GetDocumentation(a.l, b.l, c.l, d.l, e.l)
-  IsName(a.p-unicode, b.l, c.l)
-  FindName(a.p-unicode, b.l, c.l, d.l, e.l)
-  ReleaseTLibAttr(a.l)
+Interface ITypeLib2 Extends ITypeLib
   GetCustData(a.l, b.l)
   GetLibStatistics(a.l, b.l)
   GetDocumentation2(a.l, b.l, c.l, d.l, e.l)
@@ -261,20 +166,14 @@ EndInterface
 
 ; ITypeChangeEvents interface definition
 ;
-Interface ITypeChangeEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITypeChangeEvents Extends IUnknown
   RequestTypeChange(a.l, b.l, c.p-unicode, d.l)
   AfterTypeChange(a.l, b.l, c.p-unicode)
 EndInterface
 
 ; IErrorInfo interface definition
 ;
-Interface IErrorInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IErrorInfo Extends IUnknown
   GetGUID(a.l)
   GetSource(a.l)
   GetDescription(a.l)
@@ -284,10 +183,7 @@ EndInterface
 
 ; ICreateErrorInfo interface definition
 ;
-Interface ICreateErrorInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICreateErrorInfo Extends IUnknown
   SetGUID(a.l)
   SetSource(a.p-unicode)
   SetDescription(a.p-unicode)
@@ -297,28 +193,19 @@ EndInterface
 
 ; ISupportErrorInfo interface definition
 ;
-Interface ISupportErrorInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISupportErrorInfo Extends IUnknown
   InterfaceSupportsErrorInfo(a.l)
 EndInterface
 
 ; ITypeFactory interface definition
 ;
-Interface ITypeFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITypeFactory Extends IUnknown
   CreateFromTypeInfo(a.l, b.l, c.l)
 EndInterface
 
 ; ITypeMarshal interface definition
 ;
-Interface ITypeMarshal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITypeMarshal Extends IUnknown
   Size(a.l, b.l, c.l, d.l)
   Marshal(a.l, b.l, c.l, d.l, e.l, f.l)
   Unmarshal(a.l, b.l, c.l, d.l, e.l)
@@ -327,10 +214,7 @@ EndInterface
 
 ; IRecordInfo interface definition
 ;
-Interface IRecordInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRecordInfo Extends IUnknown
   RecordInit(a.l)
   RecordClear(a.l)
   RecordCopy(a.l, b.l)
@@ -351,19 +235,13 @@ EndInterface
 
 ; IErrorLog interface definition
 ;
-Interface IErrorLog
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IErrorLog Extends IUnknown
   AddError(a.l, b.l)
 EndInterface
 
 ; IPropertyBag interface definition
 ;
-Interface IPropertyBag
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertyBag Extends IUnknown
   Read(a.l, b.l, c.l)
   Write(a.l, b.l)
 EndInterface

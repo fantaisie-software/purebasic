@@ -1,14 +1,7 @@
 ﻿
 ; IAccessible interface definition
 ;
-Interface IAccessible
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IAccessible Extends IDispatch
   get_accParent(a.l)
   get_accChildCount(a.l)
   get_accChild(a.p-variant, b.l)
@@ -34,37 +27,25 @@ EndInterface
 
 ; IAccessibleHandler interface definition
 ;
-Interface IAccessibleHandler
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAccessibleHandler Extends IUnknown
   AccessibleObjectFromID(a.l, b.l, c.l)
 EndInterface
 
 ; IAccIdentity interface definition
 ;
-Interface IAccIdentity
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAccIdentity Extends IUnknown
   GetIdentityString(a.l, b.l, c.l)
 EndInterface
 
 ; IAccPropServer interface definition
 ;
-Interface IAccPropServer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAccPropServer Extends IUnknown
   GetPropValue(a.l, b.l, c.l, d.l, e.l)
 EndInterface
 
 ; IAccPropServices interface definition
 ;
-Interface IAccPropServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAccPropServices Extends IUnknown
   SetPropValue(a.l, b.l, c.l, d.p-variant)
   SetPropServer(a.l, b.l, c.l, d.l, e.l, f.l)
   ClearProps(a.l, b.l, c.l, d.l)

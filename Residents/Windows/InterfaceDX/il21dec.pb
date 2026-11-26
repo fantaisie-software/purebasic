@@ -1,10 +1,7 @@
 ﻿
 ; IAMLine21Decoder interface definition
 ;
-Interface IAMLine21Decoder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMLine21Decoder Extends IUnknown
   GetDecoderLevel(a.l)
   GetCurrentService(a.l)
   SetCurrentService(a.l)

@@ -1,10 +1,7 @@
 ﻿
 ; IDirect3DRMWinDevice interface definition
 ;
-Interface IDirect3DRMWinDevice
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMWinDevice Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)

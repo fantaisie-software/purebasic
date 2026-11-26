@@ -1,10 +1,7 @@
 ﻿
 ; IKsTopologyInfo interface definition
 ;
-Interface IKsTopologyInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsTopologyInfo Extends IUnknown
   get_NumCategories(a.l)
   get_Category(a.l, b.l)
   get_NumConnections(a.l)
@@ -17,10 +14,7 @@ EndInterface
 
 ; ISelector interface definition
 ;
-Interface ISelector
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISelector Extends IUnknown
   get_NumSources(a.l)
   get_SourceNodeId(a.l)
   put_SourceNodeId(a.l)
@@ -28,10 +22,7 @@ EndInterface
 
 ; IKsNodeControl interface definition
 ;
-Interface IKsNodeControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsNodeControl Extends IUnknown
   put_NodeId(a.l)
   put_KsControl(a.l)
 EndInterface

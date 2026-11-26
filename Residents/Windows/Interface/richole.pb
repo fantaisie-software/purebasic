@@ -1,10 +1,7 @@
 ﻿
 ; IRichEditOle interface definition
 ;
-Interface IRichEditOle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRichEditOle Extends IUnknown
   GetClientSite(a.l)
   GetObjectCount()
   GetLinkCount()
@@ -25,10 +22,7 @@ EndInterface
 
 ; IRichEditOleCallback interface definition
 ;
-Interface IRichEditOleCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRichEditOleCallback Extends IUnknown
   GetNewStorage(a.l)
   GetInPlaceContext(a.l, b.l, c.l)
   ShowContainerUI(a.l)

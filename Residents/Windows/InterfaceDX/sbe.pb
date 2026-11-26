@@ -1,20 +1,14 @@
 ﻿
 ; IStreamBufferInitialize interface definition
 ;
-Interface IStreamBufferInitialize
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStreamBufferInitialize Extends IUnknown
   SetHKEY(a.l)
   SetSIDs(a.l, b.l)
 EndInterface
 
 ; IStreamBufferSink interface definition
 ;
-Interface IStreamBufferSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStreamBufferSink Extends IUnknown
   LockProfile(a.l)
   CreateRecorder(a.l, b.l, c.l)
   IsProfileLocked()
@@ -22,19 +16,13 @@ EndInterface
 
 ; IStreamBufferSource interface definition
 ;
-Interface IStreamBufferSource
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStreamBufferSource Extends IUnknown
   SetStreamSink(a.l)
 EndInterface
 
 ; IStreamBufferRecordControl interface definition
 ;
-Interface IStreamBufferRecordControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStreamBufferRecordControl Extends IUnknown
   Start(a.l)
   Stop(a.q)
   GetRecordingStatus(a.l, b.l, c.l)
@@ -42,10 +30,7 @@ EndInterface
 
 ; IStreamBufferRecComp interface definition
 ;
-Interface IStreamBufferRecComp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStreamBufferRecComp Extends IUnknown
   Initialize(a.l, b.l)
   Append(a.l)
   AppendEx(a.l, b.q, c.q)
@@ -56,10 +41,7 @@ EndInterface
 
 ; IStreamBufferRecordingAttribute interface definition
 ;
-Interface IStreamBufferRecordingAttribute
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStreamBufferRecordingAttribute Extends IUnknown
   SetAttribute(a.l, b.l, c.l, d.l, e.l)
   GetAttributeCount(a.l, b.l)
   GetAttributeByName(a.l, b.l, c.l, d.l, e.l)
@@ -69,10 +51,7 @@ EndInterface
 
 ; IEnumStreamBufferRecordingAttrib interface definition
 ;
-Interface IEnumStreamBufferRecordingAttrib
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumStreamBufferRecordingAttrib Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -81,10 +60,7 @@ EndInterface
 
 ; IStreamBufferConfigure interface definition
 ;
-Interface IStreamBufferConfigure
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStreamBufferConfigure Extends IUnknown
   SetDirectory(a.l)
   GetDirectory(a.l)
   SetBackingFileCount(a.l, b.l)
@@ -95,25 +71,5 @@ EndInterface
 
 ; IStreamBufferMediaSeeking interface definition
 ;
-Interface IStreamBufferMediaSeeking
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetCapabilities(a.l)
-  CheckCapabilities(a.l)
-  IsFormatSupported(a.l)
-  QueryPreferredFormat(a.l)
-  GetTimeFormat(a.l)
-  IsUsingTimeFormat(a.l)
-  SetTimeFormat(a.l)
-  GetDuration(a.l)
-  GetStopPosition(a.l)
-  GetCurrentPosition(a.l)
-  ConvertTimeFormat(a.l, b.l, c.q, d.l)
-  SetPositions(a.l, b.l, c.l, d.l)
-  GetPositions(a.l, b.l)
-  GetAvailable(a.l, b.l)
-  SetRate(a.d)
-  GetRate(a.l)
-  GetPreroll(a.l)
+Interface IStreamBufferMediaSeeking Extends IMediaSeeking
 EndInterface

@@ -1,10 +1,7 @@
 ﻿
 ; IOleDocument interface definition
 ;
-Interface IOleDocument
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleDocument Extends IUnknown
   CreateView(a.l, b.l, c.l, d.l)
   GetDocMiscStatus(a.l)
   EnumViews(a.l, b.l)
@@ -12,19 +9,13 @@ EndInterface
 
 ; IOleDocumentSite interface definition
 ;
-Interface IOleDocumentSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleDocumentSite Extends IUnknown
   ActivateMe(a.l)
 EndInterface
 
 ; IOleDocumentView interface definition
 ;
-Interface IOleDocumentView
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleDocumentView Extends IUnknown
   SetInPlaceSite(a.l)
   GetInPlaceSite(a.l)
   GetDocument(a.l)
@@ -42,10 +33,7 @@ EndInterface
 
 ; IEnumOleDocumentViews interface definition
 ;
-Interface IEnumOleDocumentViews
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumOleDocumentViews Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -54,20 +42,14 @@ EndInterface
 
 ; IContinueCallback interface definition
 ;
-Interface IContinueCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IContinueCallback Extends IUnknown
   FContinue()
   FContinuePrinting(a.l, b.l, c.l)
 EndInterface
 
 ; IPrint interface definition
 ;
-Interface IPrint
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPrint Extends IUnknown
   SetInitialPageNum(a.l)
   GetPageInfo(a.l, b.l)
   Print(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
@@ -75,10 +57,7 @@ EndInterface
 
 ; IOleCommandTarget interface definition
 ;
-Interface IOleCommandTarget
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleCommandTarget Extends IUnknown
   QueryStatus(a.l, b.l, c.l, d.l)
   Exec(a.l, b.l, c.l, d.l, e.l)
 EndInterface

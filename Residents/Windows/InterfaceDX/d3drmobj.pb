@@ -1,10 +1,7 @@
 ﻿
 ; IDirect3DRMObject interface definition
 ;
-Interface IDirect3DRMObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMObject Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -17,10 +14,7 @@ EndInterface
 
 ; IDirect3DRMObject2 interface definition
 ;
-Interface IDirect3DRMObject2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMObject2 Extends IUnknown
   AddDestroyCallback(a.l, b.l)
   Clone(a.l, b.l, c.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -34,10 +28,7 @@ EndInterface
 
 ; IDirect3DRMVisual interface definition
 ;
-Interface IDirect3DRMVisual
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMVisual Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -50,10 +41,7 @@ EndInterface
 
 ; IDirect3DRMDevice interface definition
 ;
-Interface IDirect3DRMDevice
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMDevice Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -89,10 +77,7 @@ EndInterface
 
 ; IDirect3DRMDevice2 interface definition
 ;
-Interface IDirect3DRMDevice2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMDevice2 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -133,10 +118,7 @@ EndInterface
 
 ; IDirect3DRMDevice3 interface definition
 ;
-Interface IDirect3DRMDevice3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMDevice3 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -182,10 +164,7 @@ EndInterface
 
 ; IDirect3DRMViewport interface definition
 ;
-Interface IDirect3DRMViewport
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMViewport Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -226,10 +205,7 @@ EndInterface
 
 ; IDirect3DRMViewport2 interface definition
 ;
-Interface IDirect3DRMViewport2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMViewport2 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -272,10 +248,7 @@ EndInterface
 
 ; IDirect3DRMFrame interface definition
 ;
-Interface IDirect3DRMFrame
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMFrame Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -346,10 +319,7 @@ EndInterface
 
 ; IDirect3DRMFrame2 interface definition
 ;
-Interface IDirect3DRMFrame2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMFrame2 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -435,10 +405,7 @@ EndInterface
 
 ; IDirect3DRMFrame3 interface definition
 ;
-Interface IDirect3DRMFrame3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMFrame3 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -529,10 +496,7 @@ EndInterface
 
 ; IDirect3DRMMesh interface definition
 ;
-Interface IDirect3DRMMesh
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMMesh Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -564,10 +528,7 @@ EndInterface
 
 ; IDirect3DRMProgressiveMesh interface definition
 ;
-Interface IDirect3DRMProgressiveMesh
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMProgressiveMesh Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -598,10 +559,7 @@ EndInterface
 
 ; IDirect3DRMShadow interface definition
 ;
-Interface IDirect3DRMShadow
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMShadow Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -615,10 +573,7 @@ EndInterface
 
 ; IDirect3DRMShadow2 interface definition
 ;
-Interface IDirect3DRMShadow2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMShadow2 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -640,10 +595,7 @@ EndInterface
 
 ; IDirect3DRMFace interface definition
 ;
-Interface IDirect3DRMFace
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMFace Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -675,10 +627,7 @@ EndInterface
 
 ; IDirect3DRMFace2 interface definition
 ;
-Interface IDirect3DRMFace2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMFace2 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -710,10 +659,7 @@ EndInterface
 
 ; IDirect3DRMMeshBuilder interface definition
 ;
-Interface IDirect3DRMMeshBuilder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMMeshBuilder Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -764,10 +710,7 @@ EndInterface
 
 ; IDirect3DRMMeshBuilder2 interface definition
 ;
-Interface IDirect3DRMMeshBuilder2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMMeshBuilder2 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -820,10 +763,7 @@ EndInterface
 
 ; IDirect3DRMMeshBuilder3 interface definition
 ;
-Interface IDirect3DRMMeshBuilder3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMMeshBuilder3 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -895,10 +835,7 @@ EndInterface
 
 ; IDirect3DRMLight interface definition
 ;
-Interface IDirect3DRMLight
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMLight Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -930,10 +867,7 @@ EndInterface
 
 ; IDirect3DRMTexture interface definition
 ;
-Interface IDirect3DRMTexture
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMTexture Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -965,10 +899,7 @@ EndInterface
 
 ; IDirect3DRMTexture2 interface definition
 ;
-Interface IDirect3DRMTexture2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMTexture2 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1003,10 +934,7 @@ EndInterface
 
 ; IDirect3DRMTexture3 interface definition
 ;
-Interface IDirect3DRMTexture3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMTexture3 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1046,10 +974,7 @@ EndInterface
 
 ; IDirect3DRMWrap interface definition
 ;
-Interface IDirect3DRMWrap
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMWrap Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1065,10 +990,7 @@ EndInterface
 
 ; IDirect3DRMMaterial interface definition
 ;
-Interface IDirect3DRMMaterial
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMMaterial Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1087,10 +1009,7 @@ EndInterface
 
 ; IDirect3DRMMaterial2 interface definition
 ;
-Interface IDirect3DRMMaterial2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMMaterial2 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1111,10 +1030,7 @@ EndInterface
 
 ; IDirect3DRMAnimation interface definition
 ;
-Interface IDirect3DRMAnimation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMAnimation Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1135,10 +1051,7 @@ EndInterface
 
 ; IDirect3DRMAnimation2 interface definition
 ;
-Interface IDirect3DRMAnimation2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMAnimation2 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1164,10 +1077,7 @@ EndInterface
 
 ; IDirect3DRMAnimationSet interface definition
 ;
-Interface IDirect3DRMAnimationSet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMAnimationSet Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1184,10 +1094,7 @@ EndInterface
 
 ; IDirect3DRMAnimationSet2 interface definition
 ;
-Interface IDirect3DRMAnimationSet2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMAnimationSet2 Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1205,10 +1112,7 @@ EndInterface
 
 ; IDirect3DRMUserVisual interface definition
 ;
-Interface IDirect3DRMUserVisual
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMUserVisual Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1222,119 +1126,83 @@ EndInterface
 
 ; IDirect3DRMArray interface definition
 ;
-Interface IDirect3DRMArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMArray Extends IUnknown
   GetSize()
 EndInterface
 
 ; IDirect3DRMObjectArray interface definition
 ;
-Interface IDirect3DRMObjectArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMObjectArray Extends IUnknown
   GetSize()
   GetElement(a.l, b.l)
 EndInterface
 
 ; IDirect3DRMDeviceArray interface definition
 ;
-Interface IDirect3DRMDeviceArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMDeviceArray Extends IUnknown
   GetSize()
   GetElement(a.l, b.l)
 EndInterface
 
 ; IDirect3DRMFrameArray interface definition
 ;
-Interface IDirect3DRMFrameArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMFrameArray Extends IUnknown
   GetSize()
   GetElement(a.l, b.l)
 EndInterface
 
 ; IDirect3DRMViewportArray interface definition
 ;
-Interface IDirect3DRMViewportArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMViewportArray Extends IUnknown
   GetSize()
   GetElement(a.l, b.l)
 EndInterface
 
 ; IDirect3DRMVisualArray interface definition
 ;
-Interface IDirect3DRMVisualArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMVisualArray Extends IUnknown
   GetSize()
   GetElement(a.l, b.l)
 EndInterface
 
 ; IDirect3DRMAnimationArray interface definition
 ;
-Interface IDirect3DRMAnimationArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMAnimationArray Extends IUnknown
   GetSize()
   GetElement(a.l, b.l)
 EndInterface
 
 ; IDirect3DRMPickedArray interface definition
 ;
-Interface IDirect3DRMPickedArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMPickedArray Extends IUnknown
   GetSize()
   GetPick(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IDirect3DRMLightArray interface definition
 ;
-Interface IDirect3DRMLightArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMLightArray Extends IUnknown
   GetSize()
   GetElement(a.l, b.l)
 EndInterface
 
 ; IDirect3DRMFaceArray interface definition
 ;
-Interface IDirect3DRMFaceArray
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMFaceArray Extends IUnknown
   GetSize()
   GetElement(a.l, b.l)
 EndInterface
 
 ; IDirect3DRMPicked2Array interface definition
 ;
-Interface IDirect3DRMPicked2Array
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMPicked2Array Extends IUnknown
   GetSize()
   GetPick(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IDirect3DRMInterpolator interface definition
 ;
-Interface IDirect3DRMInterpolator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMInterpolator Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)
@@ -1353,10 +1221,7 @@ EndInterface
 
 ; IDirect3DRMClippedVisual interface definition
 ;
-Interface IDirect3DRMClippedVisual
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRMClippedVisual Extends IUnknown
   Clone(a.l, b.l, c.l)
   AddDestroyCallback(a.l, b.l)
   DeleteDestroyCallback(a.l, b.l)

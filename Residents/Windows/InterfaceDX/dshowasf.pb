@@ -1,10 +1,7 @@
 ﻿
 ; IConfigAsfWriter interface definition
 ;
-Interface IConfigAsfWriter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IConfigAsfWriter Extends IUnknown
   ConfigureFilterUsingProfileId(a.l)
   GetCurrentProfileId(a.l)
   ConfigureFilterUsingProfileGuid(a.l)

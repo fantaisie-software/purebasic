@@ -1,10 +1,7 @@
 ﻿
 ; IDirect3DRM interface definition
 ;
-Interface IDirect3DRM
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRM Extends IUnknown
   CreateObject(a.l, b.l, c.l, d.l)
   CreateFrame(a.l, b.l)
   CreateMesh(a.l)
@@ -41,10 +38,7 @@ EndInterface
 
 ; IDirect3DRM2 interface definition
 ;
-Interface IDirect3DRM2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRM2 Extends IUnknown
   CreateObject(a.l, b.l, c.l, d.l)
   CreateFrame(a.l, b.l)
   CreateMesh(a.l)
@@ -82,10 +76,7 @@ EndInterface
 
 ; IDirect3DRM3 interface definition
 ;
-Interface IDirect3DRM3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DRM3 Extends IUnknown
   CreateObject(a.l, b.l, c.l, d.l)
   CreateFrame(a.l, b.l)
   CreateMesh(a.l)

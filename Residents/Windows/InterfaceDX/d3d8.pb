@@ -1,10 +1,7 @@
 ﻿
 ; IDirect3D8 interface definition
 ;
-Interface IDirect3D8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3D8 Extends IUnknown
   RegisterSoftwareDevice(a.l)
   GetAdapterCount()
   GetAdapterIdentifier(a.l, b.l, c.l)
@@ -22,10 +19,7 @@ EndInterface
 
 ; IDirect3DDevice8 interface definition
 ;
-Interface IDirect3DDevice8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DDevice8 Extends IUnknown
   TestCooperativeLevel()
   GetAvailableTextureMem()
   ResourceManagerDiscardBytes(a.l)
@@ -124,20 +118,14 @@ EndInterface
 
 ; IDirect3DSwapChain8 interface definition
 ;
-Interface IDirect3DSwapChain8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DSwapChain8 Extends IUnknown
   Present(a.l, b.l, c.l, d.l)
   GetBackBuffer(a.l, b.l, c.l)
 EndInterface
 
 ; IDirect3DResource8 interface definition
 ;
-Interface IDirect3DResource8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DResource8 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)
@@ -150,10 +138,7 @@ EndInterface
 
 ; IDirect3DBaseTexture8 interface definition
 ;
-Interface IDirect3DBaseTexture8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DBaseTexture8 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)
@@ -169,10 +154,7 @@ EndInterface
 
 ; IDirect3DTexture8 interface definition
 ;
-Interface IDirect3DTexture8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DTexture8 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)
@@ -193,10 +175,7 @@ EndInterface
 
 ; IDirect3DVolumeTexture8 interface definition
 ;
-Interface IDirect3DVolumeTexture8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DVolumeTexture8 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)
@@ -217,10 +196,7 @@ EndInterface
 
 ; IDirect3DCubeTexture8 interface definition
 ;
-Interface IDirect3DCubeTexture8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DCubeTexture8 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)
@@ -241,10 +217,7 @@ EndInterface
 
 ; IDirect3DVertexBuffer8 interface definition
 ;
-Interface IDirect3DVertexBuffer8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DVertexBuffer8 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)
@@ -260,10 +233,7 @@ EndInterface
 
 ; IDirect3DIndexBuffer8 interface definition
 ;
-Interface IDirect3DIndexBuffer8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DIndexBuffer8 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)
@@ -279,10 +249,7 @@ EndInterface
 
 ; IDirect3DSurface8 interface definition
 ;
-Interface IDirect3DSurface8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DSurface8 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)
@@ -295,10 +262,7 @@ EndInterface
 
 ; IDirect3DVolume8 interface definition
 ;
-Interface IDirect3DVolume8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DVolume8 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)

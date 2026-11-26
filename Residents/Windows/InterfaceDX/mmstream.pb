@@ -1,10 +1,7 @@
 ﻿
 ; IMultiMediaStream interface definition
 ;
-Interface IMultiMediaStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMultiMediaStream Extends IUnknown
   GetInformation(a.l, b.l)
   GetMediaStream(a.l, b.l)
   EnumMediaStreams(a.l, b.l)
@@ -18,10 +15,7 @@ EndInterface
 
 ; IMediaStream interface definition
 ;
-Interface IMediaStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMediaStream Extends IUnknown
   GetMultiMediaStream(a.l)
   GetInformation(a.l, b.l)
   SetSameFormat(a.l, b.l)
@@ -32,10 +26,7 @@ EndInterface
 
 ; IStreamSample interface definition
 ;
-Interface IStreamSample
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStreamSample Extends IUnknown
   GetMediaStream(a.l)
   GetSampleTimes(a.l, b.l, c.l)
   SetSampleTimes(a.l, b.l)

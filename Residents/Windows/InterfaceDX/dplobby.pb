@@ -1,10 +1,7 @@
 ﻿
 ; IDirectPlayLobby interface definition
 ;
-Interface IDirectPlayLobby
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlayLobby Extends IUnknown
   Connect(a.l, b.l, c.l)
   CreateAddress(a.l, b.l, c.l, d.l, e.l, f.l)
   EnumAddress(a.l, b.l, c.l, d.l)
@@ -20,10 +17,7 @@ EndInterface
 
 ; IDirectPlayLobby2 interface definition
 ;
-Interface IDirectPlayLobby2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlayLobby2 Extends IUnknown
   Connect(a.l, b.l, c.l)
   CreateAddress(a.l, b.l, c.l, d.l, e.l, f.l)
   EnumAddress(a.l, b.l, c.l, d.l)
@@ -40,10 +34,7 @@ EndInterface
 
 ; IDirectPlayLobby3 interface definition
 ;
-Interface IDirectPlayLobby3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlayLobby3 Extends IUnknown
   Connect(a.l, b.l, c.l)
   CreateAddress(a.l, b.l, c.l, d.l, e.l, f.l)
   EnumAddress(a.l, b.l, c.l, d.l)

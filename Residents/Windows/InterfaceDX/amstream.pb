@@ -1,14 +1,7 @@
 ﻿
 ; IDirectShowStream interface definition
 ;
-Interface IDirectShowStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDirectShowStream Extends IDispatch
   get_FileName(a.l)
   put_FileName(a.p-bstr)
   get_Video(a.l)
@@ -19,19 +12,7 @@ EndInterface
 
 ; IAMMultiMediaStream interface definition
 ;
-Interface IAMMultiMediaStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetInformation(a.l, b.l)
-  GetMediaStream(a.l, b.l)
-  EnumMediaStreams(a.l, b.l)
-  GetState(a.l)
-  SetState(a.l)
-  GetTime(a.l)
-  GetDuration(a.l)
-  Seek(a.q)
-  GetEndOfStreamEventHandle(a.l)
+Interface IAMMultiMediaStream Extends IMultiMediaStream
   Initialize(a.l, b.l, c.l)
   GetFilterGraph(a.l)
   GetFilter(a.l)
@@ -43,16 +24,7 @@ EndInterface
 
 ; IAMMediaStream interface definition
 ;
-Interface IAMMediaStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetMultiMediaStream(a.l)
-  GetInformation(a.l, b.l)
-  SetSameFormat(a.l, b.l)
-  AllocateSample(a.l, b.l)
-  CreateSharedSample(a.l, b.l, c.l)
-  SendEndOfStream(a.l)
+Interface IAMMediaStream Extends IMediaStream
   Initialize(a.l, b.l, c.l, d.l)
   SetState(a.l)
   JoinAMMultiMediaStream(a.l)
@@ -62,22 +34,7 @@ EndInterface
 
 ; IMediaStreamFilter interface definition
 ;
-Interface IMediaStreamFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
-  Stop()
-  Pause()
-  Run(a.q)
-  GetState(a.l, b.l)
-  SetSyncSource(a.l)
-  GetSyncSource(a.l)
-  EnumPins(a.l)
-  FindPin(a.l, b.l)
-  QueryFilterInfo(a.l)
-  JoinFilterGraph(a.l, b.l)
-  QueryVendorInfo(a.l)
+Interface IMediaStreamFilter Extends IBaseFilter
   AddMediaStream(a.l)
   GetMediaStream(a.l, b.l)
   EnumMediaStreams(a.l, b.l)
@@ -91,35 +48,20 @@ EndInterface
 
 ; IDirectDrawMediaSampleAllocator interface definition
 ;
-Interface IDirectDrawMediaSampleAllocator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawMediaSampleAllocator Extends IUnknown
   GetDirectDraw(a.l)
 EndInterface
 
 ; IDirectDrawMediaSample interface definition
 ;
-Interface IDirectDrawMediaSample
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawMediaSample Extends IUnknown
   GetSurfaceAndReleaseLock(a.l, b.l)
   LockMediaSamplePointer()
 EndInterface
 
 ; IAMMediaTypeStream interface definition
 ;
-Interface IAMMediaTypeStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetMultiMediaStream(a.l)
-  GetInformation(a.l, b.l)
-  SetSameFormat(a.l, b.l)
-  AllocateSample(a.l, b.l)
-  CreateSharedSample(a.l, b.l, c.l)
-  SendEndOfStream(a.l)
+Interface IAMMediaTypeStream Extends IMediaStream
   GetFormat(a.l, b.l)
   SetFormat(a.l, b.l)
   CreateSample(a.l, b.l, c.l, d.l, e.l)
@@ -129,15 +71,7 @@ EndInterface
 
 ; IAMMediaTypeSample interface definition
 ;
-Interface IAMMediaTypeSample
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetMediaStream(a.l)
-  GetSampleTimes(a.l, b.l, c.l)
-  SetSampleTimes(a.l, b.l)
-  Update(a.l, b.l, c.l, d.l)
-  CompletionStatus(a.l, b.l)
+Interface IAMMediaTypeSample Extends IStreamSample
   SetPointer(a.l, b.l)
   GetPointer(a.l)
   GetSize()

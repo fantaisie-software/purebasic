@@ -1,14 +1,7 @@
 ﻿
 ; IDispatchEx interface definition
 ;
-Interface IDispatchEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDispatchEx Extends IDispatch
   GetDispID(a.p-bstr, b.l, c.l)
   InvokeEx(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
   DeleteMemberByName(a.p-bstr, b.l)
@@ -21,10 +14,7 @@ EndInterface
 
 ; IDispError interface definition
 ;
-Interface IDispError
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDispError Extends IUnknown
   QueryErrorInfo(a.l, b.l)
   GetNext(a.l)
   GetHresult(a.l)
@@ -35,27 +25,18 @@ EndInterface
 
 ; IVariantChangeType interface definition
 ;
-Interface IVariantChangeType
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IVariantChangeType Extends IUnknown
   ChangeType(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IObjectIdentity interface definition
 ;
-Interface IObjectIdentity
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IObjectIdentity Extends IUnknown
   IsEqualObject(a.l)
 EndInterface
 
 ; IProvideRuntimeContext interface definition
 ;
-Interface IProvideRuntimeContext
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IProvideRuntimeContext Extends IUnknown
   GetCurrentSourceContext(a.l, b.l)
 EndInterface

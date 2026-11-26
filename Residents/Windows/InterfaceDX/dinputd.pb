@@ -1,10 +1,7 @@
 ﻿
 ; IDirectInputEffectDriver interface definition
 ;
-Interface IDirectInputEffectDriver
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectInputEffectDriver Extends IUnknown
   DeviceID(a.l, b.l, c.l, d.l, e.l)
   GetVersions(a.l)
   Escape(a.l, b.l, c.l)
@@ -20,10 +17,7 @@ EndInterface
 
 ; IDirectInputJoyConfig interface definition
 ;
-Interface IDirectInputJoyConfig
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectInputJoyConfig Extends IUnknown
   Acquire()
   Unacquire()
   SetCooperativeLevel(a.l, b.l)
@@ -44,10 +38,7 @@ EndInterface
 
 ; IDirectInputJoyConfig8 interface definition
 ;
-Interface IDirectInputJoyConfig8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectInputJoyConfig8 Extends IUnknown
   Acquire()
   Unacquire()
   SetCooperativeLevel(a.l, b.l)

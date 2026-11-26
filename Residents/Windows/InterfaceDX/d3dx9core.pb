@@ -1,20 +1,14 @@
 ﻿
 ; ID3DXBuffer interface definition
 ;
-Interface ID3DXBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXBuffer Extends IUnknown
   GetBufferPointer()
   GetBufferSize()
 EndInterface
 
 ; ID3DXSprite interface definition
 ;
-Interface ID3DXSprite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXSprite Extends IUnknown
   GetDevice(a.l)
   GetTransform(a.l)
   SetTransform(a.l)
@@ -30,10 +24,7 @@ EndInterface
 
 ; ID3DXFont interface definition
 ;
-Interface ID3DXFont
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXFont Extends IUnknown
   GetDevice(a.l)
   GetDescA(a.l)
   GetDescW(a.l)
@@ -53,10 +44,7 @@ EndInterface
 
 ; ID3DXRenderToSurface interface definition
 ;
-Interface ID3DXRenderToSurface
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXRenderToSurface Extends IUnknown
   GetDevice(a.l)
   GetDesc(a.l)
   BeginScene(a.l, b.l)
@@ -67,10 +55,7 @@ EndInterface
 
 ; ID3DXRenderToEnvMap interface definition
 ;
-Interface ID3DXRenderToEnvMap
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXRenderToEnvMap Extends IUnknown
   GetDevice(a.l)
   GetDesc(a.l)
   BeginCube(a.l)
@@ -85,10 +70,7 @@ EndInterface
 
 ; ID3DXLine interface definition
 ;
-Interface ID3DXLine
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXLine Extends IUnknown
   GetDevice(a.l)
   Begin()
   Draw(a.l, b.l, c.l)

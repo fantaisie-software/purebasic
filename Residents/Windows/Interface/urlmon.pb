@@ -1,10 +1,7 @@
 ﻿
 ; IPersistMoniker interface definition
 ;
-Interface IPersistMoniker
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPersistMoniker Extends IUnknown
   GetClassID(a.l)
   IsDirty()
   Load(a.l, b.l, c.l, d.l)
@@ -15,28 +12,19 @@ EndInterface
 
 ; IMonikerProp interface definition
 ;
-Interface IMonikerProp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMonikerProp Extends IUnknown
   PutProperty(a.l, b.l)
 EndInterface
 
 ; IBindProtocol interface definition
 ;
-Interface IBindProtocol
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBindProtocol Extends IUnknown
   CreateBinding(a.l, b.l, c.l)
 EndInterface
 
 ; IBinding interface definition
 ;
-Interface IBinding
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBinding Extends IUnknown
   Abort()
   Suspend()
   Resume()
@@ -47,10 +35,7 @@ EndInterface
 
 ; IBindStatusCallback interface definition
 ;
-Interface IBindStatusCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBindStatusCallback Extends IUnknown
   OnStartBinding(a.l, b.l)
   GetPriority(a.l)
   OnLowResource(a.l)
@@ -63,107 +48,69 @@ EndInterface
 
 ; IAuthenticate interface definition
 ;
-Interface IAuthenticate
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAuthenticate Extends IUnknown
   Authenticate(a.l, b.l, c.l)
 EndInterface
 
 ; IHttpNegotiate interface definition
 ;
-Interface IHttpNegotiate
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHttpNegotiate Extends IUnknown
   BeginningTransaction(a.l, b.l, c.l, d.l)
   OnResponse(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IHttpNegotiate2 interface definition
 ;
-Interface IHttpNegotiate2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  BeginningTransaction(a.l, b.l, c.l, d.l)
-  OnResponse(a.l, b.l, c.l, d.l)
+Interface IHttpNegotiate2 Extends IHttpNegotiate
   GetRootSecurityId(a.l, b.l, c.l)
 EndInterface
 
 ; IWinInetFileStream interface definition
 ;
-Interface IWinInetFileStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWinInetFileStream Extends IUnknown
   SetHandleForUnlock(a.l, b.l)
   SetDeleteFile(a.l)
 EndInterface
 
 ; IWindowForBindingUI interface definition
 ;
-Interface IWindowForBindingUI
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWindowForBindingUI Extends IUnknown
   GetWindow(a.l, b.l)
 EndInterface
 
 ; ICodeInstall interface definition
 ;
-Interface ICodeInstall
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l, b.l)
+Interface ICodeInstall Extends IWindowForBindingUI
   OnCodeInstallProblem(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IWinInetInfo interface definition
 ;
-Interface IWinInetInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWinInetInfo Extends IUnknown
   QueryOption(a.l, b.l, c.l)
 EndInterface
 
 ; IHttpSecurity interface definition
 ;
-Interface IHttpSecurity
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l, b.l)
+Interface IHttpSecurity Extends IWindowForBindingUI
   OnSecurityProblem(a.l)
 EndInterface
 
 ; IWinInetHttpInfo interface definition
 ;
-Interface IWinInetHttpInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  QueryOption(a.l, b.l, c.l)
+Interface IWinInetHttpInfo Extends IWinInetInfo
   QueryInfo(a.l, b.l, c.l, d.l, e.l)
 EndInterface
 
 ; IWinInetCacheHints interface definition
 ;
-Interface IWinInetCacheHints
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWinInetCacheHints Extends IUnknown
   SetCacheExtension(a.l, b.l, c.l, d.l, e.l)
 EndInterface
 
 ; IBindHost interface definition
 ;
-Interface IBindHost
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBindHost Extends IUnknown
   CreateMoniker(a.p-unicode, b.l, c.l, d.l)
   MonikerBindToStorage(a.l, b.l, c.l, d.l, e.l)
   MonikerBindToObject(a.l, b.l, c.l, d.l, e.l)
@@ -171,28 +118,19 @@ EndInterface
 
 ; IInternet interface definition
 ;
-Interface IInternet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternet Extends IUnknown
 EndInterface
 
 ; IInternetBindInfo interface definition
 ;
-Interface IInternetBindInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetBindInfo Extends IUnknown
   GetBindInfo(a.l, b.l)
   GetBindString(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IInternetProtocolRoot interface definition
 ;
-Interface IInternetProtocolRoot
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetProtocolRoot Extends IUnknown
   Start(a.l, b.l, c.l, d.l, e.l)
   Continue(a.l)
   Abort(a.l, b.l)
@@ -203,16 +141,7 @@ EndInterface
 
 ; IInternetProtocol interface definition
 ;
-Interface IInternetProtocol
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Start(a.l, b.l, c.l, d.l, e.l)
-  Continue(a.l)
-  Abort(a.l, b.l)
-  Terminate(a.l)
-  Suspend()
-  Resume()
+Interface IInternetProtocol Extends IInternetProtocolRoot
   Read(a.l, b.l, c.l)
   Seek(a.q, b.l, c.l)
   LockRequest(a.l)
@@ -221,10 +150,7 @@ EndInterface
 
 ; IInternetProtocolSink interface definition
 ;
-Interface IInternetProtocolSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetProtocolSink Extends IUnknown
   Switch(a.l)
   ReportProgress(a.l, b.l)
   ReportData(a.l, b.l, c.l)
@@ -233,10 +159,7 @@ EndInterface
 
 ; IInternetProtocolSinkStackable interface definition
 ;
-Interface IInternetProtocolSinkStackable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetProtocolSinkStackable Extends IUnknown
   SwitchSink(a.l)
   CommitSwitch()
   RollbackSwitch()
@@ -244,10 +167,7 @@ EndInterface
 
 ; IInternetSession interface definition
 ;
-Interface IInternetSession
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetSession Extends IUnknown
   RegisterNameSpace(a.l, b.l, c.l, d.l, e.l, f.l)
   UnregisterNameSpace(a.l, b.l)
   RegisterMimeFilter(a.l, b.l, c.l)
@@ -259,30 +179,21 @@ EndInterface
 
 ; IInternetThreadSwitch interface definition
 ;
-Interface IInternetThreadSwitch
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetThreadSwitch Extends IUnknown
   Prepare()
   Continue()
 EndInterface
 
 ; IInternetPriority interface definition
 ;
-Interface IInternetPriority
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetPriority Extends IUnknown
   SetPriority(a.l)
   GetPriority(a.l)
 EndInterface
 
 ; IInternetProtocolInfo interface definition
 ;
-Interface IInternetProtocolInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetProtocolInfo Extends IUnknown
   ParseUrl(a.l, b.l, c.l, d.p-unicode, e.l, f.l, g.l)
   CombineUrl(a.l, b.l, c.l, d.p-unicode, e.l, f.l, g.l)
   CompareUrl(a.l, b.l, c.l)
@@ -291,20 +202,14 @@ EndInterface
 
 ; IInternetSecurityMgrSite interface definition
 ;
-Interface IInternetSecurityMgrSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetSecurityMgrSite Extends IUnknown
   GetWindow(a.l)
   EnableModeless(a.l)
 EndInterface
 
 ; IInternetSecurityManager interface definition
 ;
-Interface IInternetSecurityManager
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetSecurityManager Extends IUnknown
   SetSecuritySite(a.l)
   GetSecuritySite(a.l)
   MapUrlToZone(a.l, b.l, c.l)
@@ -317,27 +222,13 @@ EndInterface
 
 ; IInternetSecurityManagerEx interface definition
 ;
-Interface IInternetSecurityManagerEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  SetSecuritySite(a.l)
-  GetSecuritySite(a.l)
-  MapUrlToZone(a.l, b.l, c.l)
-  GetSecurityId(a.l, b.l, c.l, d.l)
-  ProcessUrlAction(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  QueryCustomPolicy(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
-  SetZoneMapping(a.l, b.l, c.l)
-  GetZoneMappings(a.l, b.l, c.l)
+Interface IInternetSecurityManagerEx Extends IInternetSecurityManager
   ProcessUrlActionEx(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l)
 EndInterface
 
 ; IZoneIdentifier interface definition
 ;
-Interface IZoneIdentifier
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IZoneIdentifier Extends IUnknown
   GetId(a.l)
   SetId(a.l)
   Remove()
@@ -345,10 +236,7 @@ EndInterface
 
 ; IInternetHostSecurityManager interface definition
 ;
-Interface IInternetHostSecurityManager
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetHostSecurityManager Extends IUnknown
   GetSecurityId(a.l, b.l, c.l)
   ProcessUrlAction(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
   QueryCustomPolicy(a.l, b.l, c.l, d.l, e.l, f.l)
@@ -356,10 +244,7 @@ EndInterface
 
 ; IInternetZoneManager interface definition
 ;
-Interface IInternetZoneManager
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternetZoneManager Extends IUnknown
   GetZoneAttributes(a.l, b.l)
   SetZoneAttributes(a.l, b.l)
   GetZoneCustomPolicy(a.l, b.l, c.l, d.l, e.l)
@@ -376,32 +261,14 @@ EndInterface
 
 ; IInternetZoneManagerEx interface definition
 ;
-Interface IInternetZoneManagerEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetZoneAttributes(a.l, b.l)
-  SetZoneAttributes(a.l, b.l)
-  GetZoneCustomPolicy(a.l, b.l, c.l, d.l, e.l)
-  SetZoneCustomPolicy(a.l, b.l, c.l, d.l, e.l)
-  GetZoneActionPolicy(a.l, b.l, c.l, d.l, e.l)
-  SetZoneActionPolicy(a.l, b.l, c.l, d.l, e.l)
-  PromptAction(a.l, b.l, c.l, d.l, e.l)
-  LogAction(a.l, b.l, c.l, d.l)
-  CreateZoneEnumerator(a.l, b.l, c.l)
-  GetZoneAt(a.l, b.l, c.l)
-  DestroyZoneEnumerator(a.l)
-  CopyTemplatePoliciesToZone(a.l, b.l, c.l)
+Interface IInternetZoneManagerEx Extends IInternetZoneManager
   GetZoneActionPolicyEx(a.l, b.l, c.l, d.l, e.l, f.l)
   SetZoneActionPolicyEx(a.l, b.l, c.l, d.l, e.l, f.l)
 EndInterface
 
 ; ISoftDistExt interface definition
 ;
-Interface ISoftDistExt
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISoftDistExt Extends IUnknown
   ProcessSoftDist(a.l, b.l, c.l)
   GetFirstCodeBase(a.l, b.l)
   GetNextCodeBase(a.l, b.l)
@@ -410,20 +277,14 @@ EndInterface
 
 ; ICatalogFileInfo interface definition
 ;
-Interface ICatalogFileInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICatalogFileInfo Extends IUnknown
   GetCatalogFile(a.l)
   GetJavaTrust(a.l)
 EndInterface
 
 ; IDataFilter interface definition
 ;
-Interface IDataFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDataFilter Extends IUnknown
   DoEncode(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l)
   DoDecode(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l)
   SetEncodingLevel(a.l)
@@ -431,19 +292,13 @@ EndInterface
 
 ; IEncodingFilterFactory interface definition
 ;
-Interface IEncodingFilterFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEncodingFilterFactory Extends IUnknown
   FindBestFilter(a.l, b.l, c.l, d.l)
   GetDefaultFilter(a.l, b.l, c.l)
 EndInterface
 
 ; IWrappedProtocol interface definition
 ;
-Interface IWrappedProtocol
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWrappedProtocol Extends IUnknown
   GetWrapperCode(a.l, b.l)
 EndInterface

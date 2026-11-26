@@ -1,27 +1,13 @@
 ﻿
 ; IMSMQQuery interface definition
 ;
-Interface IMSMQQuery
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQuery Extends IDispatch
   LookupQueue(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l)
 EndInterface
 
 ; IMSMQQueueInfo interface definition
 ;
-Interface IMSMQQueueInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQueueInfo Extends IDispatch
   get_QueueGuid(a.l)
   get_ServiceTypeGuid(a.l)
   put_ServiceTypeGuid(a.p-bstr)
@@ -56,14 +42,7 @@ EndInterface
 
 ; IMSMQQueueInfo2 interface definition
 ;
-Interface IMSMQQueueInfo2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQueueInfo2 Extends IDispatch
   get_QueueGuid(a.l)
   get_ServiceTypeGuid(a.l)
   put_ServiceTypeGuid(a.p-bstr)
@@ -102,14 +81,7 @@ EndInterface
 
 ; IMSMQQueueInfo3 interface definition
 ;
-Interface IMSMQQueueInfo3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQueueInfo3 Extends IDispatch
   get_QueueGuid(a.l)
   get_ServiceTypeGuid(a.l)
   put_ServiceTypeGuid(a.p-bstr)
@@ -153,14 +125,7 @@ EndInterface
 
 ; IMSMQQueue interface definition
 ;
-Interface IMSMQQueue
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQueue Extends IDispatch
   get_Access(a.l)
   get_ShareMode(a.l)
   get_QueueInfo(a.l)
@@ -178,14 +143,7 @@ EndInterface
 
 ; IMSMQQueue2 interface definition
 ;
-Interface IMSMQQueue2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQueue2 Extends IDispatch
   get_Access(a.l)
   get_ShareMode(a.l)
   get_QueueInfo(a.l)
@@ -209,14 +167,7 @@ EndInterface
 
 ; IMSMQMessage interface definition
 ;
-Interface IMSMQMessage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQMessage Extends IDispatch
   get_Class(a.l)
   get_PrivLevel(a.l)
   put_PrivLevel(a.l)
@@ -270,28 +221,14 @@ EndInterface
 
 ; IMSMQQueueInfos interface definition
 ;
-Interface IMSMQQueueInfos
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQueueInfos Extends IDispatch
   Reset()
   Next(a.l)
 EndInterface
 
 ; IMSMQQueueInfos2 interface definition
 ;
-Interface IMSMQQueueInfos2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQueueInfos2 Extends IDispatch
   Reset()
   Next(a.l)
   get_Properties(a.l)
@@ -299,14 +236,7 @@ EndInterface
 
 ; IMSMQQueueInfos3 interface definition
 ;
-Interface IMSMQQueueInfos3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQueueInfos3 Extends IDispatch
   Reset()
   Next(a.l)
   get_Properties(a.l)
@@ -314,52 +244,23 @@ EndInterface
 
 ; IMSMQEvent interface definition
 ;
-Interface IMSMQEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQEvent Extends IDispatch
 EndInterface
 
 ; IMSMQEvent2 interface definition
 ;
-Interface IMSMQEvent2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQEvent2 Extends IMSMQEvent
   get_Properties(a.l)
 EndInterface
 
 ; IMSMQEvent3 interface definition
 ;
-Interface IMSMQEvent3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Properties(a.l)
+Interface IMSMQEvent3 Extends IMSMQEvent2
 EndInterface
 
 ; IMSMQTransaction interface definition
 ;
-Interface IMSMQTransaction
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQTransaction Extends IDispatch
   get_Transaction(a.l)
   Commit(a.l, b.l, c.l)
   Abort(a.l, b.l)
@@ -367,54 +268,26 @@ EndInterface
 
 ; IMSMQCoordinatedTransactionDispenser interface definition
 ;
-Interface IMSMQCoordinatedTransactionDispenser
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQCoordinatedTransactionDispenser Extends IDispatch
   BeginTransaction(a.l)
 EndInterface
 
 ; IMSMQTransactionDispenser interface definition
 ;
-Interface IMSMQTransactionDispenser
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQTransactionDispenser Extends IDispatch
   BeginTransaction(a.l)
 EndInterface
 
 ; IMSMQQuery2 interface definition
 ;
-Interface IMSMQQuery2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQuery2 Extends IDispatch
   LookupQueue(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l)
   get_Properties(a.l)
 EndInterface
 
 ; IMSMQQuery3 interface definition
 ;
-Interface IMSMQQuery3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQuery3 Extends IDispatch
   LookupQueue_v2(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l)
   get_Properties(a.l)
   LookupQueue(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l, k.l, l.l)
@@ -422,14 +295,7 @@ EndInterface
 
 ; IMSMQMessage2 interface definition
 ;
-Interface IMSMQMessage2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQMessage2 Extends IDispatch
   get_Class(a.l)
   get_PrivLevel(a.l)
   put_PrivLevel(a.l)
@@ -509,14 +375,7 @@ EndInterface
 
 ; IMSMQMessage3 interface definition
 ;
-Interface IMSMQMessage3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQMessage3 Extends IDispatch
   get_Class(a.l)
   get_PrivLevel(a.l)
   put_PrivLevel(a.l)
@@ -612,14 +471,7 @@ EndInterface
 
 ; IMSMQQueue3 interface definition
 ;
-Interface IMSMQQueue3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQQueue3 Extends IDispatch
   get_Access(a.l)
   get_ShareMode(a.l)
   get_QueueInfo(a.l)
@@ -656,14 +508,7 @@ EndInterface
 
 ; IMSMQPrivateEvent interface definition
 ;
-Interface IMSMQPrivateEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQPrivateEvent Extends IDispatch
   get_Hwnd(a.l)
   FireArrivedEvent(a.l, b.l)
   FireArrivedErrorEvent(a.l, b.l, c.l)
@@ -671,131 +516,59 @@ EndInterface
 
 ; _DMSMQEventEvents interface definition
 ;
-Interface _DMSMQEventEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _DMSMQEventEvents Extends IDispatch
 EndInterface
 
 ; IMSMQTransaction2 interface definition
 ;
-Interface IMSMQTransaction2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Transaction(a.l)
-  Commit(a.l, b.l, c.l)
-  Abort(a.l, b.l)
+Interface IMSMQTransaction2 Extends IMSMQTransaction
   InitNew(a.p-variant)
   get_Properties(a.l)
 EndInterface
 
 ; IMSMQTransaction3 interface definition
 ;
-Interface IMSMQTransaction3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Transaction(a.l)
-  Commit(a.l, b.l, c.l)
-  Abort(a.l, b.l)
-  InitNew(a.p-variant)
-  get_Properties(a.l)
+Interface IMSMQTransaction3 Extends IMSMQTransaction2
   get_ITransaction(a.l)
 EndInterface
 
 ; IMSMQCoordinatedTransactionDispenser2 interface definition
 ;
-Interface IMSMQCoordinatedTransactionDispenser2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQCoordinatedTransactionDispenser2 Extends IDispatch
   BeginTransaction(a.l)
   get_Properties(a.l)
 EndInterface
 
 ; IMSMQCoordinatedTransactionDispenser3 interface definition
 ;
-Interface IMSMQCoordinatedTransactionDispenser3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQCoordinatedTransactionDispenser3 Extends IDispatch
   BeginTransaction(a.l)
   get_Properties(a.l)
 EndInterface
 
 ; IMSMQTransactionDispenser2 interface definition
 ;
-Interface IMSMQTransactionDispenser2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQTransactionDispenser2 Extends IDispatch
   BeginTransaction(a.l)
   get_Properties(a.l)
 EndInterface
 
 ; IMSMQTransactionDispenser3 interface definition
 ;
-Interface IMSMQTransactionDispenser3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQTransactionDispenser3 Extends IDispatch
   BeginTransaction(a.l)
   get_Properties(a.l)
 EndInterface
 
 ; IMSMQApplication interface definition
 ;
-Interface IMSMQApplication
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQApplication Extends IDispatch
   MachineIdOfMachineName(a.p-bstr, b.l)
 EndInterface
 
 ; IMSMQApplication2 interface definition
 ;
-Interface IMSMQApplication2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  MachineIdOfMachineName(a.p-bstr, b.l)
+Interface IMSMQApplication2 Extends IMSMQApplication
   RegisterCertificate(a.l, b.l)
   MachineNameOfMachineId(a.p-bstr, b.l)
   get_MSMQVersionMajor(a.l)
@@ -807,22 +580,7 @@ EndInterface
 
 ; IMSMQApplication3 interface definition
 ;
-Interface IMSMQApplication3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  MachineIdOfMachineName(a.p-bstr, b.l)
-  RegisterCertificate(a.l, b.l)
-  MachineNameOfMachineId(a.p-bstr, b.l)
-  get_MSMQVersionMajor(a.l)
-  get_MSMQVersionMinor(a.l)
-  get_MSMQVersionBuild(a.l)
-  get_IsDsEnabled(a.l)
-  get_Properties(a.l)
+Interface IMSMQApplication3 Extends IMSMQApplication2
   get_ActiveQueues(a.l)
   get_PrivateQueues(a.l)
   get_DirectoryServiceServer(a.l)
@@ -837,14 +595,7 @@ EndInterface
 
 ; IMSMQDestination interface definition
 ;
-Interface IMSMQDestination
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQDestination Extends IDispatch
   Open()
   Close()
   get_IsOpen(a.l)
@@ -863,28 +614,14 @@ EndInterface
 
 ; IMSMQPrivateDestination interface definition
 ;
-Interface IMSMQPrivateDestination
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQPrivateDestination Extends IDispatch
   get_Handle(a.l)
   put_Handle(a.p-variant)
 EndInterface
 
 ; IMSMQCollection interface definition
 ;
-Interface IMSMQCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQCollection Extends IDispatch
   Item(a.l, b.l)
   get_Count(a.l)
   _NewEnum(a.l)
@@ -892,14 +629,7 @@ EndInterface
 
 ; IMSMQManagement interface definition
 ;
-Interface IMSMQManagement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSMQManagement Extends IDispatch
   Init(a.l, b.l, c.l)
   get_FormatName(a.l)
   get_Machine(a.l)
@@ -913,23 +643,7 @@ EndInterface
 
 ; IMSMQOutgoingQueueManagement interface definition
 ;
-Interface IMSMQOutgoingQueueManagement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  Init(a.l, b.l, c.l)
-  get_FormatName(a.l)
-  get_Machine(a.l)
-  get_MessageCount(a.l)
-  get_ForeignStatus(a.l)
-  get_QueueType(a.l)
-  get_IsLocal(a.l)
-  get_TransactionalStatus(a.l)
-  get_BytesInQueue(a.l)
+Interface IMSMQOutgoingQueueManagement Extends IMSMQManagement
   get_State(a.l)
   get_NextHops(a.l)
   EodGetSendInfo(a.l)
@@ -940,23 +654,7 @@ EndInterface
 
 ; IMSMQQueueManagement interface definition
 ;
-Interface IMSMQQueueManagement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  Init(a.l, b.l, c.l)
-  get_FormatName(a.l)
-  get_Machine(a.l)
-  get_MessageCount(a.l)
-  get_ForeignStatus(a.l)
-  get_QueueType(a.l)
-  get_IsLocal(a.l)
-  get_TransactionalStatus(a.l)
-  get_BytesInQueue(a.l)
+Interface IMSMQQueueManagement Extends IMSMQManagement
   get_JournalMessageCount(a.l)
   get_BytesInJournal(a.l)
   EodGetReceiveInfo(a.l)

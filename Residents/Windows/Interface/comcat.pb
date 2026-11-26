@@ -1,10 +1,7 @@
 ﻿
 ; IEnumGUID interface definition
 ;
-Interface IEnumGUID
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumGUID Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -13,10 +10,7 @@ EndInterface
 
 ; IEnumCATEGORYINFO interface definition
 ;
-Interface IEnumCATEGORYINFO
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumCATEGORYINFO Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -25,10 +19,7 @@ EndInterface
 
 ; ICatRegister interface definition
 ;
-Interface ICatRegister
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICatRegister Extends IUnknown
   RegisterCategories(a.l, b.l)
   UnRegisterCategories(a.l, b.l)
   RegisterClassImplCategories(a.l, b.l, c.l)
@@ -39,10 +30,7 @@ EndInterface
 
 ; ICatInformation interface definition
 ;
-Interface ICatInformation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICatInformation Extends IUnknown
   EnumCategories(a.l, b.l)
   GetCategoryDesc(a.l, b.l, c.l)
   EnumClassesOfCategories(a.l, b.l, c.l, d.l, e.l)

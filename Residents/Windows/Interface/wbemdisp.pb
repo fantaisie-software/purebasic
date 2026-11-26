@@ -1,14 +1,7 @@
 ﻿
 ; ISWbemServices interface definition
 ;
-Interface ISWbemServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemServices Extends IDispatch
   Get(a.p-bstr, b.l, c.l, d.l)
   GetAsync(a.l, b.p-bstr, c.l, d.l, e.l)
   Delete(a.p-bstr, b.l, c.l)
@@ -32,28 +25,14 @@ EndInterface
 
 ; ISWbemLocator interface definition
 ;
-Interface ISWbemLocator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemLocator Extends IDispatch
   ConnectServer(a.p-bstr, b.p-bstr, c.p-bstr, d.p-bstr, e.p-bstr, f.p-bstr, g.l, h.l, i.l)
   get_Security_(a.l)
 EndInterface
 
 ; ISWbemObject interface definition
 ;
-Interface ISWbemObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemObject Extends IDispatch
   Put_(a.l, b.l, c.l)
   PutAsync_(a.l, b.l, c.l, d.l)
   Delete_(a.l, b.l)
@@ -83,14 +62,7 @@ EndInterface
 
 ; ISWbemObjectSet interface definition
 ;
-Interface ISWbemObjectSet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemObjectSet Extends IDispatch
   get__NewEnum(a.l)
   Item(a.p-bstr, b.l, c.l)
   get_Count(a.l)
@@ -100,14 +72,7 @@ EndInterface
 
 ; ISWbemNamedValue interface definition
 ;
-Interface ISWbemNamedValue
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemNamedValue Extends IDispatch
   get_Value(a.l)
   put_Value(a.l)
   get_Name(a.l)
@@ -115,14 +80,7 @@ EndInterface
 
 ; ISWbemNamedValueSet interface definition
 ;
-Interface ISWbemNamedValueSet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemNamedValueSet Extends IDispatch
   get__NewEnum(a.l)
   Item(a.p-bstr, b.l, c.l)
   get_Count(a.l)
@@ -134,14 +92,7 @@ EndInterface
 
 ; ISWbemQualifier interface definition
 ;
-Interface ISWbemQualifier
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemQualifier Extends IDispatch
   get_Value(a.l)
   put_Value(a.l)
   get_Name(a.l)
@@ -157,14 +108,7 @@ EndInterface
 
 ; ISWbemQualifierSet interface definition
 ;
-Interface ISWbemQualifierSet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemQualifierSet Extends IDispatch
   get__NewEnum(a.l)
   Item(a.p-bstr, b.l, c.l)
   get_Count(a.l)
@@ -174,14 +118,7 @@ EndInterface
 
 ; ISWbemProperty interface definition
 ;
-Interface ISWbemProperty
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemProperty Extends IDispatch
   get_Value(a.l)
   put_Value(a.l)
   get_Name(a.l)
@@ -194,14 +131,7 @@ EndInterface
 
 ; ISWbemPropertySet interface definition
 ;
-Interface ISWbemPropertySet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemPropertySet Extends IDispatch
   get__NewEnum(a.l)
   Item(a.p-bstr, b.l, c.l)
   get_Count(a.l)
@@ -211,14 +141,7 @@ EndInterface
 
 ; ISWbemMethod interface definition
 ;
-Interface ISWbemMethod
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemMethod Extends IDispatch
   get_Name(a.l)
   get_Origin(a.l)
   get_InParameters(a.l)
@@ -228,14 +151,7 @@ EndInterface
 
 ; ISWbemMethodSet interface definition
 ;
-Interface ISWbemMethodSet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemMethodSet Extends IDispatch
   get__NewEnum(a.l)
   Item(a.p-bstr, b.l, c.l)
   get_Count(a.l)
@@ -243,28 +159,14 @@ EndInterface
 
 ; ISWbemEventSource interface definition
 ;
-Interface ISWbemEventSource
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemEventSource Extends IDispatch
   NextEvent(a.l, b.l)
   get_Security_(a.l)
 EndInterface
 
 ; ISWbemObjectPath interface definition
 ;
-Interface ISWbemObjectPath
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemObjectPath Extends IDispatch
   get_Path(a.l)
   put_Path(a.p-bstr)
   get_RelPath(a.l)
@@ -292,76 +194,23 @@ EndInterface
 
 ; ISWbemLastError interface definition
 ;
-Interface ISWbemLastError
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  Put_(a.l, b.l, c.l)
-  PutAsync_(a.l, b.l, c.l, d.l)
-  Delete_(a.l, b.l)
-  DeleteAsync_(a.l, b.l, c.l, d.l)
-  Instances_(a.l, b.l, c.l)
-  InstancesAsync_(a.l, b.l, c.l, d.l)
-  Subclasses_(a.l, b.l, c.l)
-  SubclassesAsync_(a.l, b.l, c.l, d.l)
-  Associators_(a.p-bstr, b.p-bstr, c.p-bstr, d.p-bstr, e.l, f.l, g.p-bstr, h.p-bstr, i.l, j.l, k.l)
-  AssociatorsAsync_(a.l, b.p-bstr, c.p-bstr, d.p-bstr, e.p-bstr, f.l, g.l, h.p-bstr, i.p-bstr, j.l, k.l, l.l)
-  References_(a.p-bstr, b.p-bstr, c.l, d.l, e.p-bstr, f.l, g.l, h.l)
-  ReferencesAsync_(a.l, b.p-bstr, c.p-bstr, d.l, e.l, f.p-bstr, g.l, h.l, i.l)
-  ExecMethod_(a.p-bstr, b.l, c.l, d.l, e.l)
-  ExecMethodAsync_(a.l, b.p-bstr, c.l, d.l, e.l, f.l)
-  Clone_(a.l)
-  GetObjectText_(a.l, b.l)
-  SpawnDerivedClass_(a.l, b.l)
-  SpawnInstance_(a.l, b.l)
-  CompareTo_(a.l, b.l, c.l)
-  get_Qualifiers_(a.l)
-  get_Properties_(a.l)
-  get_Methods_(a.l)
-  get_Derivation_(a.l)
-  get_Path_(a.l)
-  get_Security_(a.l)
+Interface ISWbemLastError Extends ISWbemObject
 EndInterface
 
 ; ISWbemSinkEvents interface definition
 ;
-Interface ISWbemSinkEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemSinkEvents Extends IDispatch
 EndInterface
 
 ; ISWbemSink interface definition
 ;
-Interface ISWbemSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemSink Extends IDispatch
   Cancel()
 EndInterface
 
 ; ISWbemSecurity interface definition
 ;
-Interface ISWbemSecurity
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemSecurity Extends IDispatch
   get_ImpersonationLevel(a.l)
   put_ImpersonationLevel(a.l)
   get_AuthenticationLevel(a.l)
@@ -371,14 +220,7 @@ EndInterface
 
 ; ISWbemPrivilege interface definition
 ;
-Interface ISWbemPrivilege
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemPrivilege Extends IDispatch
   get_IsEnabled(a.l)
   put_IsEnabled(a.l)
   get_Name(a.l)
@@ -388,14 +230,7 @@ EndInterface
 
 ; ISWbemPrivilegeSet interface definition
 ;
-Interface ISWbemPrivilegeSet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemPrivilegeSet Extends IDispatch
   get__NewEnum(a.l)
   Item(a.l, b.l)
   get_Count(a.l)
@@ -407,72 +242,14 @@ EndInterface
 
 ; ISWbemServicesEx interface definition
 ;
-Interface ISWbemServicesEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  Get(a.p-bstr, b.l, c.l, d.l)
-  GetAsync(a.l, b.p-bstr, c.l, d.l, e.l)
-  Delete(a.p-bstr, b.l, c.l)
-  DeleteAsync(a.l, b.p-bstr, c.l, d.l, e.l)
-  InstancesOf(a.p-bstr, b.l, c.l, d.l)
-  InstancesOfAsync(a.l, b.p-bstr, c.l, d.l, e.l)
-  SubclassesOf(a.p-bstr, b.l, c.l, d.l)
-  SubclassesOfAsync(a.l, b.p-bstr, c.l, d.l, e.l)
-  ExecQuery(a.p-bstr, b.p-bstr, c.l, d.l, e.l)
-  ExecQueryAsync(a.l, b.p-bstr, c.p-bstr, d.l, e.l, f.l)
-  AssociatorsOf(a.p-bstr, b.p-bstr, c.p-bstr, d.p-bstr, e.p-bstr, f.l, g.l, h.p-bstr, i.p-bstr, j.l, k.l, l.l)
-  AssociatorsOfAsync(a.l, b.p-bstr, c.p-bstr, d.p-bstr, e.p-bstr, f.p-bstr, g.l, h.l, i.p-bstr, j.p-bstr, k.l, l.l, m.l)
-  ReferencesTo(a.p-bstr, b.p-bstr, c.p-bstr, d.l, e.l, f.p-bstr, g.l, h.l, i.l)
-  ReferencesToAsync(a.l, b.p-bstr, c.p-bstr, d.p-bstr, e.l, f.l, g.p-bstr, h.l, i.l, j.l)
-  ExecNotificationQuery(a.p-bstr, b.p-bstr, c.l, d.l, e.l)
-  ExecNotificationQueryAsync(a.l, b.p-bstr, c.p-bstr, d.l, e.l, f.l)
-  ExecMethod(a.p-bstr, b.p-bstr, c.l, d.l, e.l, f.l)
-  ExecMethodAsync(a.l, b.p-bstr, c.p-bstr, d.l, e.l, f.l, g.l)
-  get_Security_(a.l)
+Interface ISWbemServicesEx Extends ISWbemServices
   Put(a.l, b.l, c.l, d.l)
   PutAsync(a.l, b.l, c.l, d.l, e.l)
 EndInterface
 
 ; ISWbemObjectEx interface definition
 ;
-Interface ISWbemObjectEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  Put_(a.l, b.l, c.l)
-  PutAsync_(a.l, b.l, c.l, d.l)
-  Delete_(a.l, b.l)
-  DeleteAsync_(a.l, b.l, c.l, d.l)
-  Instances_(a.l, b.l, c.l)
-  InstancesAsync_(a.l, b.l, c.l, d.l)
-  Subclasses_(a.l, b.l, c.l)
-  SubclassesAsync_(a.l, b.l, c.l, d.l)
-  Associators_(a.p-bstr, b.p-bstr, c.p-bstr, d.p-bstr, e.l, f.l, g.p-bstr, h.p-bstr, i.l, j.l, k.l)
-  AssociatorsAsync_(a.l, b.p-bstr, c.p-bstr, d.p-bstr, e.p-bstr, f.l, g.l, h.p-bstr, i.p-bstr, j.l, k.l, l.l)
-  References_(a.p-bstr, b.p-bstr, c.l, d.l, e.p-bstr, f.l, g.l, h.l)
-  ReferencesAsync_(a.l, b.p-bstr, c.p-bstr, d.l, e.l, f.p-bstr, g.l, h.l, i.l)
-  ExecMethod_(a.p-bstr, b.l, c.l, d.l, e.l)
-  ExecMethodAsync_(a.l, b.p-bstr, c.l, d.l, e.l, f.l)
-  Clone_(a.l)
-  GetObjectText_(a.l, b.l)
-  SpawnDerivedClass_(a.l, b.l)
-  SpawnInstance_(a.l, b.l)
-  CompareTo_(a.l, b.l, c.l)
-  get_Qualifiers_(a.l)
-  get_Properties_(a.l)
-  get_Methods_(a.l)
-  get_Derivation_(a.l)
-  get_Path_(a.l)
-  get_Security_(a.l)
+Interface ISWbemObjectEx Extends ISWbemObject
   Refresh_(a.l, b.l)
   get_SystemProperties_(a.l)
   GetText_(a.l, b.l, c.l, d.l)
@@ -481,14 +258,7 @@ EndInterface
 
 ; ISWbemDateTime interface definition
 ;
-Interface ISWbemDateTime
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemDateTime Extends IDispatch
   get_Value(a.l)
   put_Value(a.p-bstr)
   get_Year(a.l)
@@ -533,14 +303,7 @@ EndInterface
 
 ; ISWbemRefresher interface definition
 ;
-Interface ISWbemRefresher
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemRefresher Extends IDispatch
   get__NewEnum(a.l)
   Item(a.l, b.l)
   get_Count(a.l)
@@ -555,14 +318,7 @@ EndInterface
 
 ; ISWbemRefreshableItem interface definition
 ;
-Interface ISWbemRefreshableItem
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISWbemRefreshableItem Extends IDispatch
   get_Index(a.l)
   get_Refresher(a.l)
   get_IsSet(a.l)

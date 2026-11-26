@@ -1,10 +1,7 @@
 ﻿
 ; IEnumConnections interface definition
 ;
-Interface IEnumConnections
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumConnections Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -13,10 +10,7 @@ EndInterface
 
 ; IConnectionPoint interface definition
 ;
-Interface IConnectionPoint
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IConnectionPoint Extends IUnknown
   GetConnectionInterface(a.l)
   GetConnectionPointContainer(a.l)
   Advise(a.l, b.l)
@@ -26,10 +20,7 @@ EndInterface
 
 ; IEnumConnectionPoints interface definition
 ;
-Interface IEnumConnectionPoints
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumConnectionPoints Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -38,22 +29,14 @@ EndInterface
 
 ; IConnectionPointContainer interface definition
 ;
-Interface IConnectionPointContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IConnectionPointContainer Extends IUnknown
   EnumConnectionPoints(a.l)
   FindConnectionPoint(a.l, b.l)
 EndInterface
 
 ; IClassFactory2 interface definition
 ;
-Interface IClassFactory2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  CreateInstance(a.l, b.l, c.l)
-  LockServer(a.l)
+Interface IClassFactory2 Extends IClassFactory
   GetLicInfo(a.l)
   RequestLicKey(a.l, b.l)
   CreateInstanceLic(a.l, b.l, c.l, d.p-bstr, e.l)
@@ -61,41 +44,26 @@ EndInterface
 
 ; IProvideClassInfo interface definition
 ;
-Interface IProvideClassInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IProvideClassInfo Extends IUnknown
   GetClassInfo(a.l)
 EndInterface
 
 ; IProvideClassInfo2 interface definition
 ;
-Interface IProvideClassInfo2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassInfo(a.l)
+Interface IProvideClassInfo2 Extends IProvideClassInfo
   GetGUID(a.l, b.l)
 EndInterface
 
 ; IProvideMultipleClassInfo interface definition
 ;
-Interface IProvideMultipleClassInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassInfo(a.l)
-  GetGUID(a.l, b.l)
+Interface IProvideMultipleClassInfo Extends IProvideClassInfo2
   GetMultiTypeInfoCount(a.l)
   GetInfoOfIndex(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
 EndInterface
 
 ; IOleControl interface definition
 ;
-Interface IOleControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleControl Extends IUnknown
   GetControlInfo(a.l)
   OnMnemonic(a.l)
   OnAmbientPropertyChange(a.l)
@@ -104,10 +72,7 @@ EndInterface
 
 ; IOleControlSite interface definition
 ;
-Interface IOleControlSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleControlSite Extends IUnknown
   OnControlInfoChanged()
   LockInPlaceActive(a.l)
   GetExtendedControl(a.l)
@@ -119,10 +84,7 @@ EndInterface
 
 ; IPropertyPage interface definition
 ;
-Interface IPropertyPage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertyPage Extends IUnknown
   SetPageSite(a.l)
   Activate(a.l, b.l, c.l)
   Deactivate()
@@ -138,30 +100,13 @@ EndInterface
 
 ; IPropertyPage2 interface definition
 ;
-Interface IPropertyPage2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  SetPageSite(a.l)
-  Activate(a.l, b.l, c.l)
-  Deactivate()
-  GetPageInfo(a.l)
-  SetObjects(a.l, b.l)
-  Show(a.l)
-  Move(a.l)
-  IsPageDirty()
-  Apply()
-  Help(a.l)
-  TranslateAccelerator(a.l)
+Interface IPropertyPage2 Extends IPropertyPage
   EditProperty(a.l)
 EndInterface
 
 ; IPropertyPageSite interface definition
 ;
-Interface IPropertyPageSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertyPageSite Extends IUnknown
   OnStatusChange(a.l)
   GetLocaleID(a.l)
   GetPageContainer(a.l)
@@ -170,30 +115,20 @@ EndInterface
 
 ; IPropertyNotifySink interface definition
 ;
-Interface IPropertyNotifySink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertyNotifySink Extends IUnknown
   OnChanged(a.l)
   OnRequestEdit(a.l)
 EndInterface
 
 ; ISpecifyPropertyPages interface definition
 ;
-Interface ISpecifyPropertyPages
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISpecifyPropertyPages Extends IUnknown
   GetPages(a.l)
 EndInterface
 
 ; IPersistMemory interface definition
 ;
-Interface IPersistMemory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
+Interface IPersistMemory Extends IPersist
   IsDirty()
   Load(a.l, b.l)
   Save(a.l, b.l, c.l)
@@ -203,11 +138,7 @@ EndInterface
 
 ; IPersistStreamInit interface definition
 ;
-Interface IPersistStreamInit
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
+Interface IPersistStreamInit Extends IPersist
   IsDirty()
   Load(a.l)
   Save(a.l, b.l)
@@ -217,11 +148,7 @@ EndInterface
 
 ; IPersistPropertyBag interface definition
 ;
-Interface IPersistPropertyBag
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
+Interface IPersistPropertyBag Extends IPersist
   InitNew()
   Load(a.l, b.l)
   Save(a.l, b.l, c.l)
@@ -229,20 +156,14 @@ EndInterface
 
 ; ISimpleFrameSite interface definition
 ;
-Interface ISimpleFrameSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISimpleFrameSite Extends IUnknown
   PreMessageFilter(a.l, b.l, c.l, d.l, e.l, f.l)
   PostMessageFilter(a.l, b.l, c.l, d.l, e.l, f.l)
 EndInterface
 
 ; IFont interface definition
 ;
-Interface IFont
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IFont Extends IUnknown
   get_Name(a.l)
   put_Name(a.p-bstr)
   get_Size(a.l)
@@ -271,10 +192,7 @@ EndInterface
 
 ; IPicture interface definition
 ;
-Interface IPicture
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPicture Extends IUnknown
   get_Handle(a.l)
   get_hPal(a.l)
   get_Type(a.l)
@@ -293,74 +211,29 @@ EndInterface
 
 ; IFontEventsDisp interface definition
 ;
-Interface IFontEventsDisp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFontEventsDisp Extends IDispatch
 EndInterface
 
 ; IFontDisp interface definition
 ;
-Interface IFontDisp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFontDisp Extends IDispatch
 EndInterface
 
 ; IPictureDisp interface definition
 ;
-Interface IPictureDisp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IPictureDisp Extends IDispatch
 EndInterface
 
 ; IOleInPlaceObjectWindowless interface definition
 ;
-Interface IOleInPlaceObjectWindowless
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
-  InPlaceDeactivate()
-  UIDeactivate()
-  SetObjectRects(a.l, b.l)
-  ReactivateAndUndo()
+Interface IOleInPlaceObjectWindowless Extends IOleInPlaceObject
   OnWindowMessage(a.l, b.l, c.l, d.l)
   GetDropTarget(a.l)
 EndInterface
 
 ; IOleInPlaceSiteEx interface definition
 ;
-Interface IOleInPlaceSiteEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
-  CanInPlaceActivate()
-  OnInPlaceActivate()
-  OnUIActivate()
-  GetWindowContext(a.l, b.l, c.l, d.l, e.l)
-  Scroll(a.l)
-  OnUIDeactivate(a.l)
-  OnInPlaceDeactivate()
-  DiscardUndoState()
-  DeactivateAndUndo()
-  OnPosRectChange(a.l)
+Interface IOleInPlaceSiteEx Extends IOleInPlaceSite
   OnInPlaceActivateEx(a.l, b.l)
   OnInPlaceDeactivateEx(a.l)
   RequestUIActivate()
@@ -368,25 +241,7 @@ EndInterface
 
 ; IOleInPlaceSiteWindowless interface definition
 ;
-Interface IOleInPlaceSiteWindowless
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
-  CanInPlaceActivate()
-  OnInPlaceActivate()
-  OnUIActivate()
-  GetWindowContext(a.l, b.l, c.l, d.l, e.l)
-  Scroll(a.l)
-  OnUIDeactivate(a.l)
-  OnInPlaceDeactivate()
-  DiscardUndoState()
-  DeactivateAndUndo()
-  OnPosRectChange(a.l)
-  OnInPlaceActivateEx(a.l, b.l)
-  OnInPlaceDeactivateEx(a.l)
-  RequestUIActivate()
+Interface IOleInPlaceSiteWindowless Extends IOleInPlaceSiteEx
   CanWindowlessActivate()
   GetCapture()
   SetCapture(a.l)
@@ -403,17 +258,7 @@ EndInterface
 
 ; IViewObjectEx interface definition
 ;
-Interface IViewObjectEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Draw(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l)
-  GetColorSet(a.l, b.l, c.l, d.l, e.l, f.l)
-  Freeze(a.l, b.l, c.l, d.l)
-  Unfreeze(a.l)
-  SetAdvise(a.l, b.l, c.l)
-  GetAdvise(a.l, b.l, c.l)
-  GetExtent(a.l, b.l, c.l, d.l)
+Interface IViewObjectEx Extends IViewObject2
   GetRect(a.l, b.l)
   GetViewStatus(a.l)
   QueryHitPoint(a.l, b.l, c.l, d.l, e.l)
@@ -423,10 +268,7 @@ EndInterface
 
 ; IOleUndoUnit interface definition
 ;
-Interface IOleUndoUnit
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleUndoUnit Extends IUnknown
   Do(a.l)
   GetDescription(a.l)
   GetUnitType(a.l, b.l)
@@ -435,14 +277,7 @@ EndInterface
 
 ; IOleParentUndoUnit interface definition
 ;
-Interface IOleParentUndoUnit
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Do(a.l)
-  GetDescription(a.l)
-  GetUnitType(a.l, b.l)
-  OnNextAdd()
+Interface IOleParentUndoUnit Extends IOleUndoUnit
   Open(a.l)
   Close(a.l, b.l)
   Add(a.l)
@@ -452,10 +287,7 @@ EndInterface
 
 ; IEnumOleUndoUnits interface definition
 ;
-Interface IEnumOleUndoUnits
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumOleUndoUnits Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -464,10 +296,7 @@ EndInterface
 
 ; IOleUndoManager interface definition
 ;
-Interface IOleUndoManager
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleUndoManager Extends IUnknown
   Open(a.l)
   Close(a.l, b.l)
   Add(a.l)
@@ -484,10 +313,7 @@ EndInterface
 
 ; IPointerInactive interface definition
 ;
-Interface IPointerInactive
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPointerInactive Extends IUnknown
   GetActivationPolicy(a.l)
   OnInactiveMouseMove(a.l, b.l, c.l, d.l)
   OnInactiveSetCursor(a.l, b.l, c.l, d.l, e.l)
@@ -495,20 +321,14 @@ EndInterface
 
 ; IObjectWithSite interface definition
 ;
-Interface IObjectWithSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IObjectWithSite Extends IUnknown
   SetSite(a.l)
   GetSite(a.l, b.l)
 EndInterface
 
 ; IPerPropertyBrowsing interface definition
 ;
-Interface IPerPropertyBrowsing
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPerPropertyBrowsing Extends IUnknown
   GetDisplayString(a.l, b.l)
   MapPropertyToPage(a.l, b.l)
   GetPredefinedStrings(a.l, b.l, c.l)
@@ -517,10 +337,7 @@ EndInterface
 
 ; IPropertyBag2 interface definition
 ;
-Interface IPropertyBag2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertyBag2 Extends IUnknown
   Read(a.l, b.l, c.l, d.l, e.l)
   Write(a.l, b.l, c.l)
   CountProperties(a.l)
@@ -530,11 +347,7 @@ EndInterface
 
 ; IPersistPropertyBag2 interface definition
 ;
-Interface IPersistPropertyBag2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
+Interface IPersistPropertyBag2 Extends IPersist
   InitNew()
   Load(a.l, b.l)
   Save(a.l, b.l, c.l)
@@ -543,24 +356,13 @@ EndInterface
 
 ; IAdviseSinkEx interface definition
 ;
-Interface IAdviseSinkEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  OnDataChange(a.l, b.l)
-  OnViewChange(a.l, b.l)
-  OnRename(a.l)
-  OnSave()
-  OnClose()
+Interface IAdviseSinkEx Extends IAdviseSink
   OnViewStatusChange(a.l)
 EndInterface
 
 ; IQuickActivate interface definition
 ;
-Interface IQuickActivate
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IQuickActivate Extends IUnknown
   QuickActivate(a.l, b.l)
   SetContentExtent(a.l)
   GetContentExtent(a.l)

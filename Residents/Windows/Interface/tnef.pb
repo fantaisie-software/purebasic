@@ -1,10 +1,7 @@
 ﻿
 ;  interface definition
 ;
-Interface ITnef
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITnef Extends IUnknown
   AddProps(a.l, b.l, c.l)
   ExtractProps(a.l, b.l)
   Finish(a.l, b.l)

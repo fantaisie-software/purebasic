@@ -1,38 +1,26 @@
 ﻿
 ; INotifyReplica interface definition
 ;
-Interface INotifyReplica
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface INotifyReplica Extends IUnknown
   YouAreAReplica(a.l, b.l)
 EndInterface
 
 ; IReconcileInitiator interface definition
 ;
-Interface IReconcileInitiator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IReconcileInitiator Extends IUnknown
   SetAbortCallback(a.l)
   SetProgressFeedback(a.l, b.l)
 EndInterface
 
 ; IReconcilableObject interface definition
 ;
-Interface IReconcilableObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IReconcilableObject Extends IUnknown
   Reconcile(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l)
   GetProgressFeedbackMaxEstimate(a.l)
 EndInterface
 
 ; IBriefcaseInitiator interface definition
 ;
-Interface IBriefcaseInitiator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBriefcaseInitiator Extends IUnknown
   IsMonikerInBriefcase(a.l)
 EndInterface

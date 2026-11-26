@@ -1,10 +1,7 @@
 ﻿
 ; IDirectPlayNATHelp interface definition
 ;
-Interface IDirectPlayNATHelp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlayNATHelp Extends IUnknown
   Initialize(a.l)
   Close(a.l)
   GetCaps(a.l, b.l)

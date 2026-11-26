@@ -1,10 +1,7 @@
 ﻿
 ; IDelaydC interface definition
 ;
-Interface IDelaydC
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDelaydC Extends IUnknown
   Connect(a.l, b.l, c.l, d.l)
   Disconnect()
   QueryStatus(a.l)
@@ -22,10 +19,7 @@ EndInterface
 
 ; IRTC interface definition
 ;
-Interface IRTC
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRTC Extends IUnknown
   Connect(a.l, b.l, c.l, d.l, e.l)
   Disconnect()
   QueryStatus(a.l)
@@ -43,10 +37,7 @@ EndInterface
 
 ; IStats interface definition
 ;
-Interface IStats
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStats Extends IUnknown
   Connect(a.l, b.l, c.l, d.l)
   Disconnect()
   QueryStatus(a.l)

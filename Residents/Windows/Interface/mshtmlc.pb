@@ -1,14 +1,7 @@
 ﻿
 ; IHTMLFiltersCollection interface definition
 ;
-Interface IHTMLFiltersCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFiltersCollection Extends IDispatch
   get_length(a.l)
   get__newEnum(a.l)
   item(a.l, b.l)
@@ -16,14 +9,7 @@ EndInterface
 
 ; IHTMLEventObj interface definition
 ;
-Interface IHTMLEventObj
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLEventObj Extends IDispatch
   get_srcElement(a.l)
   get_altKey(a.l)
   get_ctrlKey(a.l)
@@ -53,20 +39,14 @@ EndInterface
 
 ; IElementBehaviorSite interface definition
 ;
-Interface IElementBehaviorSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorSite Extends IUnknown
   GetElement(a.l)
   RegisterNotification(a.l)
 EndInterface
 
 ; IElementBehavior interface definition
 ;
-Interface IElementBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehavior Extends IUnknown
   Init(a.l)
   Notify(a.l, b.l)
   Detach()
@@ -74,19 +54,13 @@ EndInterface
 
 ; IElementBehaviorFactory interface definition
 ;
-Interface IElementBehaviorFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorFactory Extends IUnknown
   FindBehavior(a.p-bstr, b.p-bstr, c.l, d.l)
 EndInterface
 
 ; IElementBehaviorSiteOM interface definition
 ;
-Interface IElementBehaviorSiteOM
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorSiteOM Extends IUnknown
   RegisterEvent(a.p-unicode, b.l, c.l)
   GetEventCookie(a.p-unicode, b.l)
   FireEvent(a.l, b.l)
@@ -97,10 +71,7 @@ EndInterface
 
 ; IElementBehaviorRender interface definition
 ;
-Interface IElementBehaviorRender
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorRender Extends IUnknown
   Draw(a.l, b.l, c.l, d.l)
   GetRenderInfo(a.l)
   HitTestPoint(a.l, b.l, c.l)
@@ -108,10 +79,7 @@ EndInterface
 
 ; IElementBehaviorSiteRender interface definition
 ;
-Interface IElementBehaviorSiteRender
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorSiteRender Extends IUnknown
   Invalidate(a.l)
   InvalidateRenderInfo()
   InvalidateStyle()
@@ -119,14 +87,7 @@ EndInterface
 
 ; IHTMLStyle interface definition
 ;
-Interface IHTMLStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyle Extends IDispatch
   put_fontFamily(a.p-bstr)
   get_fontFamily(a.l)
   put_fontStyle(a.p-bstr)
@@ -310,14 +271,7 @@ EndInterface
 
 ; IHTMLStyle2 interface definition
 ;
-Interface IHTMLStyle2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyle2 Extends IDispatch
   put_tableLayout(a.p-bstr)
   get_tableLayout(a.l)
   put_borderCollapse(a.p-bstr)
@@ -385,14 +339,7 @@ EndInterface
 
 ; IHTMLStyle3 interface definition
 ;
-Interface IHTMLStyle3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyle3 Extends IDispatch
   put_layoutFlow(a.p-bstr)
   get_layoutFlow(a.l)
   put_zoom(a.p-variant)
@@ -427,14 +374,7 @@ EndInterface
 
 ; IHTMLStyle4 interface definition
 ;
-Interface IHTMLStyle4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyle4 Extends IDispatch
   put_textOverflow(a.p-bstr)
   get_textOverflow(a.l)
   put_minHeight(a.p-variant)
@@ -443,14 +383,7 @@ EndInterface
 
 ; IHTMLRuleStyle interface definition
 ;
-Interface IHTMLRuleStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLRuleStyle Extends IDispatch
   put_fontFamily(a.p-bstr)
   get_fontFamily(a.l)
   put_fontStyle(a.p-bstr)
@@ -617,14 +550,7 @@ EndInterface
 
 ; IHTMLRuleStyle2 interface definition
 ;
-Interface IHTMLRuleStyle2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLRuleStyle2 Extends IDispatch
   put_tableLayout(a.p-bstr)
   get_tableLayout(a.l)
   put_borderCollapse(a.p-bstr)
@@ -689,14 +615,7 @@ EndInterface
 
 ; IHTMLRuleStyle3 interface definition
 ;
-Interface IHTMLRuleStyle3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLRuleStyle3 Extends IDispatch
   put_layoutFlow(a.p-bstr)
   get_layoutFlow(a.l)
   put_zoom(a.p-variant)
@@ -731,14 +650,7 @@ EndInterface
 
 ; IHTMLRuleStyle4 interface definition
 ;
-Interface IHTMLRuleStyle4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLRuleStyle4 Extends IDispatch
   put_textOverflow(a.p-bstr)
   get_textOverflow(a.l)
   put_minHeight(a.p-variant)
@@ -747,38 +659,17 @@ EndInterface
 
 ; DispHTMLStyle interface definition
 ;
-Interface DispHTMLStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLStyle Extends IDispatch
 EndInterface
 
 ; DispHTMLRuleStyle interface definition
 ;
-Interface DispHTMLRuleStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLRuleStyle Extends IDispatch
 EndInterface
 
 ; IHTMLRenderStyle interface definition
 ;
-Interface IHTMLRenderStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLRenderStyle Extends IDispatch
   put_textLineThroughStyle(a.p-bstr)
   get_textLineThroughStyle(a.l)
   put_textUnderlineStyle(a.p-bstr)
@@ -801,26 +692,12 @@ EndInterface
 
 ; DispHTMLRenderStyle interface definition
 ;
-Interface DispHTMLRenderStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLRenderStyle Extends IDispatch
 EndInterface
 
 ; IHTMLCurrentStyle interface definition
 ;
-Interface IHTMLCurrentStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLCurrentStyle Extends IDispatch
   get_position(a.l)
   get_styleFloat(a.l)
   get_color(a.l)
@@ -916,14 +793,7 @@ EndInterface
 
 ; IHTMLCurrentStyle2 interface definition
 ;
-Interface IHTMLCurrentStyle2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLCurrentStyle2 Extends IDispatch
   get_layoutFlow(a.l)
   get_wordWrap(a.l)
   get_textUnderlinePosition(a.l)
@@ -946,14 +816,7 @@ EndInterface
 
 ; IHTMLCurrentStyle3 interface definition
 ;
-Interface IHTMLCurrentStyle3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLCurrentStyle3 Extends IDispatch
   get_textOverflow(a.l)
   get_minHeight(a.l)
   get_wordSpacing(a.l)
@@ -962,26 +825,12 @@ EndInterface
 
 ; DispHTMLCurrentStyle interface definition
 ;
-Interface DispHTMLCurrentStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLCurrentStyle Extends IDispatch
 EndInterface
 
 ; IHTMLElement interface definition
 ;
-Interface IHTMLElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLElement Extends IDispatch
   setAttribute(a.p-bstr, b.p-variant, c.l)
   getAttribute(a.p-bstr, b.l, c.l)
   removeAttribute(a.p-bstr, b.l, c.l)
@@ -1073,14 +922,7 @@ EndInterface
 
 ; IHTMLRect interface definition
 ;
-Interface IHTMLRect
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLRect Extends IDispatch
   put_left(a.l)
   get_left(a.l)
   put_top(a.l)
@@ -1093,14 +935,7 @@ EndInterface
 
 ; IHTMLRectCollection interface definition
 ;
-Interface IHTMLRectCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLRectCollection Extends IDispatch
   get_length(a.l)
   get__newEnum(a.l)
   item(a.l, b.l)
@@ -1108,14 +943,7 @@ EndInterface
 
 ; IHTMLDOMNode interface definition
 ;
-Interface IHTMLDOMNode
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDOMNode Extends IDispatch
   get_nodeType(a.l)
   get_parentNode(a.l)
   hasChildNodes(a.l)
@@ -1140,27 +968,13 @@ EndInterface
 
 ; IHTMLDOMNode2 interface definition
 ;
-Interface IHTMLDOMNode2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDOMNode2 Extends IDispatch
   get_ownerDocument(a.l)
 EndInterface
 
 ; IHTMLDOMAttribute interface definition
 ;
-Interface IHTMLDOMAttribute
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDOMAttribute Extends IDispatch
   get_nodeName(a.l)
   put_nodeValue(a.p-variant)
   get_nodeValue(a.l)
@@ -1169,14 +983,7 @@ EndInterface
 
 ; IHTMLDOMAttribute2 interface definition
 ;
-Interface IHTMLDOMAttribute2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDOMAttribute2 Extends IDispatch
   get_name(a.l)
   put_value(a.p-bstr)
   get_value(a.l)
@@ -1200,14 +1007,7 @@ EndInterface
 
 ; IHTMLDOMTextNode interface definition
 ;
-Interface IHTMLDOMTextNode
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDOMTextNode Extends IDispatch
   put_data(a.p-bstr)
   get_data(a.l)
   toString(a.l)
@@ -1217,14 +1017,7 @@ EndInterface
 
 ; IHTMLDOMTextNode2 interface definition
 ;
-Interface IHTMLDOMTextNode2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDOMTextNode2 Extends IDispatch
   substringData(a.l, b.l, c.l)
   appendData(a.p-bstr)
   insertData(a.l, b.p-bstr)
@@ -1234,63 +1027,28 @@ EndInterface
 
 ; IHTMLDOMImplementation interface definition
 ;
-Interface IHTMLDOMImplementation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDOMImplementation Extends IDispatch
   hasFeature(a.p-bstr, b.p-variant, c.l)
 EndInterface
 
 ; DispHTMLDOMAttribute interface definition
 ;
-Interface DispHTMLDOMAttribute
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLDOMAttribute Extends IDispatch
 EndInterface
 
 ; DispHTMLDOMTextNode interface definition
 ;
-Interface DispHTMLDOMTextNode
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLDOMTextNode Extends IDispatch
 EndInterface
 
 ; DispHTMLDOMImplementation interface definition
 ;
-Interface DispHTMLDOMImplementation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLDOMImplementation Extends IDispatch
 EndInterface
 
 ; IHTMLAttributeCollection interface definition
 ;
-Interface IHTMLAttributeCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAttributeCollection Extends IDispatch
   get_length(a.l)
   get__newEnum(a.l)
   item(a.l, b.l)
@@ -1298,14 +1056,7 @@ EndInterface
 
 ; IHTMLAttributeCollection2 interface definition
 ;
-Interface IHTMLAttributeCollection2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAttributeCollection2 Extends IDispatch
   getNamedItem(a.p-bstr, b.l)
   setNamedItem(a.l, b.l)
   removeNamedItem(a.p-bstr, b.l)
@@ -1313,14 +1064,7 @@ EndInterface
 
 ; IHTMLDOMChildrenCollection interface definition
 ;
-Interface IHTMLDOMChildrenCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDOMChildrenCollection Extends IDispatch
   get_length(a.l)
   get__newEnum(a.l)
   item(a.l, b.l)
@@ -1328,62 +1072,27 @@ EndInterface
 
 ; DispHTMLAttributeCollection interface definition
 ;
-Interface DispHTMLAttributeCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLAttributeCollection Extends IDispatch
 EndInterface
 
 ; DispDOMChildrenCollection interface definition
 ;
-Interface DispDOMChildrenCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispDOMChildrenCollection Extends IDispatch
 EndInterface
 
 ; HTMLElementEvents2 interface definition
 ;
-Interface HTMLElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLElementEvents interface definition
 ;
-Interface HTMLElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLElementEvents Extends IDispatch
 EndInterface
 
 ; IHTMLElementCollection interface definition
 ;
-Interface IHTMLElementCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLElementCollection Extends IDispatch
   toString(a.l)
   put_length(a.l)
   get_length(a.l)
@@ -1394,14 +1103,7 @@ EndInterface
 
 ; IHTMLElement2 interface definition
 ;
-Interface IHTMLElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLElement2 Extends IDispatch
   get_scopeName(a.l)
   setCapture(a.l)
   releaseCapture()
@@ -1504,14 +1206,7 @@ EndInterface
 
 ; IHTMLElement3 interface definition
 ;
-Interface IHTMLElement3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLElement3 Extends IDispatch
   mergeAttributes(a.l, b.l)
   get_isMultiLine(a.l)
   get_canHaveHTML(a.l)
@@ -1559,14 +1254,7 @@ EndInterface
 
 ; IHTMLElement4 interface definition
 ;
-Interface IHTMLElement4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLElement4 Extends IDispatch
   put_onmousewheel(a.p-variant)
   get_onmousewheel(a.l)
   normalize()
@@ -1583,38 +1271,21 @@ EndInterface
 
 ; IHTMLElementRender interface definition
 ;
-Interface IHTMLElementRender
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLElementRender Extends IUnknown
   DrawToDC(a.l)
   SetDocumentPrinter(a.p-bstr, b.l)
 EndInterface
 
 ; IHTMLUniqueName interface definition
 ;
-Interface IHTMLUniqueName
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLUniqueName Extends IDispatch
   get_uniqueNumber(a.l)
   get_uniqueID(a.l)
 EndInterface
 
 ; IHTMLDatabinding interface definition
 ;
-Interface IHTMLDatabinding
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDatabinding Extends IDispatch
   put_dataFld(a.p-bstr)
   get_dataFld(a.l)
   put_dataSrc(a.p-bstr)
@@ -1625,27 +1296,13 @@ EndInterface
 
 ; IHTMLDocument interface definition
 ;
-Interface IHTMLDocument
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDocument Extends IDispatch
   get_Script(a.l)
 EndInterface
 
 ; IHTMLElementDefaults interface definition
 ;
-Interface IHTMLElementDefaults
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLElementDefaults Extends IDispatch
   get_style(a.l)
   put_tabStop(a.l)
   get_tabStop(a.l)
@@ -1671,26 +1328,12 @@ EndInterface
 
 ; DispHTMLDefaults interface definition
 ;
-Interface DispHTMLDefaults
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLDefaults Extends IDispatch
 EndInterface
 
 ; IHTCDefaultDispatch interface definition
 ;
-Interface IHTCDefaultDispatch
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTCDefaultDispatch Extends IDispatch
   get_element(a.l)
   createEventObject(a.l)
   get_defaults(a.l)
@@ -1699,14 +1342,7 @@ EndInterface
 
 ; IHTCPropertyBehavior interface definition
 ;
-Interface IHTCPropertyBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTCPropertyBehavior Extends IDispatch
   fireChange()
   put_value(a.p-variant)
   get_value(a.l)
@@ -1714,192 +1350,87 @@ EndInterface
 
 ; IHTCMethodBehavior interface definition
 ;
-Interface IHTCMethodBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTCMethodBehavior Extends IDispatch
 EndInterface
 
 ; IHTCEventBehavior interface definition
 ;
-Interface IHTCEventBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTCEventBehavior Extends IDispatch
   fire(a.l)
 EndInterface
 
 ; IHTCAttachBehavior interface definition
 ;
-Interface IHTCAttachBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTCAttachBehavior Extends IDispatch
   fireEvent(a.l)
   detachEvent()
 EndInterface
 
 ; IHTCAttachBehavior2 interface definition
 ;
-Interface IHTCAttachBehavior2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTCAttachBehavior2 Extends IDispatch
   fireEvent(a.p-variant)
 EndInterface
 
 ; IHTCDescBehavior interface definition
 ;
-Interface IHTCDescBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTCDescBehavior Extends IDispatch
   get_urn(a.l)
   get_name(a.l)
 EndInterface
 
 ; DispHTCDefaultDispatch interface definition
 ;
-Interface DispHTCDefaultDispatch
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTCDefaultDispatch Extends IDispatch
 EndInterface
 
 ; DispHTCPropertyBehavior interface definition
 ;
-Interface DispHTCPropertyBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTCPropertyBehavior Extends IDispatch
 EndInterface
 
 ; DispHTCMethodBehavior interface definition
 ;
-Interface DispHTCMethodBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTCMethodBehavior Extends IDispatch
 EndInterface
 
 ; DispHTCEventBehavior interface definition
 ;
-Interface DispHTCEventBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTCEventBehavior Extends IDispatch
 EndInterface
 
 ; DispHTCAttachBehavior interface definition
 ;
-Interface DispHTCAttachBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTCAttachBehavior Extends IDispatch
 EndInterface
 
 ; DispHTCDescBehavior interface definition
 ;
-Interface DispHTCDescBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTCDescBehavior Extends IDispatch
 EndInterface
 
 ; IHTMLUrnCollection interface definition
 ;
-Interface IHTMLUrnCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLUrnCollection Extends IDispatch
   get_length(a.l)
   item(a.l, b.l)
 EndInterface
 
 ; IHTMLGenericElement interface definition
 ;
-Interface IHTMLGenericElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLGenericElement Extends IDispatch
   get_recordset(a.l)
   namedRecordset(a.p-bstr, b.l, c.l)
 EndInterface
 
 ; DispHTMLGenericElement interface definition
 ;
-Interface DispHTMLGenericElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLGenericElement Extends IDispatch
 EndInterface
 
 ; IHTMLStyleSheetRule interface definition
 ;
-Interface IHTMLStyleSheetRule
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyleSheetRule Extends IDispatch
   put_selectorText(a.p-bstr)
   get_selectorText(a.l)
   get_style(a.l)
@@ -1908,56 +1439,28 @@ EndInterface
 
 ; IHTMLStyleSheetRulesCollection interface definition
 ;
-Interface IHTMLStyleSheetRulesCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyleSheetRulesCollection Extends IDispatch
   get_length(a.l)
   item(a.l, b.l)
 EndInterface
 
 ; IHTMLStyleSheetPage interface definition
 ;
-Interface IHTMLStyleSheetPage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyleSheetPage Extends IDispatch
   get_selector(a.l)
   get_pseudoClass(a.l)
 EndInterface
 
 ; IHTMLStyleSheetPagesCollection interface definition
 ;
-Interface IHTMLStyleSheetPagesCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyleSheetPagesCollection Extends IDispatch
   get_length(a.l)
   item(a.l, b.l)
 EndInterface
 
 ; IHTMLStyleSheetsCollection interface definition
 ;
-Interface IHTMLStyleSheetsCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyleSheetsCollection Extends IDispatch
   get_length(a.l)
   get__newEnum(a.l)
   item(a.l, b.l)
@@ -1965,14 +1468,7 @@ EndInterface
 
 ; IHTMLStyleSheet interface definition
 ;
-Interface IHTMLStyleSheet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyleSheet Extends IDispatch
   put_title(a.p-bstr)
   get_title(a.l)
   get_parentStyleSheet(a.l)
@@ -1998,64 +1494,29 @@ EndInterface
 
 ; IHTMLStyleSheet2 interface definition
 ;
-Interface IHTMLStyleSheet2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyleSheet2 Extends IDispatch
   get_pages(a.l)
   addPageRule(a.p-bstr, b.p-bstr, c.l, d.l)
 EndInterface
 
 ; DispHTMLStyleSheet interface definition
 ;
-Interface DispHTMLStyleSheet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLStyleSheet Extends IDispatch
 EndInterface
 
 ; HTMLLinkElementEvents2 interface definition
 ;
-Interface HTMLLinkElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLLinkElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLLinkElementEvents interface definition
 ;
-Interface HTMLLinkElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLLinkElementEvents Extends IDispatch
 EndInterface
 
 ; IHTMLLinkElement interface definition
 ;
-Interface IHTMLLinkElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLLinkElement Extends IDispatch
   put_href(a.p-bstr)
   get_href(a.l)
   put_rel(a.p-bstr)
@@ -2080,28 +1541,14 @@ EndInterface
 
 ; IHTMLLinkElement2 interface definition
 ;
-Interface IHTMLLinkElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLLinkElement2 Extends IDispatch
   put_target(a.p-bstr)
   get_target(a.l)
 EndInterface
 
 ; IHTMLLinkElement3 interface definition
 ;
-Interface IHTMLLinkElement3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLLinkElement3 Extends IDispatch
   put_charset(a.p-bstr)
   get_charset(a.l)
   put_hreflang(a.p-bstr)
@@ -2110,26 +1557,12 @@ EndInterface
 
 ; DispHTMLLinkElement interface definition
 ;
-Interface DispHTMLLinkElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLLinkElement Extends IDispatch
 EndInterface
 
 ; IHTMLTxtRange interface definition
 ;
-Interface IHTMLTxtRange
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTxtRange Extends IDispatch
   get_htmlText(a.l)
   put_text(a.p-bstr)
   get_text(a.l)
@@ -2164,14 +1597,7 @@ EndInterface
 
 ; IHTMLTextRangeMetrics interface definition
 ;
-Interface IHTMLTextRangeMetrics
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTextRangeMetrics Extends IDispatch
   get_offsetTop(a.l)
   get_offsetLeft(a.l)
   get_boundingTop(a.l)
@@ -2182,28 +1608,14 @@ EndInterface
 
 ; IHTMLTextRangeMetrics2 interface definition
 ;
-Interface IHTMLTextRangeMetrics2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTextRangeMetrics2 Extends IDispatch
   getClientRects(a.l)
   getBoundingClientRect(a.l)
 EndInterface
 
 ; IHTMLTxtRangeCollection interface definition
 ;
-Interface IHTMLTxtRangeCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTxtRangeCollection Extends IDispatch
   get_length(a.l)
   get__newEnum(a.l)
   item(a.l, b.l)
@@ -2211,38 +1623,17 @@ EndInterface
 
 ; HTMLFormElementEvents2 interface definition
 ;
-Interface HTMLFormElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLFormElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLFormElementEvents interface definition
 ;
-Interface HTMLFormElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLFormElementEvents Extends IDispatch
 EndInterface
 
 ; IHTMLFormElement interface definition
 ;
-Interface IHTMLFormElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFormElement Extends IDispatch
   put_action(a.p-bstr)
   get_action(a.l)
   put_dir(a.p-bstr)
@@ -2271,14 +1662,7 @@ EndInterface
 
 ; IHTMLFormElement2 interface definition
 ;
-Interface IHTMLFormElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFormElement2 Extends IDispatch
   put_acceptCharset(a.p-bstr)
   get_acceptCharset(a.l)
   urns(a.p-variant, b.l)
@@ -2286,27 +1670,13 @@ EndInterface
 
 ; IHTMLFormElement3 interface definition
 ;
-Interface IHTMLFormElement3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFormElement3 Extends IDispatch
   namedItem(a.p-bstr, b.l)
 EndInterface
 
 ; IHTMLSubmitData interface definition
 ;
-Interface IHTMLSubmitData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLSubmitData Extends IDispatch
   appendNameValuePair(a.p-bstr, b.p-bstr)
   appendNameFilePair(a.p-bstr, b.p-bstr)
   appendItemSeparator()
@@ -2314,50 +1684,22 @@ EndInterface
 
 ; DispHTMLFormElement interface definition
 ;
-Interface DispHTMLFormElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLFormElement Extends IDispatch
 EndInterface
 
 ; HTMLControlElementEvents2 interface definition
 ;
-Interface HTMLControlElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLControlElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLControlElementEvents interface definition
 ;
-Interface HTMLControlElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLControlElementEvents Extends IDispatch
 EndInterface
 
 ; IHTMLControlElement interface definition
 ;
-Interface IHTMLControlElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLControlElement Extends IDispatch
   put_tabIndex(a.l)
   get_tabIndex(a.l)
   focus()
@@ -2380,62 +1722,27 @@ EndInterface
 
 ; IHTMLTextElement interface definition
 ;
-Interface IHTMLTextElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTextElement Extends IDispatch
 EndInterface
 
 ; DispHTMLTextElement interface definition
 ;
-Interface DispHTMLTextElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLTextElement Extends IDispatch
 EndInterface
 
 ; HTMLTextContainerEvents2 interface definition
 ;
-Interface HTMLTextContainerEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLTextContainerEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLTextContainerEvents interface definition
 ;
-Interface HTMLTextContainerEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLTextContainerEvents Extends IDispatch
 EndInterface
 
 ; IHTMLTextContainer interface definition
 ;
-Interface IHTMLTextContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTextContainer Extends IDispatch
   createControlRange(a.l)
   get_scrollHeight(a.l)
   get_scrollWidth(a.l)
@@ -2449,14 +1756,7 @@ EndInterface
 
 ; IHTMLControlRange interface definition
 ;
-Interface IHTMLControlRange
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLControlRange Extends IDispatch
   select()
   add(a.l)
   remove(a.l)
@@ -2476,51 +1776,23 @@ EndInterface
 
 ; IHTMLControlRange2 interface definition
 ;
-Interface IHTMLControlRange2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLControlRange2 Extends IDispatch
   addElement(a.l)
 EndInterface
 
 ; HTMLImgEvents2 interface definition
 ;
-Interface HTMLImgEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLImgEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLImgEvents interface definition
 ;
-Interface HTMLImgEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLImgEvents Extends IDispatch
 EndInterface
 
 ; IHTMLImgElement interface definition
 ;
-Interface IHTMLImgElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLImgElement Extends IDispatch
   put_isMap(a.l)
   get_isMap(a.l)
   put_useMap(a.p-bstr)
@@ -2573,53 +1845,25 @@ EndInterface
 
 ; IHTMLImgElement2 interface definition
 ;
-Interface IHTMLImgElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLImgElement2 Extends IDispatch
   put_longDesc(a.p-bstr)
   get_longDesc(a.l)
 EndInterface
 
 ; IHTMLImageElementFactory interface definition
 ;
-Interface IHTMLImageElementFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLImageElementFactory Extends IDispatch
   create(a.p-variant, b.p-variant, c.l)
 EndInterface
 
 ; DispHTMLImg interface definition
 ;
-Interface DispHTMLImg
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLImg Extends IDispatch
 EndInterface
 
 ; IHTMLBodyElement interface definition
 ;
-Interface IHTMLBodyElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLBodyElement Extends IDispatch
   put_background(a.p-bstr)
   get_background(a.l)
   put_bgProperties(a.p-bstr)
@@ -2659,14 +1903,7 @@ EndInterface
 
 ; IHTMLBodyElement2 interface definition
 ;
-Interface IHTMLBodyElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLBodyElement2 Extends IDispatch
   put_onbeforeprint(a.p-variant)
   get_onbeforeprint(a.l)
   put_onafterprint(a.p-variant)
@@ -2675,26 +1912,12 @@ EndInterface
 
 ; DispHTMLBody interface definition
 ;
-Interface DispHTMLBody
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLBody Extends IDispatch
 EndInterface
 
 ; IHTMLFontElement interface definition
 ;
-Interface IHTMLFontElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFontElement Extends IDispatch
   put_color(a.p-variant)
   get_color(a.l)
   put_face(a.p-bstr)
@@ -2705,50 +1928,22 @@ EndInterface
 
 ; DispHTMLFontElement interface definition
 ;
-Interface DispHTMLFontElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLFontElement Extends IDispatch
 EndInterface
 
 ; HTMLAnchorEvents2 interface definition
 ;
-Interface HTMLAnchorEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLAnchorEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLAnchorEvents interface definition
 ;
-Interface HTMLAnchorEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLAnchorEvents Extends IDispatch
 EndInterface
 
 ; IHTMLAnchorElement interface definition
 ;
-Interface IHTMLAnchorElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAnchorElement Extends IDispatch
   put_href(a.p-bstr)
   get_href(a.l)
   put_target(a.p-bstr)
@@ -2794,14 +1989,7 @@ EndInterface
 
 ; IHTMLAnchorElement2 interface definition
 ;
-Interface IHTMLAnchorElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAnchorElement2 Extends IDispatch
   put_charset(a.p-bstr)
   get_charset(a.l)
   put_coords(a.p-bstr)
@@ -2816,50 +2004,22 @@ EndInterface
 
 ; DispHTMLAnchorElement interface definition
 ;
-Interface DispHTMLAnchorElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLAnchorElement Extends IDispatch
 EndInterface
 
 ; HTMLLabelEvents2 interface definition
 ;
-Interface HTMLLabelEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLLabelEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLLabelEvents interface definition
 ;
-Interface HTMLLabelEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLLabelEvents Extends IDispatch
 EndInterface
 
 ; IHTMLLabelElement interface definition
 ;
-Interface IHTMLLabelElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLLabelElement Extends IDispatch
   put_htmlFor(a.p-bstr)
   get_htmlFor(a.l)
   put_accessKey(a.p-bstr)
@@ -2868,77 +2028,35 @@ EndInterface
 
 ; IHTMLLabelElement2 interface definition
 ;
-Interface IHTMLLabelElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLLabelElement2 Extends IDispatch
   get_form(a.l)
 EndInterface
 
 ; DispHTMLLabelElement interface definition
 ;
-Interface DispHTMLLabelElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLLabelElement Extends IDispatch
 EndInterface
 
 ; IHTMLListElement interface definition
 ;
-Interface IHTMLListElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLListElement Extends IDispatch
 EndInterface
 
 ; IHTMLListElement2 interface definition
 ;
-Interface IHTMLListElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLListElement2 Extends IDispatch
   put_compact(a.l)
   get_compact(a.l)
 EndInterface
 
 ; DispHTMLListElement interface definition
 ;
-Interface DispHTMLListElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLListElement Extends IDispatch
 EndInterface
 
 ; IHTMLUListElement interface definition
 ;
-Interface IHTMLUListElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLUListElement Extends IDispatch
   put_compact(a.l)
   get_compact(a.l)
   put_type(a.p-bstr)
@@ -2947,26 +2065,12 @@ EndInterface
 
 ; DispHTMLUListElement interface definition
 ;
-Interface DispHTMLUListElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLUListElement Extends IDispatch
 EndInterface
 
 ; IHTMLOListElement interface definition
 ;
-Interface IHTMLOListElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLOListElement Extends IDispatch
   put_compact(a.l)
   get_compact(a.l)
   put_start(a.l)
@@ -2977,26 +2081,12 @@ EndInterface
 
 ; DispHTMLOListElement interface definition
 ;
-Interface DispHTMLOListElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLOListElement Extends IDispatch
 EndInterface
 
 ; IHTMLLIElement interface definition
 ;
-Interface IHTMLLIElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLLIElement Extends IDispatch
   put_type(a.p-bstr)
   get_type(a.l)
   put_value(a.l)
@@ -3005,40 +2095,19 @@ EndInterface
 
 ; DispHTMLLIElement interface definition
 ;
-Interface DispHTMLLIElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLLIElement Extends IDispatch
 EndInterface
 
 ; IHTMLBlockElement interface definition
 ;
-Interface IHTMLBlockElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLBlockElement Extends IDispatch
   put_clear(a.p-bstr)
   get_clear(a.l)
 EndInterface
 
 ; IHTMLBlockElement2 interface definition
 ;
-Interface IHTMLBlockElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLBlockElement2 Extends IDispatch
   put_cite(a.p-bstr)
   get_cite(a.l)
   put_width(a.p-bstr)
@@ -3047,26 +2116,12 @@ EndInterface
 
 ; DispHTMLBlockElement interface definition
 ;
-Interface DispHTMLBlockElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLBlockElement Extends IDispatch
 EndInterface
 
 ; IHTMLDivElement interface definition
 ;
-Interface IHTMLDivElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDivElement Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
   put_noWrap(a.l)
@@ -3075,130 +2130,60 @@ EndInterface
 
 ; DispHTMLDivElement interface definition
 ;
-Interface DispHTMLDivElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLDivElement Extends IDispatch
 EndInterface
 
 ; IHTMLDDElement interface definition
 ;
-Interface IHTMLDDElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDDElement Extends IDispatch
   put_noWrap(a.l)
   get_noWrap(a.l)
 EndInterface
 
 ; DispHTMLDDElement interface definition
 ;
-Interface DispHTMLDDElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLDDElement Extends IDispatch
 EndInterface
 
 ; IHTMLDTElement interface definition
 ;
-Interface IHTMLDTElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDTElement Extends IDispatch
   put_noWrap(a.l)
   get_noWrap(a.l)
 EndInterface
 
 ; DispHTMLDTElement interface definition
 ;
-Interface DispHTMLDTElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLDTElement Extends IDispatch
 EndInterface
 
 ; IHTMLBRElement interface definition
 ;
-Interface IHTMLBRElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLBRElement Extends IDispatch
   put_clear(a.p-bstr)
   get_clear(a.l)
 EndInterface
 
 ; DispHTMLBRElement interface definition
 ;
-Interface DispHTMLBRElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLBRElement Extends IDispatch
 EndInterface
 
 ; IHTMLDListElement interface definition
 ;
-Interface IHTMLDListElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDListElement Extends IDispatch
   put_compact(a.l)
   get_compact(a.l)
 EndInterface
 
 ; DispHTMLDListElement interface definition
 ;
-Interface DispHTMLDListElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLDListElement Extends IDispatch
 EndInterface
 
 ; IHTMLHRElement interface definition
 ;
-Interface IHTMLHRElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLHRElement Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
   put_color(a.p-variant)
@@ -3213,140 +2198,63 @@ EndInterface
 
 ; DispHTMLHRElement interface definition
 ;
-Interface DispHTMLHRElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLHRElement Extends IDispatch
 EndInterface
 
 ; IHTMLParaElement interface definition
 ;
-Interface IHTMLParaElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLParaElement Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
 EndInterface
 
 ; DispHTMLParaElement interface definition
 ;
-Interface DispHTMLParaElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLParaElement Extends IDispatch
 EndInterface
 
 ; IHTMLElementCollection2 interface definition
 ;
-Interface IHTMLElementCollection2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLElementCollection2 Extends IDispatch
   urns(a.p-variant, b.l)
 EndInterface
 
 ; IHTMLElementCollection3 interface definition
 ;
-Interface IHTMLElementCollection3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLElementCollection3 Extends IDispatch
   namedItem(a.p-bstr, b.l)
 EndInterface
 
 ; DispHTMLElementCollection interface definition
 ;
-Interface DispHTMLElementCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLElementCollection Extends IDispatch
 EndInterface
 
 ; IHTMLHeaderElement interface definition
 ;
-Interface IHTMLHeaderElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLHeaderElement Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
 EndInterface
 
 ; DispHTMLHeaderElement interface definition
 ;
-Interface DispHTMLHeaderElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLHeaderElement Extends IDispatch
 EndInterface
 
 ; HTMLSelectElementEvents2 interface definition
 ;
-Interface HTMLSelectElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLSelectElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLSelectElementEvents interface definition
 ;
-Interface HTMLSelectElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLSelectElementEvents Extends IDispatch
 EndInterface
 
 ; IHTMLSelectElement interface definition
 ;
-Interface IHTMLSelectElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLSelectElement Extends IDispatch
   put_size(a.l)
   get_size(a.l)
   put_multiple(a.l)
@@ -3375,52 +2283,24 @@ EndInterface
 
 ; IHTMLSelectElement2 interface definition
 ;
-Interface IHTMLSelectElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLSelectElement2 Extends IDispatch
   urns(a.p-variant, b.l)
 EndInterface
 
 ; IHTMLSelectElement4 interface definition
 ;
-Interface IHTMLSelectElement4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLSelectElement4 Extends IDispatch
   namedItem(a.p-bstr, b.l)
 EndInterface
 
 ; DispHTMLSelectElement interface definition
 ;
-Interface DispHTMLSelectElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLSelectElement Extends IDispatch
 EndInterface
 
 ; IHTMLSelectionObject interface definition
 ;
-Interface IHTMLSelectionObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLSelectionObject Extends IDispatch
   createRange(a.l)
   empty()
   clear()
@@ -3429,28 +2309,14 @@ EndInterface
 
 ; IHTMLSelectionObject2 interface definition
 ;
-Interface IHTMLSelectionObject2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLSelectionObject2 Extends IDispatch
   createRangeCollection(a.l)
   get_typeDetail(a.l)
 EndInterface
 
 ; IHTMLOptionElement interface definition
 ;
-Interface IHTMLOptionElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLOptionElement Extends IDispatch
   put_selected(a.l)
   get_selected(a.l)
   put_value(a.p-bstr)
@@ -3466,173 +2332,75 @@ EndInterface
 
 ; IHTMLOptionElement3 interface definition
 ;
-Interface IHTMLOptionElement3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLOptionElement3 Extends IDispatch
   put_label(a.p-bstr)
   get_label(a.l)
 EndInterface
 
 ; IHTMLOptionElementFactory interface definition
 ;
-Interface IHTMLOptionElementFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLOptionElementFactory Extends IDispatch
   create(a.p-variant, b.p-variant, c.p-variant, d.p-variant, e.l)
 EndInterface
 
 ; DispHTMLOptionElement interface definition
 ;
-Interface DispHTMLOptionElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLOptionElement Extends IDispatch
 EndInterface
 
 ; HTMLButtonElementEvents2 interface definition
 ;
-Interface HTMLButtonElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLButtonElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLButtonElementEvents interface definition
 ;
-Interface HTMLButtonElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLButtonElementEvents Extends IDispatch
 EndInterface
 
 ; HTMLInputTextElementEvents2 interface definition
 ;
-Interface HTMLInputTextElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLInputTextElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLOptionButtonElementEvents2 interface definition
 ;
-Interface HTMLOptionButtonElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLOptionButtonElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLInputFileElementEvents2 interface definition
 ;
-Interface HTMLInputFileElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLInputFileElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLInputImageEvents2 interface definition
 ;
-Interface HTMLInputImageEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLInputImageEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLInputTextElementEvents interface definition
 ;
-Interface HTMLInputTextElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLInputTextElementEvents Extends IDispatch
 EndInterface
 
 ; HTMLOptionButtonElementEvents interface definition
 ;
-Interface HTMLOptionButtonElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLOptionButtonElementEvents Extends IDispatch
 EndInterface
 
 ; HTMLInputFileElementEvents interface definition
 ;
-Interface HTMLInputFileElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLInputFileElementEvents Extends IDispatch
 EndInterface
 
 ; HTMLInputImageEvents interface definition
 ;
-Interface HTMLInputImageEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLInputImageEvents Extends IDispatch
 EndInterface
 
 ; IHTMLInputElement interface definition
 ;
-Interface IHTMLInputElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLInputElement Extends IDispatch
   put_type(a.p-bstr)
   get_type(a.l)
   put_value(a.p-bstr)
@@ -3702,14 +2470,7 @@ EndInterface
 
 ; IHTMLInputElement2 interface definition
 ;
-Interface IHTMLInputElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLInputElement2 Extends IDispatch
   put_accept(a.p-bstr)
   get_accept(a.l)
   put_useMap(a.p-bstr)
@@ -3718,14 +2479,7 @@ EndInterface
 
 ; IHTMLInputButtonElement interface definition
 ;
-Interface IHTMLInputButtonElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLInputButtonElement Extends IDispatch
   get_type(a.l)
   put_value(a.p-bstr)
   get_value(a.l)
@@ -3741,14 +2495,7 @@ EndInterface
 
 ; IHTMLInputHiddenElement interface definition
 ;
-Interface IHTMLInputHiddenElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLInputHiddenElement Extends IDispatch
   get_type(a.l)
   put_value(a.p-bstr)
   get_value(a.l)
@@ -3764,14 +2511,7 @@ EndInterface
 
 ; IHTMLInputTextElement interface definition
 ;
-Interface IHTMLInputTextElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLInputTextElement Extends IDispatch
   get_type(a.l)
   put_value(a.p-bstr)
   get_value(a.l)
@@ -3800,14 +2540,7 @@ EndInterface
 
 ; IHTMLInputFileElement interface definition
 ;
-Interface IHTMLInputFileElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLInputFileElement Extends IDispatch
   get_type(a.l)
   put_name(a.p-bstr)
   get_name(a.l)
@@ -3831,14 +2564,7 @@ EndInterface
 
 ; IHTMLOptionButtonElement interface definition
 ;
-Interface IHTMLOptionButtonElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLOptionButtonElement Extends IDispatch
   put_value(a.p-bstr)
   get_value(a.l)
   get_type(a.l)
@@ -3861,14 +2587,7 @@ EndInterface
 
 ; IHTMLInputImage interface definition
 ;
-Interface IHTMLInputImage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLInputImage Extends IDispatch
   get_type(a.l)
   put_disabled(a.l)
   get_disabled(a.l)
@@ -3912,26 +2631,12 @@ EndInterface
 
 ; DispHTMLInputElement interface definition
 ;
-Interface DispHTMLInputElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLInputElement Extends IDispatch
 EndInterface
 
 ; IHTMLTextAreaElement interface definition
 ;
-Interface IHTMLTextAreaElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTextAreaElement Extends IDispatch
   get_type(a.l)
   put_value(a.p-bstr)
   get_value(a.l)
@@ -3962,38 +2667,17 @@ EndInterface
 
 ; DispHTMLTextAreaElement interface definition
 ;
-Interface DispHTMLTextAreaElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLTextAreaElement Extends IDispatch
 EndInterface
 
 ; DispHTMLRichtextElement interface definition
 ;
-Interface DispHTMLRichtextElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLRichtextElement Extends IDispatch
 EndInterface
 
 ; IHTMLButtonElement interface definition
 ;
-Interface IHTMLButtonElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLButtonElement Extends IDispatch
   get_type(a.l)
   put_value(a.p-bstr)
   get_value(a.l)
@@ -4009,50 +2693,22 @@ EndInterface
 
 ; DispHTMLButtonElement interface definition
 ;
-Interface DispHTMLButtonElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLButtonElement Extends IDispatch
 EndInterface
 
 ; HTMLMarqueeElementEvents2 interface definition
 ;
-Interface HTMLMarqueeElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLMarqueeElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLMarqueeElementEvents interface definition
 ;
-Interface HTMLMarqueeElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLMarqueeElementEvents Extends IDispatch
 EndInterface
 
 ; IHTMLMarqueeElement interface definition
 ;
-Interface IHTMLMarqueeElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLMarqueeElement Extends IDispatch
   put_bgColor(a.p-variant)
   get_bgColor(a.l)
   put_scrollDelay(a.l)
@@ -4087,68 +2743,33 @@ EndInterface
 
 ; DispHTMLMarqueeElement interface definition
 ;
-Interface DispHTMLMarqueeElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLMarqueeElement Extends IDispatch
 EndInterface
 
 ; IHTMLHtmlElement interface definition
 ;
-Interface IHTMLHtmlElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLHtmlElement Extends IDispatch
   put_version(a.p-bstr)
   get_version(a.l)
 EndInterface
 
 ; IHTMLHeadElement interface definition
 ;
-Interface IHTMLHeadElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLHeadElement Extends IDispatch
   put_profile(a.p-bstr)
   get_profile(a.l)
 EndInterface
 
 ; IHTMLTitleElement interface definition
 ;
-Interface IHTMLTitleElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTitleElement Extends IDispatch
   put_text(a.p-bstr)
   get_text(a.l)
 EndInterface
 
 ; IHTMLMetaElement interface definition
 ;
-Interface IHTMLMetaElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLMetaElement Extends IDispatch
   put_httpEquiv(a.p-bstr)
   get_httpEquiv(a.l)
   put_content(a.p-bstr)
@@ -4163,28 +2784,14 @@ EndInterface
 
 ; IHTMLMetaElement2 interface definition
 ;
-Interface IHTMLMetaElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLMetaElement2 Extends IDispatch
   put_scheme(a.p-bstr)
   get_scheme(a.l)
 EndInterface
 
 ; IHTMLBaseElement interface definition
 ;
-Interface IHTMLBaseElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLBaseElement Extends IDispatch
   put_href(a.p-bstr)
   get_href(a.l)
   put_target(a.p-bstr)
@@ -4193,14 +2800,7 @@ EndInterface
 
 ; IHTMLIsIndexElement interface definition
 ;
-Interface IHTMLIsIndexElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLIsIndexElement Extends IDispatch
   put_prompt(a.p-bstr)
   get_prompt(a.l)
   put_action(a.p-bstr)
@@ -4209,125 +2809,55 @@ EndInterface
 
 ; IHTMLIsIndexElement2 interface definition
 ;
-Interface IHTMLIsIndexElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLIsIndexElement2 Extends IDispatch
   get_form(a.l)
 EndInterface
 
 ; IHTMLNextIdElement interface definition
 ;
-Interface IHTMLNextIdElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLNextIdElement Extends IDispatch
   put_n(a.p-bstr)
   get_n(a.l)
 EndInterface
 
 ; DispHTMLHtmlElement interface definition
 ;
-Interface DispHTMLHtmlElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLHtmlElement Extends IDispatch
 EndInterface
 
 ; DispHTMLHeadElement interface definition
 ;
-Interface DispHTMLHeadElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLHeadElement Extends IDispatch
 EndInterface
 
 ; DispHTMLTitleElement interface definition
 ;
-Interface DispHTMLTitleElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLTitleElement Extends IDispatch
 EndInterface
 
 ; DispHTMLMetaElement interface definition
 ;
-Interface DispHTMLMetaElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLMetaElement Extends IDispatch
 EndInterface
 
 ; DispHTMLBaseElement interface definition
 ;
-Interface DispHTMLBaseElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLBaseElement Extends IDispatch
 EndInterface
 
 ; DispHTMLIsIndexElement interface definition
 ;
-Interface DispHTMLIsIndexElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLIsIndexElement Extends IDispatch
 EndInterface
 
 ; DispHTMLNextIdElement interface definition
 ;
-Interface DispHTMLNextIdElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLNextIdElement Extends IDispatch
 EndInterface
 
 ; IHTMLBaseFontElement interface definition
 ;
-Interface IHTMLBaseFontElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLBaseFontElement Extends IDispatch
   put_color(a.p-variant)
   get_color(a.l)
   put_face(a.p-bstr)
@@ -4338,50 +2868,22 @@ EndInterface
 
 ; DispHTMLBaseFontElement interface definition
 ;
-Interface DispHTMLBaseFontElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLBaseFontElement Extends IDispatch
 EndInterface
 
 ; IHTMLUnknownElement interface definition
 ;
-Interface IHTMLUnknownElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLUnknownElement Extends IDispatch
 EndInterface
 
 ; DispHTMLUnknownElement interface definition
 ;
-Interface DispHTMLUnknownElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLUnknownElement Extends IDispatch
 EndInterface
 
 ; IOmHistory interface definition
 ;
-Interface IOmHistory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IOmHistory Extends IDispatch
   get_length(a.l)
   back(a.l)
   forward(a.l)
@@ -4390,41 +2892,20 @@ EndInterface
 
 ; IHTMLMimeTypesCollection interface definition
 ;
-Interface IHTMLMimeTypesCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLMimeTypesCollection Extends IDispatch
   get_length(a.l)
 EndInterface
 
 ; IHTMLPluginsCollection interface definition
 ;
-Interface IHTMLPluginsCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLPluginsCollection Extends IDispatch
   get_length(a.l)
   refresh(a.l)
 EndInterface
 
 ; IHTMLOpsProfile interface definition
 ;
-Interface IHTMLOpsProfile
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLOpsProfile Extends IDispatch
   addRequest(a.p-bstr, b.p-variant, c.l)
   clearRequest()
   doRequest(a.p-variant, b.p-variant, c.p-variant, d.p-variant, e.p-variant, f.p-variant)
@@ -4438,14 +2919,7 @@ EndInterface
 
 ; IOmNavigator interface definition
 ;
-Interface IOmNavigator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IOmNavigator Extends IDispatch
   get_appCodeName(a.l)
   get_appName(a.l)
   get_appVersion(a.l)
@@ -4470,14 +2944,7 @@ EndInterface
 
 ; IHTMLLocation interface definition
 ;
-Interface IHTMLLocation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLLocation Extends IDispatch
   put_href(a.p-bstr)
   get_href(a.l)
   put_protocol(a.p-bstr)
@@ -4502,14 +2969,7 @@ EndInterface
 
 ; IHTMLBookmarkCollection interface definition
 ;
-Interface IHTMLBookmarkCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLBookmarkCollection Extends IDispatch
   get_length(a.l)
   get__newEnum(a.l)
   item(a.l, b.l)
@@ -4517,14 +2977,7 @@ EndInterface
 
 ; IHTMLDataTransfer interface definition
 ;
-Interface IHTMLDataTransfer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDataTransfer Extends IDispatch
   setData(a.p-bstr, b.l, c.l)
   getData(a.p-bstr, b.l)
   clearData(a.p-bstr, b.l)
@@ -4536,14 +2989,7 @@ EndInterface
 
 ; IHTMLEventObj2 interface definition
 ;
-Interface IHTMLEventObj2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLEventObj2 Extends IDispatch
   setAttribute(a.p-bstr, b.p-variant, c.l)
   getAttribute(a.p-bstr, b.l, c.l)
   removeAttribute(a.p-bstr, b.l, c.l)
@@ -4604,14 +3050,7 @@ EndInterface
 
 ; IHTMLEventObj3 interface definition
 ;
-Interface IHTMLEventObj3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLEventObj3 Extends IDispatch
   get_contentOverflow(a.l)
   put_shiftLeft(a.l)
   get_shiftLeft(a.l)
@@ -4632,64 +3071,28 @@ EndInterface
 
 ; IHTMLEventObj4 interface definition
 ;
-Interface IHTMLEventObj4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLEventObj4 Extends IDispatch
   get_wheelDelta(a.l)
 EndInterface
 
 ; DispCEventObj interface definition
 ;
-Interface DispCEventObj
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispCEventObj Extends IDispatch
 EndInterface
 
 ; HTMLWindowEvents2 interface definition
 ;
-Interface HTMLWindowEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLWindowEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLWindowEvents interface definition
 ;
-Interface HTMLWindowEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLWindowEvents Extends IDispatch
 EndInterface
 
 ; IHTMLDocument2 interface definition
 ;
-Interface IHTMLDocument2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Script(a.l)
+Interface IHTMLDocument2 Extends IHTMLDocument
   get_all(a.l)
   get_body(a.l)
   get_activeElement(a.l)
@@ -4802,30 +3205,14 @@ EndInterface
 
 ; IHTMLFramesCollection2 interface definition
 ;
-Interface IHTMLFramesCollection2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFramesCollection2 Extends IDispatch
   item(a.l, b.l)
   get_length(a.l)
 EndInterface
 
 ; IHTMLWindow2 interface definition
 ;
-Interface IHTMLWindow2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  item(a.l, b.l)
-  get_length(a.l)
+Interface IHTMLWindow2 Extends IHTMLFramesCollection2
   get_frames(a.l)
   put_defaultStatus(a.p-bstr)
   get_defaultStatus(a.l)
@@ -4898,14 +3285,7 @@ EndInterface
 
 ; IHTMLWindow3 interface definition
 ;
-Interface IHTMLWindow3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLWindow3 Extends IDispatch
   get_screenLeft(a.l)
   get_screenTop(a.l)
   attachEvent(a.p-bstr, b.l, c.l)
@@ -4923,14 +3303,7 @@ EndInterface
 
 ; IHTMLFrameBase interface definition
 ;
-Interface IHTMLFrameBase
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFrameBase Extends IDispatch
   put_src(a.p-bstr)
   get_src(a.l)
   put_name(a.p-bstr)
@@ -4953,14 +3326,7 @@ EndInterface
 
 ; IHTMLScreen interface definition
 ;
-Interface IHTMLScreen
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLScreen Extends IDispatch
   get_colorDepth(a.l)
   put_bufferDepth(a.l)
   get_bufferDepth(a.l)
@@ -4975,14 +3341,7 @@ EndInterface
 
 ; IHTMLScreen2 interface definition
 ;
-Interface IHTMLScreen2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLScreen2 Extends IDispatch
   get_logicalXDPI(a.l)
   get_logicalYDPI(a.l)
   get_deviceXDPI(a.l)
@@ -4991,88 +3350,39 @@ EndInterface
 
 ; IHTMLWindow4 interface definition
 ;
-Interface IHTMLWindow4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLWindow4 Extends IDispatch
   createPopup(a.l, b.l)
   get_frameElement(a.l)
 EndInterface
 
 ; DispHTMLScreen interface definition
 ;
-Interface DispHTMLScreen
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLScreen Extends IDispatch
 EndInterface
 
 ; DispHTMLWindow2 interface definition
 ;
-Interface DispHTMLWindow2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLWindow2 Extends IDispatch
 EndInterface
 
 ; DispHTMLWindowProxy interface definition
 ;
-Interface DispHTMLWindowProxy
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLWindowProxy Extends IDispatch
 EndInterface
 
 ; HTMLDocumentEvents2 interface definition
 ;
-Interface HTMLDocumentEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLDocumentEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLDocumentEvents interface definition
 ;
-Interface HTMLDocumentEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLDocumentEvents Extends IDispatch
 EndInterface
 
 ; IHTMLDocument3 interface definition
 ;
-Interface IHTMLDocument3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDocument3 Extends IDispatch
   releaseCapture()
   recalc(a.l)
   createTextNode(a.p-bstr, b.l)
@@ -5118,14 +3428,7 @@ EndInterface
 
 ; IHTMLDocument4 interface definition
 ;
-Interface IHTMLDocument4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDocument4 Extends IDispatch
   focus()
   hasFocus(a.l)
   put_onselectionchange(a.p-variant)
@@ -5144,14 +3447,7 @@ EndInterface
 
 ; IHTMLDocument5 interface definition
 ;
-Interface IHTMLDocument5
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDocument5 Extends IDispatch
   put_onmousewheel(a.p-variant)
   get_onmousewheel(a.l)
   get_doctype(a.l)
@@ -5175,38 +3471,17 @@ EndInterface
 
 ; DispHTMLDocument interface definition
 ;
-Interface DispHTMLDocument
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLDocument Extends IDispatch
 EndInterface
 
 ; DWebBridgeEvents interface definition
 ;
-Interface DWebBridgeEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DWebBridgeEvents Extends IDispatch
 EndInterface
 
 ; IWebBridge interface definition
 ;
-Interface IWebBridge
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IWebBridge Extends IDispatch
   put_URL(a.p-bstr)
   get_URL(a.l)
   put_Scrollbar(a.l)
@@ -5220,14 +3495,7 @@ EndInterface
 
 ; IWBScriptControl interface definition
 ;
-Interface IWBScriptControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IWBScriptControl Extends IDispatch
   raiseEvent(a.p-bstr, b.p-variant)
   bubbleEvent()
   setContextMenu(a.p-variant)
@@ -5244,14 +3512,7 @@ EndInterface
 
 ; IHTMLEmbedElement interface definition
 ;
-Interface IHTMLEmbedElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLEmbedElement Extends IDispatch
   put_hidden(a.p-bstr)
   get_hidden(a.l)
   get_palette(a.l)
@@ -5270,50 +3531,22 @@ EndInterface
 
 ; DispHTMLEmbed interface definition
 ;
-Interface DispHTMLEmbed
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLEmbed Extends IDispatch
 EndInterface
 
 ; HTMLMapEvents2 interface definition
 ;
-Interface HTMLMapEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLMapEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLMapEvents interface definition
 ;
-Interface HTMLMapEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLMapEvents Extends IDispatch
 EndInterface
 
 ; IHTMLAreasCollection interface definition
 ;
-Interface IHTMLAreasCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAreasCollection Extends IDispatch
   put_length(a.l)
   get_length(a.l)
   get__newEnum(a.l)
@@ -5325,40 +3558,19 @@ EndInterface
 
 ; IHTMLAreasCollection2 interface definition
 ;
-Interface IHTMLAreasCollection2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAreasCollection2 Extends IDispatch
   urns(a.p-variant, b.l)
 EndInterface
 
 ; IHTMLAreasCollection3 interface definition
 ;
-Interface IHTMLAreasCollection3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAreasCollection3 Extends IDispatch
   namedItem(a.p-bstr, b.l)
 EndInterface
 
 ; IHTMLMapElement interface definition
 ;
-Interface IHTMLMapElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLMapElement Extends IDispatch
   get_areas(a.l)
   put_name(a.p-bstr)
   get_name(a.l)
@@ -5366,62 +3578,27 @@ EndInterface
 
 ; DispHTMLAreasCollection interface definition
 ;
-Interface DispHTMLAreasCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLAreasCollection Extends IDispatch
 EndInterface
 
 ; DispHTMLMapElement interface definition
 ;
-Interface DispHTMLMapElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLMapElement Extends IDispatch
 EndInterface
 
 ; HTMLAreaEvents2 interface definition
 ;
-Interface HTMLAreaEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLAreaEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLAreaEvents interface definition
 ;
-Interface HTMLAreaEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLAreaEvents Extends IDispatch
 EndInterface
 
 ; IHTMLAreaElement interface definition
 ;
-Interface IHTMLAreaElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAreaElement Extends IDispatch
   put_shape(a.p-bstr)
   get_shape(a.l)
   put_coords(a.p-bstr)
@@ -5460,26 +3637,12 @@ EndInterface
 
 ; DispHTMLAreaElement interface definition
 ;
-Interface DispHTMLAreaElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLAreaElement Extends IDispatch
 EndInterface
 
 ; IHTMLTableCaption interface definition
 ;
-Interface IHTMLTableCaption
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableCaption Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
   put_vAlign(a.p-bstr)
@@ -5488,26 +3651,12 @@ EndInterface
 
 ; DispHTMLTableCaption interface definition
 ;
-Interface DispHTMLTableCaption
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLTableCaption Extends IDispatch
 EndInterface
 
 ; IHTMLCommentElement interface definition
 ;
-Interface IHTMLCommentElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLCommentElement Extends IDispatch
   put_text(a.p-bstr)
   get_text(a.l)
   put_atomic(a.l)
@@ -5516,14 +3665,7 @@ EndInterface
 
 ; IHTMLCommentElement2 interface definition
 ;
-Interface IHTMLCommentElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLCommentElement2 Extends IDispatch
   put_data(a.p-bstr)
   get_data(a.l)
   get_length(a.l)
@@ -5536,38 +3678,17 @@ EndInterface
 
 ; DispHTMLCommentElement interface definition
 ;
-Interface DispHTMLCommentElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLCommentElement Extends IDispatch
 EndInterface
 
 ; IHTMLPhraseElement interface definition
 ;
-Interface IHTMLPhraseElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLPhraseElement Extends IDispatch
 EndInterface
 
 ; IHTMLPhraseElement2 interface definition
 ;
-Interface IHTMLPhraseElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLPhraseElement2 Extends IDispatch
   put_cite(a.p-bstr)
   get_cite(a.l)
   put_dateTime(a.p-bstr)
@@ -5576,74 +3697,32 @@ EndInterface
 
 ; IHTMLSpanElement interface definition
 ;
-Interface IHTMLSpanElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLSpanElement Extends IDispatch
 EndInterface
 
 ; DispHTMLPhraseElement interface definition
 ;
-Interface DispHTMLPhraseElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLPhraseElement Extends IDispatch
 EndInterface
 
 ; DispHTMLSpanElement interface definition
 ;
-Interface DispHTMLSpanElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLSpanElement Extends IDispatch
 EndInterface
 
 ; HTMLTableEvents2 interface definition
 ;
-Interface HTMLTableEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLTableEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLTableEvents interface definition
 ;
-Interface HTMLTableEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLTableEvents Extends IDispatch
 EndInterface
 
 ; IHTMLTableSection interface definition
 ;
-Interface IHTMLTableSection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableSection Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
   put_vAlign(a.p-bstr)
@@ -5657,14 +3736,7 @@ EndInterface
 
 ; IHTMLTable interface definition
 ;
-Interface IHTMLTable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTable Extends IDispatch
   put_cols(a.l)
   get_cols(a.l)
   put_border(a.p-variant)
@@ -5718,14 +3790,7 @@ EndInterface
 
 ; IHTMLTable2 interface definition
 ;
-Interface IHTMLTable2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTable2 Extends IDispatch
   firstPage()
   lastPage()
   get_cells(a.l)
@@ -5734,28 +3799,14 @@ EndInterface
 
 ; IHTMLTable3 interface definition
 ;
-Interface IHTMLTable3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTable3 Extends IDispatch
   put_summary(a.p-bstr)
   get_summary(a.l)
 EndInterface
 
 ; IHTMLTableCol interface definition
 ;
-Interface IHTMLTableCol
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableCol Extends IDispatch
   put_span(a.l)
   get_span(a.l)
   put_width(a.p-variant)
@@ -5768,14 +3819,7 @@ EndInterface
 
 ; IHTMLTableCol2 interface definition
 ;
-Interface IHTMLTableCol2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableCol2 Extends IDispatch
   put_ch(a.p-bstr)
   get_ch(a.l)
   put_chOff(a.p-bstr)
@@ -5784,27 +3828,13 @@ EndInterface
 
 ; IHTMLTableSection2 interface definition
 ;
-Interface IHTMLTableSection2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableSection2 Extends IDispatch
   moveRow(a.l, b.l, c.l)
 EndInterface
 
 ; IHTMLTableSection3 interface definition
 ;
-Interface IHTMLTableSection3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableSection3 Extends IDispatch
   put_ch(a.p-bstr)
   get_ch(a.l)
   put_chOff(a.p-bstr)
@@ -5813,14 +3843,7 @@ EndInterface
 
 ; IHTMLTableRow interface definition
 ;
-Interface IHTMLTableRow
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableRow Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
   put_vAlign(a.p-bstr)
@@ -5842,28 +3865,14 @@ EndInterface
 
 ; IHTMLTableRow2 interface definition
 ;
-Interface IHTMLTableRow2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableRow2 Extends IDispatch
   put_height(a.p-variant)
   get_height(a.l)
 EndInterface
 
 ; IHTMLTableRow3 interface definition
 ;
-Interface IHTMLTableRow3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableRow3 Extends IDispatch
   put_ch(a.p-bstr)
   get_ch(a.l)
   put_chOff(a.p-bstr)
@@ -5872,14 +3881,7 @@ EndInterface
 
 ; IHTMLTableRowMetrics interface definition
 ;
-Interface IHTMLTableRowMetrics
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableRowMetrics Extends IDispatch
   get_clientHeight(a.l)
   get_clientWidth(a.l)
   get_clientTop(a.l)
@@ -5888,14 +3890,7 @@ EndInterface
 
 ; IHTMLTableCell interface definition
 ;
-Interface IHTMLTableCell
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableCell Extends IDispatch
   put_rowSpan(a.l)
   get_rowSpan(a.l)
   put_colSpan(a.l)
@@ -5925,14 +3920,7 @@ EndInterface
 
 ; IHTMLTableCell2 interface definition
 ;
-Interface IHTMLTableCell2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLTableCell2 Extends IDispatch
   put_abbr(a.p-bstr)
   get_abbr(a.l)
   put_axis(a.p-bstr)
@@ -5949,98 +3937,42 @@ EndInterface
 
 ; DispHTMLTable interface definition
 ;
-Interface DispHTMLTable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLTable Extends IDispatch
 EndInterface
 
 ; DispHTMLTableCol interface definition
 ;
-Interface DispHTMLTableCol
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLTableCol Extends IDispatch
 EndInterface
 
 ; DispHTMLTableSection interface definition
 ;
-Interface DispHTMLTableSection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLTableSection Extends IDispatch
 EndInterface
 
 ; DispHTMLTableRow interface definition
 ;
-Interface DispHTMLTableRow
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLTableRow Extends IDispatch
 EndInterface
 
 ; DispHTMLTableCell interface definition
 ;
-Interface DispHTMLTableCell
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLTableCell Extends IDispatch
 EndInterface
 
 ; HTMLScriptEvents2 interface definition
 ;
-Interface HTMLScriptEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLScriptEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLScriptEvents interface definition
 ;
-Interface HTMLScriptEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLScriptEvents Extends IDispatch
 EndInterface
 
 ; IHTMLScriptElement interface definition
 ;
-Interface IHTMLScriptElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLScriptElement Extends IDispatch
   put_src(a.p-bstr)
   get_src(a.l)
   put_htmlFor(a.p-bstr)
@@ -6060,88 +3992,39 @@ EndInterface
 
 ; IHTMLScriptElement2 interface definition
 ;
-Interface IHTMLScriptElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLScriptElement2 Extends IDispatch
   put_charset(a.p-bstr)
   get_charset(a.l)
 EndInterface
 
 ; DispHTMLScriptElement interface definition
 ;
-Interface DispHTMLScriptElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLScriptElement Extends IDispatch
 EndInterface
 
 ; IHTMLNoShowElement interface definition
 ;
-Interface IHTMLNoShowElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLNoShowElement Extends IDispatch
 EndInterface
 
 ; DispHTMLNoShowElement interface definition
 ;
-Interface DispHTMLNoShowElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLNoShowElement Extends IDispatch
 EndInterface
 
 ; HTMLObjectElementEvents2 interface definition
 ;
-Interface HTMLObjectElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLObjectElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLObjectElementEvents interface definition
 ;
-Interface HTMLObjectElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLObjectElementEvents Extends IDispatch
 EndInterface
 
 ; IHTMLObjectElement interface definition
 ;
-Interface IHTMLObjectElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLObjectElement Extends IDispatch
   get_object(a.l)
   get_classid(a.l)
   get_data(a.l)
@@ -6180,14 +4063,7 @@ EndInterface
 
 ; IHTMLObjectElement2 interface definition
 ;
-Interface IHTMLObjectElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLObjectElement2 Extends IDispatch
   namedRecordset(a.p-bstr, b.l, c.l)
   put_classid(a.p-bstr)
   get_classid(a.l)
@@ -6197,14 +4073,7 @@ EndInterface
 
 ; IHTMLObjectElement3 interface definition
 ;
-Interface IHTMLObjectElement3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLObjectElement3 Extends IDispatch
   put_archive(a.p-bstr)
   get_archive(a.l)
   put_alt(a.p-bstr)
@@ -6221,14 +4090,7 @@ EndInterface
 
 ; IHTMLParamElement interface definition
 ;
-Interface IHTMLParamElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLParamElement Extends IDispatch
   put_name(a.p-bstr)
   get_name(a.l)
   put_value(a.p-bstr)
@@ -6241,62 +4103,27 @@ EndInterface
 
 ; DispHTMLObjectElement interface definition
 ;
-Interface DispHTMLObjectElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLObjectElement Extends IDispatch
 EndInterface
 
 ; DispHTMLParamElement interface definition
 ;
-Interface DispHTMLParamElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLParamElement Extends IDispatch
 EndInterface
 
 ; HTMLFrameSiteEvents2 interface definition
 ;
-Interface HTMLFrameSiteEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLFrameSiteEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLFrameSiteEvents interface definition
 ;
-Interface HTMLFrameSiteEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLFrameSiteEvents Extends IDispatch
 EndInterface
 
 ; IHTMLFrameBase2 interface definition
 ;
-Interface IHTMLFrameBase2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFrameBase2 Extends IDispatch
   get_contentWindow(a.l)
   put_onload(a.p-variant)
   get_onload(a.l)
@@ -6309,54 +4136,26 @@ EndInterface
 
 ; IHTMLFrameBase3 interface definition
 ;
-Interface IHTMLFrameBase3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFrameBase3 Extends IDispatch
   put_longDesc(a.p-bstr)
   get_longDesc(a.l)
 EndInterface
 
 ; DispHTMLFrameBase interface definition
 ;
-Interface DispHTMLFrameBase
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLFrameBase Extends IDispatch
 EndInterface
 
 ; IHTMLFrameElement interface definition
 ;
-Interface IHTMLFrameElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFrameElement Extends IDispatch
   put_borderColor(a.p-variant)
   get_borderColor(a.l)
 EndInterface
 
 ; IHTMLFrameElement2 interface definition
 ;
-Interface IHTMLFrameElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFrameElement2 Extends IDispatch
   put_height(a.p-variant)
   get_height(a.l)
   put_width(a.p-variant)
@@ -6365,26 +4164,12 @@ EndInterface
 
 ; DispHTMLFrameElement interface definition
 ;
-Interface DispHTMLFrameElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLFrameElement Extends IDispatch
 EndInterface
 
 ; IHTMLIFrameElement interface definition
 ;
-Interface IHTMLIFrameElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLIFrameElement Extends IDispatch
   put_vspace(a.l)
   get_vspace(a.l)
   put_hspace(a.l)
@@ -6395,14 +4180,7 @@ EndInterface
 
 ; IHTMLIFrameElement2 interface definition
 ;
-Interface IHTMLIFrameElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLIFrameElement2 Extends IDispatch
   put_height(a.p-variant)
   get_height(a.l)
   put_width(a.p-variant)
@@ -6411,156 +4189,72 @@ EndInterface
 
 ; DispHTMLIFrame interface definition
 ;
-Interface DispHTMLIFrame
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLIFrame Extends IDispatch
 EndInterface
 
 ; IHTMLDivPosition interface definition
 ;
-Interface IHTMLDivPosition
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDivPosition Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
 EndInterface
 
 ; IHTMLFieldSetElement interface definition
 ;
-Interface IHTMLFieldSetElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFieldSetElement Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
 EndInterface
 
 ; IHTMLFieldSetElement2 interface definition
 ;
-Interface IHTMLFieldSetElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFieldSetElement2 Extends IDispatch
   get_form(a.l)
 EndInterface
 
 ; IHTMLLegendElement interface definition
 ;
-Interface IHTMLLegendElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLLegendElement Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
 EndInterface
 
 ; IHTMLLegendElement2 interface definition
 ;
-Interface IHTMLLegendElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLLegendElement2 Extends IDispatch
   get_form(a.l)
 EndInterface
 
 ; DispHTMLDivPosition interface definition
 ;
-Interface DispHTMLDivPosition
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLDivPosition Extends IDispatch
 EndInterface
 
 ; DispHTMLFieldSetElement interface definition
 ;
-Interface DispHTMLFieldSetElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLFieldSetElement Extends IDispatch
 EndInterface
 
 ; DispHTMLLegendElement interface definition
 ;
-Interface DispHTMLLegendElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLLegendElement Extends IDispatch
 EndInterface
 
 ; IHTMLSpanFlow interface definition
 ;
-Interface IHTMLSpanFlow
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLSpanFlow Extends IDispatch
   put_align(a.p-bstr)
   get_align(a.l)
 EndInterface
 
 ; DispHTMLSpanFlow interface definition
 ;
-Interface DispHTMLSpanFlow
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLSpanFlow Extends IDispatch
 EndInterface
 
 ; IHTMLFrameSetElement interface definition
 ;
-Interface IHTMLFrameSetElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFrameSetElement Extends IDispatch
   put_rows(a.p-bstr)
   get_rows(a.l)
   put_cols(a.p-bstr)
@@ -6585,14 +4279,7 @@ EndInterface
 
 ; IHTMLFrameSetElement2 interface definition
 ;
-Interface IHTMLFrameSetElement2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFrameSetElement2 Extends IDispatch
   put_onbeforeprint(a.p-variant)
   get_onbeforeprint(a.l)
   put_onafterprint(a.p-variant)
@@ -6601,26 +4288,12 @@ EndInterface
 
 ; DispHTMLFrameSetSite interface definition
 ;
-Interface DispHTMLFrameSetSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLFrameSetSite Extends IDispatch
 EndInterface
 
 ; IHTMLBGsound interface definition
 ;
-Interface IHTMLBGsound
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLBGsound Extends IDispatch
   put_src(a.p-bstr)
   get_src(a.l)
   put_loop(a.p-variant)
@@ -6633,26 +4306,12 @@ EndInterface
 
 ; DispHTMLBGsound interface definition
 ;
-Interface DispHTMLBGsound
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLBGsound Extends IDispatch
 EndInterface
 
 ; IHTMLFontNamesCollection interface definition
 ;
-Interface IHTMLFontNamesCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFontNamesCollection Extends IDispatch
   get_length(a.l)
   get__newEnum(a.l)
   item(a.l, b.l)
@@ -6660,14 +4319,7 @@ EndInterface
 
 ; IHTMLFontSizesCollection interface definition
 ;
-Interface IHTMLFontSizesCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLFontSizesCollection Extends IDispatch
   get_length(a.l)
   get__newEnum(a.l)
   get_forFont(a.l)
@@ -6676,14 +4328,7 @@ EndInterface
 
 ; IHTMLOptionsHolder interface definition
 ;
-Interface IHTMLOptionsHolder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLOptionsHolder Extends IDispatch
   get_document(a.l)
   get_fonts(a.l)
   put_execArg(a.p-variant)
@@ -6715,38 +4360,17 @@ EndInterface
 
 ; HTMLStyleElementEvents2 interface definition
 ;
-Interface HTMLStyleElementEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLStyleElementEvents2 Extends IDispatch
 EndInterface
 
 ; HTMLStyleElementEvents interface definition
 ;
-Interface HTMLStyleElementEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLStyleElementEvents Extends IDispatch
 EndInterface
 
 ; IHTMLStyleElement interface definition
 ;
-Interface IHTMLStyleElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyleElement Extends IDispatch
   put_type(a.p-bstr)
   get_type(a.l)
   get_readyState(a.l)
@@ -6765,46 +4389,26 @@ EndInterface
 
 ; DispHTMLStyleElement interface definition
 ;
-Interface DispHTMLStyleElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLStyleElement Extends IDispatch
 EndInterface
 
 ; IHTMLStyleFontFace interface definition
 ;
-Interface IHTMLStyleFontFace
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLStyleFontFace Extends IDispatch
   put_fontsrc(a.p-bstr)
   get_fontsrc(a.l)
 EndInterface
 
 ; ICSSFilterSite interface definition
 ;
-Interface ICSSFilterSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICSSFilterSite Extends IUnknown
   GetElement(a.l)
   FireOnFilterChangeEvent()
 EndInterface
 
 ; IMarkupPointer interface definition
 ;
-Interface IMarkupPointer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMarkupPointer Extends IUnknown
   OwningDoc(a.l)
   Gravity(a.l)
   SetGravity(a.l)
@@ -6830,20 +4434,13 @@ EndInterface
 
 ; IMarkupContainer interface definition
 ;
-Interface IMarkupContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMarkupContainer Extends IUnknown
   OwningDoc(a.l)
 EndInterface
 
 ; IMarkupContainer2 interface definition
 ;
-Interface IMarkupContainer2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  OwningDoc(a.l)
+Interface IMarkupContainer2 Extends IMarkupContainer
   CreateChangeLog(a.l, b.l, c.l, d.l)
   RegisterForDirtyRange(a.l, b.l)
   UnRegisterForDirtyRange(a.l)
@@ -6854,28 +4451,19 @@ EndInterface
 
 ; IHTMLChangeLog interface definition
 ;
-Interface IHTMLChangeLog
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLChangeLog Extends IUnknown
   GetNextChange(a.l, b.l, c.l)
 EndInterface
 
 ; IHTMLChangeSink interface definition
 ;
-Interface IHTMLChangeSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLChangeSink Extends IUnknown
   Notify()
 EndInterface
 
 ; IActiveIMMApp interface definition
 ;
-Interface IActiveIMMApp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IActiveIMMApp Extends IUnknown
   AssociateContext(a.l, b.l, c.l)
   ConfigureIMEA(a.l, b.l, c.l, d.l)
   ConfigureIMEW(a.l, b.l, c.l, d.l)
@@ -6948,10 +4536,7 @@ EndInterface
 
 ; ISegmentList interface definition
 ;
-Interface ISegmentList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISegmentList Extends IUnknown
   CreateIterator(a.l)
   GetType(a.l)
   IsEmpty(a.l)
@@ -6959,10 +4544,7 @@ EndInterface
 
 ; ISegmentListIterator interface definition
 ;
-Interface ISegmentListIterator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISegmentListIterator Extends IUnknown
   Current(a.l)
   First()
   IsDone()
@@ -6971,10 +4553,7 @@ EndInterface
 
 ; IHTMLCaret interface definition
 ;
-Interface IHTMLCaret
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLCaret Extends IUnknown
   MoveCaretToPointer(a.l, b.l, c.l)
   MoveCaretToPointerEx(a.l, b.l, c.l, d.l)
   MoveMarkupPointerToCaret(a.l)
@@ -6991,20 +4570,13 @@ EndInterface
 
 ; ISegment interface definition
 ;
-Interface ISegment
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISegment Extends IUnknown
   GetPointers(a.l, b.l)
 EndInterface
 
 ; IElementSegment interface definition
 ;
-Interface IElementSegment
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetPointers(a.l, b.l)
+Interface IElementSegment Extends ISegment
   GetElement(a.l)
   SetPrimary(a.l)
   IsPrimary(a.l)
@@ -7012,19 +4584,12 @@ EndInterface
 
 ; IHighlightSegment interface definition
 ;
-Interface IHighlightSegment
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetPointers(a.l, b.l)
+Interface IHighlightSegment Extends ISegment
 EndInterface
 
 ; IHighlightRenderingServices interface definition
 ;
-Interface IHighlightRenderingServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHighlightRenderingServices Extends IUnknown
   AddSegment(a.l, b.l, c.l, d.l)
   MoveSegmentToPointers(a.l, b.l, c.l)
   RemoveSegment(a.l)
@@ -7032,10 +4597,7 @@ EndInterface
 
 ; ILineInfo interface definition
 ;
-Interface ILineInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ILineInfo Extends IUnknown
   get_x(a.l)
   get_baseLine(a.l)
   get_textDescent(a.l)
@@ -7045,10 +4607,7 @@ EndInterface
 
 ; IDisplayPointer interface definition
 ;
-Interface IDisplayPointer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDisplayPointer Extends IUnknown
   MoveToPoint(a.l, b.l, c.l, d.l, e.l)
   MoveUnit(a.l, b.l)
   PositionMarkupPointer(a.l)
@@ -7072,10 +4631,7 @@ EndInterface
 
 ; IDisplayServices interface definition
 ;
-Interface IDisplayServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDisplayServices Extends IUnknown
   CreateDisplayPointer(a.l)
   TransformRect(a.l, b.l, c.l, d.l)
   TransformPoint(a.l, b.l, c.l, d.l)
@@ -7087,14 +4643,7 @@ EndInterface
 
 ; IHtmlDlgSafeHelper interface definition
 ;
-Interface IHtmlDlgSafeHelper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHtmlDlgSafeHelper Extends IDispatch
   choosecolordlg(a.p-variant, b.l)
   getCharset(a.p-bstr, b.l)
   get_Fonts(a.l)
@@ -7103,14 +4652,7 @@ EndInterface
 
 ; IBlockFormats interface definition
 ;
-Interface IBlockFormats
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IBlockFormats Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   Item(a.l, b.l)
@@ -7118,14 +4660,7 @@ EndInterface
 
 ; IFontNames interface definition
 ;
-Interface IFontNames
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFontNames Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   Item(a.l, b.l)
@@ -7133,29 +4668,20 @@ EndInterface
 
 ; ICSSFilter interface definition
 ;
-Interface ICSSFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICSSFilter Extends IUnknown
   SetSite(a.l)
   OnAmbientPropertyChange(a.l)
 EndInterface
 
 ; ISecureUrlHost interface definition
 ;
-Interface ISecureUrlHost
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISecureUrlHost Extends IUnknown
   ValidateSecureUrl(a.l, b.l, c.l)
 EndInterface
 
 ; IMarkupServices interface definition
 ;
-Interface IMarkupServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMarkupServices Extends IUnknown
   CreateMarkupPointer(a.l)
   CreateMarkupContainer(a.l)
   CreateElement(a.l, b.l, c.l)
@@ -7180,30 +4706,7 @@ EndInterface
 
 ; IMarkupServices2 interface definition
 ;
-Interface IMarkupServices2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  CreateMarkupPointer(a.l)
-  CreateMarkupContainer(a.l)
-  CreateElement(a.l, b.l, c.l)
-  CloneElement(a.l, b.l)
-  InsertElement(a.l, b.l, c.l)
-  RemoveElement(a.l)
-  Remove(a.l, b.l)
-  Copy(a.l, b.l, c.l)
-  Move(a.l, b.l, c.l)
-  InsertText(a.l, b.l, c.l)
-  ParseString(a.l, b.l, c.l, d.l, e.l)
-  ParseGlobal(a.l, b.l, c.l, d.l, e.l)
-  IsScopedElement(a.l, b.l)
-  GetElementTagId(a.l, b.l)
-  GetTagIDForName(a.p-bstr, b.l)
-  GetNameForTagID(a.l, b.l)
-  MovePointersToRange(a.l, b.l, c.l)
-  MoveRangeToPointers(a.l, b.l, c.l)
-  BeginUndoUnit(a.l)
-  EndUndoUnit()
+Interface IMarkupServices2 Extends IMarkupServices
   ParseGlobalEx(a.l, b.l, c.l, d.l, e.l, f.l)
   ValidateElements(a.l, b.l, c.l, d.l, e.l, f.l)
   SaveSegmentsToClipboard(a.l, b.l)
@@ -7211,40 +4714,13 @@ EndInterface
 
 ; IHTMLChangePlayback interface definition
 ;
-Interface IHTMLChangePlayback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLChangePlayback Extends IUnknown
   ExecChange(a.l, b.l)
 EndInterface
 
 ; IMarkupPointer2 interface definition
 ;
-Interface IMarkupPointer2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  OwningDoc(a.l)
-  Gravity(a.l)
-  SetGravity(a.l)
-  Cling(a.l)
-  SetCling(a.l)
-  Unposition()
-  IsPositioned(a.l)
-  GetContainer(a.l)
-  MoveAdjacentToElement(a.l, b.l)
-  MoveToPointer(a.l)
-  MoveToContainer(a.l, b.l)
-  Left(a.l, b.l, c.l, d.l, e.l)
-  Right(a.l, b.l, c.l, d.l, e.l)
-  CurrentScope(a.l)
-  IsLeftOf(a.l, b.l)
-  IsLeftOfOrEqualTo(a.l, b.l)
-  IsRightOf(a.l, b.l)
-  IsRightOfOrEqualTo(a.l, b.l)
-  IsEqualTo(a.l, b.l)
-  MoveUnit(a.l)
-  FindText(a.l, b.l, c.l, d.l)
+Interface IMarkupPointer2 Extends IMarkupPointer
   IsAtWordBreak(a.l)
   GetMarkupPosition(a.l)
   MoveToMarkupPosition(a.l, b.l)
@@ -7255,10 +4731,7 @@ EndInterface
 
 ; IMarkupTextFrags interface definition
 ;
-Interface IMarkupTextFrags
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMarkupTextFrags Extends IUnknown
   GetTextFragCount(a.l)
   GetTextFrag(a.l, b.l, c.l)
   RemoveTextFrag(a.l)
@@ -7268,56 +4741,37 @@ EndInterface
 
 ; IXMLGenericParse interface definition
 ;
-Interface IXMLGenericParse
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IXMLGenericParse Extends IUnknown
   SetGenericParse(a.l)
 EndInterface
 
 ; IHTMLEditHost interface definition
 ;
-Interface IHTMLEditHost
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLEditHost Extends IUnknown
   SnapRect(a.l, b.l, c.l)
 EndInterface
 
 ; IHTMLEditHost2 interface definition
 ;
-Interface IHTMLEditHost2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  SnapRect(a.l, b.l, c.l)
+Interface IHTMLEditHost2 Extends IHTMLEditHost
   PreDrag()
 EndInterface
 
 ; ISequenceNumber interface definition
 ;
-Interface ISequenceNumber
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISequenceNumber Extends IUnknown
   GetSequenceNumber(a.l, b.l)
 EndInterface
 
 ; IIMEServices interface definition
 ;
-Interface IIMEServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IIMEServices Extends IUnknown
   GetActiveIMM(a.l)
 EndInterface
 
 ; ISelectionServicesListener interface definition
 ;
-Interface ISelectionServicesListener
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISelectionServicesListener Extends IUnknown
   BeginSelectionUndo()
   EndSelectionUndo()
   OnSelectedElementExit(a.l, b.l, c.l, d.l)
@@ -7327,10 +4781,7 @@ EndInterface
 
 ; ISelectionServices interface definition
 ;
-Interface ISelectionServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISelectionServices Extends IUnknown
   SetSelectionType(a.l, b.l)
   GetMarkupContainer(a.l)
   AddSegment(a.l, b.l, c.l)
@@ -7341,10 +4792,7 @@ EndInterface
 
 ; IHTMLEditDesigner interface definition
 ;
-Interface IHTMLEditDesigner
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLEditDesigner Extends IUnknown
   PreHandleEvent(a.l, b.l)
   PostHandleEvent(a.l, b.l)
   TranslateAccelerator(a.l, b.l)
@@ -7353,10 +4801,7 @@ EndInterface
 
 ; IHTMLEditServices interface definition
 ;
-Interface IHTMLEditServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLEditServices Extends IUnknown
   AddDesigner(a.l)
   RemoveDesigner(a.l)
   GetSelectionServices(a.l, b.l)
@@ -7367,16 +4812,7 @@ EndInterface
 
 ; IHTMLEditServices2 interface definition
 ;
-Interface IHTMLEditServices2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  AddDesigner(a.l)
-  RemoveDesigner(a.l)
-  GetSelectionServices(a.l, b.l)
-  MoveToSelectionAnchor(a.l)
-  MoveToSelectionEnd(a.l)
-  SelectRange(a.l, b.l, c.l)
+Interface IHTMLEditServices2 Extends IHTMLEditServices
   MoveToSelectionAnchorEx(a.l)
   MoveToSelectionEndEx(a.l)
   FreezeVirtualCaretPos(a.l)
@@ -7385,10 +4821,7 @@ EndInterface
 
 ; IHTMLComputedStyle interface definition
 ;
-Interface IHTMLComputedStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLComputedStyle Extends IUnknown
   get_bold(a.l)
   get_italic(a.l)
   get_underline(a.l)
@@ -7412,26 +4845,12 @@ EndInterface
 
 ; HTMLNamespaceEvents interface definition
 ;
-Interface HTMLNamespaceEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface HTMLNamespaceEvents Extends IDispatch
 EndInterface
 
 ; IHTMLNamespace interface definition
 ;
-Interface IHTMLNamespace
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLNamespace Extends IDispatch
   get_name(a.l)
   get_urn(a.l)
   get_tagNames(a.l)
@@ -7445,14 +4864,7 @@ EndInterface
 
 ; IHTMLNamespaceCollection interface definition
 ;
-Interface IHTMLNamespaceCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLNamespaceCollection Extends IDispatch
   get_length(a.l)
   item(a.p-variant, b.l)
   add(a.p-bstr, b.p-bstr, c.p-variant, d.l)
@@ -7460,10 +4872,7 @@ EndInterface
 
 ; IHTMLPainter interface definition
 ;
-Interface IHTMLPainter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLPainter Extends IUnknown
   Draw(a.l, b.l, c.l, d.l, e.l)
   OnResize(a.l)
   GetPainterInfo(a.l)
@@ -7472,10 +4881,7 @@ EndInterface
 
 ; IHTMLPaintSite interface definition
 ;
-Interface IHTMLPaintSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLPaintSite Extends IUnknown
   InvalidatePainterInfo()
   InvalidateRect(a.l)
   InvalidateRegion(a.l)
@@ -7487,10 +4893,7 @@ EndInterface
 
 ; IHTMLPainterEventInfo interface definition
 ;
-Interface IHTMLPainterEventInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLPainterEventInfo Extends IUnknown
   GetEventInfoFlags(a.l)
   GetEventTarget(a.l)
   SetCursor(a.l)
@@ -7499,23 +4902,13 @@ EndInterface
 
 ; IHTMLPainterOverlay interface definition
 ;
-Interface IHTMLPainterOverlay
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLPainterOverlay Extends IUnknown
   OnMove(a.l)
 EndInterface
 
 ; IHTMLIPrintCollection interface definition
 ;
-Interface IHTMLIPrintCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLIPrintCollection Extends IDispatch
   get_length(a.l)
   get__newEnum(a.l)
   item(a.l, b.l)
@@ -7523,10 +4916,7 @@ EndInterface
 
 ; IEnumPrivacyRecords interface definition
 ;
-Interface IEnumPrivacyRecords
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumPrivacyRecords Extends IUnknown
   Reset()
   GetSize(a.l)
   GetPrivacyImpacted(a.l)
@@ -7535,14 +4925,7 @@ EndInterface
 
 ; IHTMLDialog interface definition
 ;
-Interface IHTMLDialog
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDialog Extends IDispatch
   put_dialogTop(a.p-variant)
   get_dialogTop(a.l)
   put_dialogLeft(a.p-variant)
@@ -7561,14 +4944,7 @@ EndInterface
 
 ; IHTMLDialog2 interface definition
 ;
-Interface IHTMLDialog2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDialog2 Extends IDispatch
   put_status(a.p-bstr)
   get_status(a.l)
   put_resizable(a.p-bstr)
@@ -7577,14 +4953,7 @@ EndInterface
 
 ; IHTMLDialog3 interface definition
 ;
-Interface IHTMLDialog3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLDialog3 Extends IDispatch
   put_unadorned(a.p-bstr)
   get_unadorned(a.l)
   put_dialogHide(a.p-bstr)
@@ -7593,14 +4962,7 @@ EndInterface
 
 ; IHTMLModelessInit interface definition
 ;
-Interface IHTMLModelessInit
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLModelessInit Extends IDispatch
   get_parameters(a.l)
   get_optionString(a.l)
   get_moniker(a.l)
@@ -7609,14 +4971,7 @@ EndInterface
 
 ; IHTMLPopup interface definition
 ;
-Interface IHTMLPopup
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLPopup Extends IDispatch
   show(a.l, b.l, c.l, d.l, e.l)
   hide()
   get_document(a.l)
@@ -7625,26 +4980,12 @@ EndInterface
 
 ; DispHTMLPopup interface definition
 ;
-Interface DispHTMLPopup
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLPopup Extends IDispatch
 EndInterface
 
 ; IHTMLAppBehavior interface definition
 ;
-Interface IHTMLAppBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAppBehavior Extends IDispatch
   put_applicationName(a.p-bstr)
   get_applicationName(a.l)
   put_version(a.p-bstr)
@@ -7674,14 +5015,7 @@ EndInterface
 
 ; IHTMLAppBehavior2 interface definition
 ;
-Interface IHTMLAppBehavior2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAppBehavior2 Extends IDispatch
   put_contextMenu(a.p-bstr)
   get_contextMenu(a.l)
   put_innerBorder(a.p-bstr)
@@ -7696,194 +5030,105 @@ EndInterface
 
 ; IHTMLAppBehavior3 interface definition
 ;
-Interface IHTMLAppBehavior3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IHTMLAppBehavior3 Extends IDispatch
   put_navigable(a.p-bstr)
   get_navigable(a.l)
 EndInterface
 
 ; DispHTMLAppBehavior interface definition
 ;
-Interface DispHTMLAppBehavior
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispHTMLAppBehavior Extends IDispatch
 EndInterface
 
 ; DispIHTMLInputButtonElement interface definition
 ;
-Interface DispIHTMLInputButtonElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispIHTMLInputButtonElement Extends IDispatch
 EndInterface
 
 ; DispIHTMLInputTextElement interface definition
 ;
-Interface DispIHTMLInputTextElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispIHTMLInputTextElement Extends IDispatch
 EndInterface
 
 ; DispIHTMLInputFileElement interface definition
 ;
-Interface DispIHTMLInputFileElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispIHTMLInputFileElement Extends IDispatch
 EndInterface
 
 ; DispIHTMLOptionButtonElement interface definition
 ;
-Interface DispIHTMLOptionButtonElement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispIHTMLOptionButtonElement Extends IDispatch
 EndInterface
 
 ; DispIHTMLInputImage interface definition
 ;
-Interface DispIHTMLInputImage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DispIHTMLInputImage Extends IDispatch
 EndInterface
 
 ; IElementNamespace interface definition
 ;
-Interface IElementNamespace
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementNamespace Extends IUnknown
   AddTag(a.p-bstr, b.l)
 EndInterface
 
 ; IElementNamespaceTable interface definition
 ;
-Interface IElementNamespaceTable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementNamespaceTable Extends IUnknown
   AddNamespace(a.p-bstr, b.p-bstr, c.l, d.l)
 EndInterface
 
 ; IElementNamespaceFactory interface definition
 ;
-Interface IElementNamespaceFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementNamespaceFactory Extends IUnknown
   Create(a.l)
 EndInterface
 
 ; IElementNamespaceFactory2 interface definition
 ;
-Interface IElementNamespaceFactory2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Create(a.l)
+Interface IElementNamespaceFactory2 Extends IElementNamespaceFactory
   CreateWithImplementation(a.l, b.p-bstr)
 EndInterface
 
 ; IElementNamespaceFactoryCallback interface definition
 ;
-Interface IElementNamespaceFactoryCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementNamespaceFactoryCallback Extends IUnknown
   Resolve(a.p-bstr, b.p-bstr, c.p-bstr, d.l)
 EndInterface
 
 ; IElementBehaviorSiteOM2 interface definition
 ;
-Interface IElementBehaviorSiteOM2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  RegisterEvent(a.p-unicode, b.l, c.l)
-  GetEventCookie(a.p-unicode, b.l)
-  FireEvent(a.l, b.l)
-  CreateEventObject(a.l)
-  RegisterName(a.p-unicode)
-  RegisterUrn(a.p-unicode)
+Interface IElementBehaviorSiteOM2 Extends IElementBehaviorSiteOM
   GetDefaults(a.l)
 EndInterface
 
 ; IElementBehaviorCategory interface definition
 ;
-Interface IElementBehaviorCategory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorCategory Extends IUnknown
   GetCategory(a.l)
 EndInterface
 
 ; IElementBehaviorSiteCategory interface definition
 ;
-Interface IElementBehaviorSiteCategory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorSiteCategory Extends IUnknown
   GetRelatedBehaviors(a.l, b.p-unicode, c.l)
 EndInterface
 
 ; IElementBehaviorSubmit interface definition
 ;
-Interface IElementBehaviorSubmit
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorSubmit Extends IUnknown
   GetSubmitInfo(a.l)
   Reset()
 EndInterface
 
 ; IElementBehaviorFocus interface definition
 ;
-Interface IElementBehaviorFocus
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorFocus Extends IUnknown
   GetFocusRect(a.l)
 EndInterface
 
 ; IElementBehaviorLayout interface definition
 ;
-Interface IElementBehaviorLayout
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorLayout Extends IUnknown
   GetSize(a.l, b.l, c.l, d.l, e.l)
   GetLayoutInfo(a.l)
   GetPosition(a.l, b.l)
@@ -7892,19 +5137,13 @@ EndInterface
 
 ; IElementBehaviorLayout2 interface definition
 ;
-Interface IElementBehaviorLayout2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorLayout2 Extends IUnknown
   GetTextDescent(a.l)
 EndInterface
 
 ; IElementBehaviorSiteLayout interface definition
 ;
-Interface IElementBehaviorSiteLayout
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorSiteLayout Extends IUnknown
   InvalidateLayoutInfo()
   InvalidateSize()
   GetMediaResolution(a.l)
@@ -7912,18 +5151,12 @@ EndInterface
 
 ; IElementBehaviorSiteLayout2 interface definition
 ;
-Interface IElementBehaviorSiteLayout2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IElementBehaviorSiteLayout2 Extends IUnknown
   GetFontInfo(a.l)
 EndInterface
 
 ; IHostBehaviorInit interface definition
 ;
-Interface IHostBehaviorInit
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHostBehaviorInit Extends IUnknown
   PopulateNamespaceTable()
 EndInterface

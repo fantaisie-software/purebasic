@@ -1,10 +1,7 @@
 ﻿
 ; IDirectPlayVoiceClient interface definition
 ;
-Interface IDirectPlayVoiceClient
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlayVoiceClient Extends IUnknown
   Initialize(a.l, b.l, c.l, d.l, e.l)
   Connect(a.l, b.l, c.l)
   Disconnect(a.l)
@@ -23,10 +20,7 @@ EndInterface
 
 ; IDirectPlayVoiceServer interface definition
 ;
-Interface IDirectPlayVoiceServer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlayVoiceServer Extends IUnknown
   Initialize(a.l, b.l, c.l, d.l, e.l)
   StartSession(a.l, b.l)
   StopSession(a.l)
@@ -41,9 +35,6 @@ EndInterface
 
 ; IDirectPlayVoiceTest interface definition
 ;
-Interface IDirectPlayVoiceTest
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlayVoiceTest Extends IUnknown
   CheckAudioSetup(a.l, b.l, c.l, d.l)
 EndInterface

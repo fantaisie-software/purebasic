@@ -1,10 +1,7 @@
 ﻿
 ; IAMWstDecoder interface definition
 ;
-Interface IAMWstDecoder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMWstDecoder Extends IUnknown
   GetDecoderLevel(a.l)
   GetCurrentService(a.l)
   GetServiceState(a.l)

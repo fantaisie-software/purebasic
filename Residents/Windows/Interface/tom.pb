@@ -1,14 +1,7 @@
 ﻿
 ; ITextDocument interface definition
 ;
-Interface ITextDocument
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITextDocument Extends IDispatch
   GetName(a.l)
   GetSelection(a.l)
   GetStoryCount(a.l)
@@ -32,14 +25,7 @@ EndInterface
 
 ; ITextRange interface definition
 ;
-Interface ITextRange
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITextRange Extends IDispatch
   GetText(a.l)
   SetText(a.p-bstr)
   GetChar(a.l)
@@ -95,65 +81,7 @@ EndInterface
 
 ; ITextSelection interface definition
 ;
-Interface ITextSelection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  GetText(a.l)
-  SetText(a.p-bstr)
-  GetChar(a.l)
-  SetChar(a.l)
-  GetDuplicate(a.l)
-  GetFormattedText(a.l)
-  SetFormattedText(a.l)
-  GetStart(a.l)
-  SetStart(a.l)
-  GetEnd(a.l)
-  SetEnd(a.l)
-  GetFont(a.l)
-  SetFont(a.l)
-  GetPara(a.l)
-  SetPara(a.l)
-  GetStoryLength(a.l)
-  GetStoryType(a.l)
-  Collapse(a.l)
-  Expand(a.l, b.l)
-  GetIndex(a.l, b.l)
-  SetIndex(a.l, b.l, c.l)
-  SetRange(a.l, b.l)
-  InRange(a.l, b.l)
-  InStory(a.l, b.l)
-  IsEqual(a.l, b.l)
-  Select()
-  StartOf(a.l, b.l, c.l)
-  EndOf(a.l, b.l, c.l)
-  Move(a.l, b.l, c.l)
-  MoveStart(a.l, b.l, c.l)
-  MoveEnd(a.l, b.l, c.l)
-  MoveWhile(a.l, b.l, c.l)
-  MoveStartWhile(a.l, b.l, c.l)
-  MoveEndWhile(a.l, b.l, c.l)
-  MoveUntil(a.l, b.l, c.l)
-  MoveStartUntil(a.l, b.l, c.l)
-  MoveEndUntil(a.l, b.l, c.l)
-  FindText(a.p-bstr, b.l, c.l, d.l)
-  FindTextStart(a.p-bstr, b.l, c.l, d.l)
-  FindTextEnd(a.p-bstr, b.l, c.l, d.l)
-  Delete(a.l, b.l, c.l)
-  Cut(a.l)
-  Copy(a.l)
-  Paste(a.l, b.l)
-  CanPaste(a.l, b.l, c.l)
-  CanEdit(a.l)
-  ChangeCase(a.l)
-  GetPoint(a.l, b.l, c.l)
-  SetPoint(a.l, b.l, c.l, d.l)
-  ScrollIntoView(a.l)
-  GetEmbeddedObject(a.l)
+Interface ITextSelection Extends ITextRange
   GetFlags(a.l)
   SetFlags(a.l)
   GetType(a.l)
@@ -281,14 +209,7 @@ EndInterface
 
 ; ITextStoryRanges interface definition
 ;
-Interface ITextStoryRanges
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITextStoryRanges Extends IDispatch
   _NewEnum(a.l)
   Item(a.l, b.l)
   GetCount(a.l)
@@ -296,33 +217,7 @@ EndInterface
 
 ; ITextDocument2 interface definition
 ;
-Interface ITextDocument2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  GetName(a.l)
-  GetSelection(a.l)
-  GetStoryCount(a.l)
-  GetStoryRanges(a.l)
-  GetSaved(a.l)
-  SetSaved(a.l)
-  GetDefaultTabStop(a.l)
-  SetDefaultTabStop(a.l)
-  New()
-  Open(a.l, b.l, c.l)
-  Save(a.l, b.l, c.l)
-  Freeze(a.l)
-  Unfreeze(a.l)
-  BeginEditCollection()
-  EndEditCollection()
-  Undo(a.l, b.l)
-  Redo(a.l, b.l)
-  Range(a.l, b.l, c.l)
-  RangeFromPoint(a.l, b.l, c.l)
+Interface ITextDocument2 Extends ITextDocument
   AttachMsgFilter(a.l)
   SetEffectColor(a.l, b.l)
   GetEffectColor(a.l, b.l)
@@ -347,10 +242,7 @@ EndInterface
 
 ; ITextMsgFilter interface definition
 ;
-Interface ITextMsgFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITextMsgFilter Extends IUnknown
   AttachDocument(a.l, b.l)
   HandleMessage(a.l, b.l, c.l, d.l)
   AttachMsgFilter(a.l)

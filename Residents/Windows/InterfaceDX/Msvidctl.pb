@@ -1,14 +1,7 @@
 ﻿
 ; IMSVidCtl interface definition
 ;
-Interface IMSVidCtl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidCtl Extends IDispatch
   get_AutoSize(a.l)
   put_AutoSize(a.l)
   get_BackColor(a.l)
@@ -57,26 +50,12 @@ EndInterface
 
 ; IMSEventBinder interface definition
 ;
-Interface IMSEventBinder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSEventBinder Extends IDispatch
   Bind(a.l, b.p-bstr, c.p-bstr, d.l)
   Unbind(a.l)
 EndInterface
 
 ; _IMSVidCtlEvents interface definition
 ;
-Interface _IMSVidCtlEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _IMSVidCtlEvents Extends IDispatch
 EndInterface

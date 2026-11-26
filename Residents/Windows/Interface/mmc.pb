@@ -1,10 +1,7 @@
 ﻿
 ; IComponentData interface definition
 ;
-Interface IComponentData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IComponentData Extends IUnknown
   Initialize(a.l)
   CreateComponent(a.l)
   Notify(a.l, b.l, c.l, d.l)
@@ -31,19 +28,13 @@ EndInterface
 
 ; IResultDataCompare interface definition
 ;
-Interface IResultDataCompare
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IResultDataCompare Extends IUnknown
   Compare(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IResultOwnerData interface definition
 ;
-Interface IResultOwnerData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IResultOwnerData Extends IUnknown
   FindItem(a.l, b.l)
   CacheHint(a.l, b.l)
   SortItems(a.l, b.l, c.l)
@@ -51,10 +42,7 @@ EndInterface
 
 ; IConsole interface definition
 ;
-Interface IConsole
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IConsole Extends IUnknown
   SetHeader(a.l)
   SetToolbar(a.l)
   QueryResultView(a.l)
@@ -70,10 +58,7 @@ EndInterface
 
 ; IHeaderCtrl interface definition
 ;
-Interface IHeaderCtrl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHeaderCtrl Extends IUnknown
   InsertColumn(a.l, b.l, c.l, d.l)
   DeleteColumn(a.l)
   SetColumnText(a.l, b.l)
@@ -84,20 +69,13 @@ EndInterface
 
 ; IContextMenuCallback interface definition
 ;
-Interface IContextMenuCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IContextMenuCallback Extends IUnknown
   AddItem(a.l)
 EndInterface
 
 ; IContextMenuProvider interface definition
 ;
-Interface IContextMenuProvider
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  AddItem(a.l)
+Interface IContextMenuProvider Extends IContextMenuCallback
   EmptyMenuList()
   AddPrimaryExtensionItems(a.l, b.l)
   AddThirdPartyExtensionItems(a.l)
@@ -106,30 +84,21 @@ EndInterface
 
 ; IExtendContextMenu interface definition
 ;
-Interface IExtendContextMenu
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IExtendContextMenu Extends IUnknown
   AddMenuItems(a.l, b.l, c.l)
   Command(a.l, b.l)
 EndInterface
 
 ; IImageList interface definition
 ;
-Interface IImageListMMC ; Renamed to IImageList2 as there is another IImageList (more used) !
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IImageListMMC Extends IUnknown ; Renamed to IImageList2 as there is another IImageList (more used) !
   ImageListSetIcon(a.l, b.l)
   ImageListSetStrip(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IResultData interface definition
 ;
-Interface IResultData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IResultData Extends IUnknown
   InsertItem(a.l)
   DeleteItem(a.l, b.l)
   FindItemByLParam(a.l, b.l)
@@ -149,10 +118,7 @@ EndInterface
 
 ; IConsoleNameSpace interface definition
 ;
-Interface IConsoleNameSpace
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IConsoleNameSpace Extends IUnknown
   InsertItem(a.l)
   DeleteItem(a.l, b.l)
   SetItem(a.l)
@@ -164,37 +130,21 @@ EndInterface
 
 ; IConsoleNameSpace2 interface definition
 ;
-Interface IConsoleNameSpace2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  InsertItem(a.l)
-  DeleteItem(a.l, b.l)
-  SetItem(a.l)
-  GetItem(a.l)
-  GetChildItem(a.l, b.l, c.l)
-  GetNextItem(a.l, b.l, c.l)
-  GetParentItem(a.l, b.l, c.l)
+Interface IConsoleNameSpace2 Extends IConsoleNameSpace
   Expand(a.l)
   AddExtension(a.l, b.l)
 EndInterface
 
 ; IPropertySheetCallback interface definition
 ;
-Interface IPropertySheetCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertySheetCallback Extends IUnknown
   AddPage(a.l)
   RemovePage(a.l)
 EndInterface
 
 ; IPropertySheetProvider interface definition
 ;
-Interface IPropertySheetProvider
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertySheetProvider Extends IUnknown
   CreatePropertySheet(a.l, b.l, c.l, d.l, e.l)
   FindPropertySheet(a.l, b.l, c.l)
   AddPrimaryPages(a.l, b.l, c.l, d.l)
@@ -204,20 +154,14 @@ EndInterface
 
 ; IExtendPropertySheet interface definition
 ;
-Interface IExtendPropertySheet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IExtendPropertySheet Extends IUnknown
   CreatePropertyPages(a.l, b.l, c.l)
   QueryPagesFor(a.l)
 EndInterface
 
 ; IControlbar interface definition
 ;
-Interface IControlbar
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IControlbar Extends IUnknown
   Create(a.l, b.l, c.l)
   Attach(a.l, b.l)
   Detach(a.l)
@@ -225,20 +169,14 @@ EndInterface
 
 ; IExtendControlbar interface definition
 ;
-Interface IExtendControlbar
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IExtendControlbar Extends IUnknown
   SetControlbar(a.l)
   ControlbarNotify(a.l, b.l, c.l)
 EndInterface
 
 ; IToolbar interface definition
 ;
-Interface IToolbar
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IToolbar Extends IUnknown
   AddBitmap(a.l, b.l, c.l, d.l, e.l)
   AddButtons(a.l, b.l)
   InsertButton(a.l, b.l)
@@ -249,10 +187,7 @@ EndInterface
 
 ; IConsoleVerb interface definition
 ;
-Interface IConsoleVerb
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IConsoleVerb Extends IUnknown
   GetVerbState(a.l, b.l, c.l)
   SetVerbState(a.l, b.l, c.l)
   SetDefaultVerb(a.l)
@@ -261,10 +196,7 @@ EndInterface
 
 ; ISnapinAbout interface definition
 ;
-Interface ISnapinAbout
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISnapinAbout Extends IUnknown
   GetSnapinDescription(a.l)
   GetProvider(a.l)
   GetSnapinVersion(a.l)
@@ -274,10 +206,7 @@ EndInterface
 
 ; IMenuButton interface definition
 ;
-Interface IMenuButton
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMenuButton Extends IUnknown
   AddButton(a.l, b.p-unicode, c.p-unicode)
   SetButton(a.l, b.p-unicode, c.p-unicode)
   SetButtonState(a.l, b.l, c.l)
@@ -285,36 +214,19 @@ EndInterface
 
 ; ISnapinHelp interface definition
 ;
-Interface ISnapinHelp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISnapinHelp Extends IUnknown
   GetHelpTopic(a.l)
 EndInterface
 
 ; IExtendPropertySheet2 interface definition
 ;
-Interface IExtendPropertySheet2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  CreatePropertyPages(a.l, b.l, c.l)
-  QueryPagesFor(a.l)
+Interface IExtendPropertySheet2 Extends IExtendPropertySheet
   GetWatermarks(a.l, b.l, c.l, d.l, e.l)
 EndInterface
 
 ; IHeaderCtrl2 interface definition
 ;
-Interface IHeaderCtrl2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  InsertColumn(a.l, b.l, c.l, d.l)
-  DeleteColumn(a.l)
-  SetColumnText(a.l, b.l)
-  GetColumnText(a.l, b.l)
-  SetColumnWidth(a.l, b.l)
-  GetColumnWidth(a.l, b.l)
+Interface IHeaderCtrl2 Extends IHeaderCtrl
   SetChangeTimeOut(a.l)
   SetColumnFilter(a.l, b.l, c.l)
   GetColumnFilter(a.l, b.l, c.l)
@@ -322,20 +234,13 @@ EndInterface
 
 ; ISnapinHelp2 interface definition
 ;
-Interface ISnapinHelp2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetHelpTopic(a.l)
+Interface ISnapinHelp2 Extends ISnapinHelp
   GetLinkedTopics(a.l)
 EndInterface
 
 ; IEnumTASK interface definition
 ;
-Interface IEnumTASK
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumTASK Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -344,10 +249,7 @@ EndInterface
 
 ; IExtendTaskPad interface definition
 ;
-Interface IExtendTaskPad
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IExtendTaskPad Extends IUnknown
   TaskNotify(a.l, b.l, c.l)
   EnumTasks(a.l, b.p-unicode, c.l)
   GetTitle(a.p-unicode, b.l)
@@ -358,21 +260,7 @@ EndInterface
 
 ; IConsole2 interface definition
 ;
-Interface IConsole2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  SetHeader(a.l)
-  SetToolbar(a.l)
-  QueryResultView(a.l)
-  QueryScopeImageList(a.l)
-  QueryResultImageList(a.l)
-  UpdateAllViews(a.l, b.l, c.l)
-  MessageBox(a.l, b.l, c.l, d.l)
-  QueryConsoleVerb(a.l)
-  SelectScopeItem(a.l)
-  GetMainWindow(a.l)
-  NewWindow(a.l, b.l)
+Interface IConsole2 Extends IConsole
   Expand(a.l, b.l)
   IsTaskpadViewPreferred()
   SetStatusText(a.p-unicode)
@@ -380,19 +268,13 @@ EndInterface
 
 ; IDisplayHelp interface definition
 ;
-Interface IDisplayHelp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDisplayHelp Extends IUnknown
   ShowTopic(a.p-unicode)
 EndInterface
 
 ; IRequiredExtensions interface definition
 ;
-Interface IRequiredExtensions
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRequiredExtensions Extends IUnknown
   EnableAllExtensions()
   GetFirstExtension(a.l)
   GetNextExtension(a.l)
@@ -400,10 +282,7 @@ EndInterface
 
 ; IStringTable interface definition
 ;
-Interface IStringTable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStringTable Extends IUnknown
   AddString(a.l, b.l)
   GetString(a.l, b.l, c.p-unicode, d.l)
   GetStringLength(a.l, b.l)
@@ -415,10 +294,7 @@ EndInterface
 
 ; IColumnData interface definition
 ;
-Interface IColumnData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IColumnData Extends IUnknown
   SetColumnConfigData(a.l, b.l)
   GetColumnConfigData(a.l, b.l)
   SetColumnSortData(a.l, b.l)
@@ -427,10 +303,7 @@ EndInterface
 
 ; IMessageView interface definition
 ;
-Interface IMessageView
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMessageView Extends IUnknown
   SetTitleText(a.l)
   SetBodyText(a.l)
   SetIcon(a.l)
@@ -439,35 +312,19 @@ EndInterface
 
 ; IResultDataCompareEx interface definition
 ;
-Interface IResultDataCompareEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IResultDataCompareEx Extends IUnknown
   Compare(a.l, b.l)
 EndInterface
 
 ; IComponentData2 interface definition
 ;
-Interface IComponentData2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Initialize(a.l)
-  CreateComponent(a.l)
-  Notify(a.l, b.l, c.l, d.l)
-  Destroy()
-  QueryDataObject(a.l, b.l, c.l)
-  GetDisplayInfo(a.l)
-  CompareObjects(a.l, b.l)
+Interface IComponentData2 Extends IComponentData
   QueryDispatch(a.l, b.l, c.l)
 EndInterface
 
 ; IComponent2 interface definition
 ;
-Interface IComponent2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IComponent2 Extends IUnknown
   Initialize(a.l)
   Notify(a.l, b.l, c.l, d.l)
   Destroy(a.l)
@@ -482,112 +339,56 @@ EndInterface
 
 ; IContextMenuCallback2 interface definition
 ;
-Interface IContextMenuCallback2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IContextMenuCallback2 Extends IUnknown
   AddItem(a.l)
 EndInterface
 
 ; IMMCVersionInfo interface definition
 ;
-Interface IMMCVersionInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMMCVersionInfo Extends IUnknown
   GetMMCVersion(a.l, b.l)
 EndInterface
 
 ; IExtendView interface definition
 ;
-Interface IExtendView
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IExtendView Extends IUnknown
   GetViews(a.l, b.l)
 EndInterface
 
 ; IViewExtensionCallback interface definition
 ;
-Interface IViewExtensionCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IViewExtensionCallback Extends IUnknown
   AddView(a.l)
 EndInterface
 
 ; IConsolePower interface definition
 ;
-Interface IConsolePower
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IConsolePower Extends IUnknown
   SetExecutionState(a.l, b.l)
   ResetIdleTimer(a.l)
 EndInterface
 
 ; IConsolePowerSink interface definition
 ;
-Interface IConsolePowerSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IConsolePowerSink Extends IUnknown
   OnPowerBroadcast(a.l, b.l, c.l)
 EndInterface
 
 ; INodeProperties interface definition
 ;
-Interface INodeProperties
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface INodeProperties Extends IUnknown
   GetProperty(a.l, b.p-bstr, c.l)
 EndInterface
 
 ; IConsole3 interface definition
 ;
-Interface IConsole3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  SetHeader(a.l)
-  SetToolbar(a.l)
-  QueryResultView(a.l)
-  QueryScopeImageList(a.l)
-  QueryResultImageList(a.l)
-  UpdateAllViews(a.l, b.l, c.l)
-  MessageBox(a.l, b.l, c.l, d.l)
-  QueryConsoleVerb(a.l)
-  SelectScopeItem(a.l)
-  GetMainWindow(a.l)
-  NewWindow(a.l, b.l)
-  Expand(a.l, b.l)
-  IsTaskpadViewPreferred()
-  SetStatusText(a.p-unicode)
+Interface IConsole3 Extends IConsole2
   RenameScopeItem(a.l)
 EndInterface
 
 ; IResultData2 interface definition
 ;
-Interface IResultData2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  InsertItem(a.l)
-  DeleteItem(a.l, b.l)
-  FindItemByLParam(a.l, b.l)
-  DeleteAllRsltItems()
-  SetItem(a.l)
-  GetItem(a.l)
-  GetNextItem(a.l)
-  ModifyItemState(a.l, b.l, c.l, d.l)
-  ModifyViewStyle(a.l, b.l)
-  SetViewMode(a.l)
-  GetViewMode(a.l)
-  UpdateItem(a.l)
-  Sort(a.l, b.l, c.l)
-  SetDescBarText(a.p-unicode)
-  SetItemCount(a.l, b.l)
+Interface IResultData2 Extends IResultData
   RenameResultItem(a.l)
 EndInterface
 ; ExecutableFormat=

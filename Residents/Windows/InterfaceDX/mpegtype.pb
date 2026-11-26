@@ -1,10 +1,7 @@
 ﻿
 ; IMpegAudioDecoder interface definition
 ;
-Interface IMpegAudioDecoder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMpegAudioDecoder Extends IUnknown
   get_FrequencyDivider(a.l)
   put_FrequencyDivider(a.l)
   get_DecoderAccuracy(a.l)

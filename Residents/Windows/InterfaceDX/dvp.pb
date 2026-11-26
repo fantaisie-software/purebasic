@@ -1,10 +1,7 @@
 ﻿
 ; IDDVideoPortContainer interface definition
 ;
-Interface IDDVideoPortContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDDVideoPortContainer Extends IUnknown
   CreateVideoPort(a.l, b.l, c.l, d.l)
   EnumVideoPorts(a.l, b.l, c.l, d.l)
   GetVideoPortConnectInfo(a.l, b.l, c.l)
@@ -13,10 +10,7 @@ EndInterface
 
 ; IDirectDrawVideoPort interface definition
 ;
-Interface IDirectDrawVideoPort
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawVideoPort Extends IUnknown
   Flip(a.l, b.l)
   GetBandwidthInfo(a.l, b.l, c.l, d.l, e.l)
   GetColorControls(a.l)
@@ -35,10 +29,7 @@ EndInterface
 
 ; IDirectDrawVideoPortNotify interface definition
 ;
-Interface IDirectDrawVideoPortNotify
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawVideoPortNotify Extends IUnknown
   AcquireNotification(a.l, b.l)
   ReleaseNotification(a.l)
 EndInterface

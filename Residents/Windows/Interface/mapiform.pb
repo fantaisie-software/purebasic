@@ -1,10 +1,7 @@
 ﻿
 ; IPersistMessage interface definition
 ;
-Interface IPersistMessage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPersistMessage Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   GetClassID(a.l)
   IsDirty()
@@ -15,10 +12,7 @@ EndInterface
 
 ; IMAPIMessageSite interface definition
 ;
-Interface IMAPIMessageSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIMessageSite Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   GetSession(a.l)
   GetStore(a.l)
@@ -36,10 +30,7 @@ EndInterface
 
 ; IMAPIForm interface definition
 ;
-Interface IMAPIForm
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIForm Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SetViewContext(a.l)
   GetViewContext(a.l)
@@ -51,10 +42,7 @@ EndInterface
 
 ; IMAPIViewContext interface definition
 ;
-Interface IMAPIViewContext
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIViewContext Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SetAdviseSink(a.l)
   ActivateNext(a.l, b.l)
@@ -65,20 +53,14 @@ EndInterface
 
 ; IMAPIFormAdviseSink interface definition
 ;
-Interface IMAPIFormAdviseSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIFormAdviseSink Extends IUnknown
   OnChange(a.l)
   OnActivateNext(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IMAPIViewAdviseSink interface definition
 ;
-Interface IMAPIViewAdviseSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIViewAdviseSink Extends IUnknown
   OnShutdown()
   OnNewMessage()
   OnPrint(a.l, b.l)
@@ -88,10 +70,7 @@ EndInterface
 
 ; IMAPIFormInfo interface definition
 ;
-Interface IMAPIFormInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIFormInfo Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -112,10 +91,7 @@ EndInterface
 
 ; IMAPIFormMgr interface definition
 ;
-Interface IMAPIFormMgr
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIFormMgr Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   LoadForm(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l, k.l)
   ResolveMessageClass(a.l, b.l, c.l)
@@ -132,10 +108,7 @@ EndInterface
 
 ; IMAPIFormContainer interface definition
 ;
-Interface IMAPIFormContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIFormContainer Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   InstallForm(a.l, b.l, c.l)
   RemoveForm(a.l)
@@ -147,10 +120,7 @@ EndInterface
 
 ; IMAPIFormFactory interface definition
 ;
-Interface IMAPIFormFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIFormFactory Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   CreateClassFactory(a.l, b.l, c.l)
   LockServer(a.l, b.l)

@@ -1,10 +1,7 @@
 ﻿
 ; ID3DXMatrixStack interface definition
 ;
-Interface ID3DXMatrixStack
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXMatrixStack Extends IUnknown
   Pop()
   Push()
   LoadIdentity()

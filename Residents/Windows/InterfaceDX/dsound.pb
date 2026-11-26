@@ -5,10 +5,7 @@
 
 ; IDirectSound interface definition
 ;
-Interface IDirectSound
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSound Extends IUnknown
   CreateSoundBuffer(a.l, b.l, c.l)
   GetCaps(a.l)
   DuplicateSoundBuffer(a.l, b.l)
@@ -21,27 +18,13 @@ EndInterface
 
 ; IDirectSound8 interface definition
 ;
-Interface IDirectSound8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  CreateSoundBuffer(a.l, b.l, c.l)
-  GetCaps(a.l)
-  DuplicateSoundBuffer(a.l, b.l)
-  SetCooperativeLevel(a.l, b.l)
-  Compact()
-  GetSpeakerConfig(a.l)
-  SetSpeakerConfig(a.l)
-  Initialize(a.l)
+Interface IDirectSound8 Extends IDirectSound
   VerifyCertification(a.l)
 EndInterface
 
 ; IDirectSoundBuffer interface definition
 ;
-Interface IDirectSoundBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundBuffer Extends IUnknown
   GetCaps(a.l)
   GetCurrentPosition(a.l, b.l)
   GetFormat(a.l, b.l, c.l)
@@ -64,28 +47,7 @@ EndInterface
 
 ; IDirectSoundBuffer8 interface definition
 ;
-Interface IDirectSoundBuffer8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetCaps(a.l)
-  GetCurrentPosition(a.l, b.l)
-  GetFormat(a.l, b.l, c.l)
-  GetVolume(a.l)
-  GetPan(a.l)
-  GetFrequency(a.l)
-  GetStatus(a.l)
-  Initialize(a.l, b.l)
-  Lock(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
-  Play(a.l, b.l, c.l)
-  SetCurrentPosition(a.l)
-  SetFormat(a.l)
-  SetVolume(a.l)
-  SetPan(a.l)
-  SetFrequency(a.l)
-  Stop()
-  Unlock(a.l, b.l, c.l, d.l)
-  Restore()
+Interface IDirectSoundBuffer8 Extends IDirectSoundBuffer
   SetFX(a.l, b.l, c.l)
   AcquireResources(a.l, b.l, c.l)
   GetObjectInPath(a.l, b.l, c.l, d.l)
@@ -93,10 +55,7 @@ EndInterface
 
 ; IDirectSound3DListener interface definition
 ;
-Interface IDirectSound3DListener
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSound3DListener Extends IUnknown
   GetAllParameters(a.l)
   GetDistanceFactor(a.l)
   GetDopplerFactor(a.l)
@@ -116,10 +75,7 @@ EndInterface
 
 ; IDirectSound3DBuffer interface definition
 ;
-Interface IDirectSound3DBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSound3DBuffer Extends IUnknown
   GetAllParameters(a.l)
   GetConeAngles(a.l, b.l)
   GetConeOrientation(a.l)
@@ -142,10 +98,7 @@ EndInterface
 
 ; IDirectSoundCapture interface definition
 ;
-Interface IDirectSoundCapture
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundCapture Extends IUnknown
   CreateCaptureBuffer(a.l, b.l, c.l)
   GetCaps(a.l)
   Initialize(a.l)
@@ -153,10 +106,7 @@ EndInterface
 
 ; IDirectSoundCaptureBuffer interface definition
 ;
-Interface IDirectSoundCaptureBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundCaptureBuffer Extends IUnknown
   GetCaps(a.l)
   GetCurrentPosition(a.l, b.l)
   GetFormat(a.l, b.l, c.l)
@@ -170,38 +120,20 @@ EndInterface
 
 ; IDirectSoundCaptureBuffer8 interface definition
 ;
-Interface IDirectSoundCaptureBuffer8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetCaps(a.l)
-  GetCurrentPosition(a.l, b.l)
-  GetFormat(a.l, b.l, c.l)
-  GetStatus(a.l)
-  Initialize(a.l, b.l)
-  Lock(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
-  Start(a.l)
-  Stop()
-  Unlock(a.l, b.l, c.l, d.l)
+Interface IDirectSoundCaptureBuffer8 Extends IDirectSoundCaptureBuffer
   GetObjectInPath(a.l, b.l, c.l, d.l)
   GetFXStatus(a.l)
 EndInterface
 
 ; IDirectSoundNotify interface definition
 ;
-Interface IDirectSoundNotify
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundNotify Extends IUnknown
   SetNotificationPositions(a.l, b.l)
 EndInterface
 
 ; IKsPropertySet interface definition
 ;
-Interface IKsPropertySet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IKsPropertySet Extends IUnknown
   Get(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
   Set(a.l, b.l, c.l, d.l, e.l, f.l)
   QuerySupport(a.l, b.l, c.l)
@@ -209,80 +141,56 @@ EndInterface
 
 ; IDirectSoundFXGargle interface definition
 ;
-Interface IDirectSoundFXGargle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundFXGargle Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
 EndInterface
 
 ; IDirectSoundFXChorus interface definition
 ;
-Interface IDirectSoundFXChorus
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundFXChorus Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
 EndInterface
 
 ; IDirectSoundFXFlanger interface definition
 ;
-Interface IDirectSoundFXFlanger
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundFXFlanger Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
 EndInterface
 
 ; IDirectSoundFXEcho interface definition
 ;
-Interface IDirectSoundFXEcho
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundFXEcho Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
 EndInterface
 
 ; IDirectSoundFXDistortion interface definition
 ;
-Interface IDirectSoundFXDistortion
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundFXDistortion Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
 EndInterface
 
 ; IDirectSoundFXCompressor interface definition
 ;
-Interface IDirectSoundFXCompressor
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundFXCompressor Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
 EndInterface
 
 ; IDirectSoundFXParamEq interface definition
 ;
-Interface IDirectSoundFXParamEq
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundFXParamEq Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
 EndInterface
 
 ; IDirectSoundFXI3DL2Reverb interface definition
 ;
-Interface IDirectSoundFXI3DL2Reverb
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundFXI3DL2Reverb Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
   SetPreset(a.l)
@@ -293,20 +201,14 @@ EndInterface
 
 ; IDirectSoundFXWavesReverb interface definition
 ;
-Interface IDirectSoundFXWavesReverb
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundFXWavesReverb Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
 EndInterface
 
 ; IDirectSoundCaptureFXAec interface definition
 ;
-Interface IDirectSoundCaptureFXAec
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundCaptureFXAec Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
   GetStatus(a.l)
@@ -315,10 +217,7 @@ EndInterface
 
 ; IDirectSoundCaptureFXNoiseSuppress interface definition
 ;
-Interface IDirectSoundCaptureFXNoiseSuppress
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundCaptureFXNoiseSuppress Extends IUnknown
   SetAllParameters(a.l)
   GetAllParameters(a.l)
   Reset()
@@ -326,9 +225,6 @@ EndInterface
 
 ; IDirectSoundFullDuplex interface definition
 ;
-Interface IDirectSoundFullDuplex
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectSoundFullDuplex Extends IUnknown
   Initialize(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
 EndInterface

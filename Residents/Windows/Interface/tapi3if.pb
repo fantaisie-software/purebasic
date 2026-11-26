@@ -1,14 +1,7 @@
 ﻿
 ; ITTAPI interface definition
 ;
-Interface ITTAPI
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITTAPI Extends IDispatch
   Initialize()
   Shutdown()
   get_Addresses(a.l)
@@ -29,30 +22,7 @@ EndInterface
 
 ; ITTAPI2 interface definition
 ;
-Interface ITTAPI2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  Initialize()
-  Shutdown()
-  get_Addresses(a.l)
-  EnumerateAddresses(a.l)
-  RegisterCallNotifications(a.l, b.l, c.l, d.l, e.l, f.l)
-  UnregisterNotifications(a.l)
-  get_CallHubs(a.l)
-  EnumerateCallHubs(a.l)
-  SetCallHubTracking(a.p-variant, b.l)
-  EnumeratePrivateTAPIObjects(a.l)
-  get_PrivateTAPIObjects(a.l)
-  RegisterRequestRecipient(a.l, b.l, c.l)
-  SetAssistedTelephonyPriority(a.p-bstr, b.l)
-  SetApplicationPriority(a.p-bstr, b.l, c.l)
-  put_EventFilter(a.l)
-  get_EventFilter(a.l)
+Interface ITTAPI2 Extends ITTAPI
   get_Phones(a.l)
   EnumeratePhones(a.l)
   CreateEmptyCollectionObject(a.l)
@@ -60,28 +30,14 @@ EndInterface
 
 ; ITMediaSupport interface definition
 ;
-Interface ITMediaSupport
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITMediaSupport Extends IDispatch
   get_MediaTypes(a.l)
   QueryMediaType(a.l, b.l)
 EndInterface
 
 ; ITPluggableTerminalClassInfo interface definition
 ;
-Interface ITPluggableTerminalClassInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITPluggableTerminalClassInfo Extends IDispatch
   get_Name(a.l)
   get_Company(a.l)
   get_Version(a.l)
@@ -93,28 +49,14 @@ EndInterface
 
 ; ITPluggableTerminalSuperclassInfo interface definition
 ;
-Interface ITPluggableTerminalSuperclassInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITPluggableTerminalSuperclassInfo Extends IDispatch
   get_Name(a.l)
   get_CLSID(a.l)
 EndInterface
 
 ; ITTerminalSupport interface definition
 ;
-Interface ITTerminalSupport
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITTerminalSupport Extends IDispatch
   get_StaticTerminals(a.l)
   EnumerateStaticTerminals(a.l)
   get_DynamicTerminalClasses(a.l)
@@ -125,20 +67,7 @@ EndInterface
 
 ; ITTerminalSupport2 interface definition
 ;
-Interface ITTerminalSupport2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_StaticTerminals(a.l)
-  EnumerateStaticTerminals(a.l)
-  get_DynamicTerminalClasses(a.l)
-  EnumerateDynamicTerminalClasses(a.l)
-  CreateTerminal(a.p-bstr, b.l, c.l, d.l)
-  GetDefaultStaticTerminal(a.l, b.l, c.l)
+Interface ITTerminalSupport2 Extends ITTerminalSupport
   get_PluggableSuperclasses(a.l)
   EnumeratePluggableSuperclasses(a.l)
   get_PluggableTerminalClasses(a.p-bstr, b.l, c.l)
@@ -147,14 +76,7 @@ EndInterface
 
 ; ITAddress interface definition
 ;
-Interface ITAddress
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITAddress Extends IDispatch
   get_State(a.l)
   get_AddressName(a.l)
   get_ServiceProviderName(a.l)
@@ -174,29 +96,7 @@ EndInterface
 
 ; ITAddress2 interface definition
 ;
-Interface ITAddress2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_State(a.l)
-  get_AddressName(a.l)
-  get_ServiceProviderName(a.l)
-  get_TAPIObject(a.l)
-  CreateCall(a.p-bstr, b.l, c.l, d.l)
-  get_Calls(a.l)
-  EnumerateCalls(a.l)
-  get_DialableAddress(a.l)
-  CreateForwardInfoObject(a.l)
-  Forward(a.l, b.l)
-  get_CurrentForwardInfo(a.l)
-  put_MessageWaiting(a.l)
-  get_MessageWaiting(a.l)
-  put_DoNotDisturb(a.l)
-  get_DoNotDisturb(a.l)
+Interface ITAddress2 Extends ITAddress
   get_Phones(a.l)
   EnumeratePhones(a.l)
   GetPhoneFromTerminal(a.l, b.l)
@@ -211,14 +111,7 @@ EndInterface
 
 ; ITAddressCapabilities interface definition
 ;
-Interface ITAddressCapabilities
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITAddressCapabilities Extends IDispatch
   get_AddressCapability(a.l, b.l)
   get_AddressCapabilityString(a.l, b.l)
   get_CallTreatments(a.l)
@@ -231,14 +124,7 @@ EndInterface
 
 ; ITPhone interface definition
 ;
-Interface ITPhone
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITPhone Extends IDispatch
   Open(a.l)
   Close()
   get_Addresses(a.l)
@@ -276,14 +162,7 @@ EndInterface
 
 ; ITAutomatedPhoneControl interface definition
 ;
-Interface ITAutomatedPhoneControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITAutomatedPhoneControl Extends IDispatch
   StartTone(a.l, b.l)
   StopTone()
   get_Tone(a.l)
@@ -320,14 +199,7 @@ EndInterface
 
 ; ITBasicCallControl interface definition
 ;
-Interface ITBasicCallControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITBasicCallControl Extends IDispatch
   Connect(a.l)
   Answer()
   Disconnect(a.l)
@@ -350,14 +222,7 @@ EndInterface
 
 ; ITCallInfo interface definition
 ;
-Interface ITCallInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITCallInfo Extends IDispatch
   get_Address(a.l)
   get_CallState(a.l)
   get_Privilege(a.l)
@@ -375,41 +240,14 @@ EndInterface
 
 ; ITCallInfo2 interface definition
 ;
-Interface ITCallInfo2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Address(a.l)
-  get_CallState(a.l)
-  get_Privilege(a.l)
-  get_CallHub(a.l)
-  get_CallInfoLong(a.l, b.l)
-  put_CallInfoLong(a.l, b.l)
-  get_CallInfoString(a.l, b.l)
-  put_CallInfoString(a.l, b.p-bstr)
-  get_CallInfoBuffer(a.l, b.l)
-  put_CallInfoBuffer(a.l, b.p-variant)
-  GetCallInfoBuffer(a.l, b.l, c.l)
-  SetCallInfoBuffer(a.l, b.l, c.l)
-  ReleaseUserUserInfo()
+Interface ITCallInfo2 Extends ITCallInfo
   get_EventFilter(a.l, b.l, c.l)
   put_EventFilter(a.l, b.l, c.l)
 EndInterface
 
 ; ITTerminal interface definition
 ;
-Interface ITTerminal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITTerminal Extends IDispatch
   get_Name(a.l)
   get_State(a.l)
   get_TerminalType(a.l)
@@ -420,14 +258,7 @@ EndInterface
 
 ; ITMultiTrackTerminal interface definition
 ;
-Interface ITMultiTrackTerminal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITMultiTrackTerminal Extends IDispatch
   get_TrackTerminals(a.l)
   EnumerateTrackTerminals(a.l)
   CreateTrackTerminal(a.l, b.l, c.l)
@@ -438,14 +269,7 @@ EndInterface
 
 ; ITFileTrack interface definition
 ;
-Interface ITFileTrack
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITFileTrack Extends IDispatch
   get_Format(a.l)
   put_Format(a.l)
   get_ControllingTerminal(a.l)
@@ -456,42 +280,21 @@ EndInterface
 
 ; ITMediaPlayback interface definition
 ;
-Interface ITMediaPlayback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITMediaPlayback Extends IDispatch
   put_PlayList(a.l)
   get_PlayList(a.l)
 EndInterface
 
 ; ITMediaRecord interface definition
 ;
-Interface ITMediaRecord
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITMediaRecord Extends IDispatch
   put_FileName(a.p-bstr)
   get_FileName(a.l)
 EndInterface
 
 ; ITMediaControl interface definition
 ;
-Interface ITMediaControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITMediaControl Extends IDispatch
   Start()
   Stop()
   Pause()
@@ -500,14 +303,7 @@ EndInterface
 
 ; ITBasicAudioTerminal interface definition
 ;
-Interface ITBasicAudioTerminal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITBasicAudioTerminal Extends IDispatch
   put_Volume(a.l)
   get_Volume(a.l)
   put_Balance(a.l)
@@ -516,27 +312,13 @@ EndInterface
 
 ; ITStaticAudioTerminal interface definition
 ;
-Interface ITStaticAudioTerminal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITStaticAudioTerminal Extends IDispatch
   get_WaveId(a.l)
 EndInterface
 
 ; ITCallHub interface definition
 ;
-Interface ITCallHub
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITCallHub Extends IDispatch
   Clear()
   EnumerateCalls(a.l)
   get_Calls(a.l)
@@ -546,10 +328,7 @@ EndInterface
 
 ; ITLegacyAddressMediaControl interface definition
 ;
-Interface ITLegacyAddressMediaControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITLegacyAddressMediaControl Extends IUnknown
   GetID(a.p-bstr, b.l, c.l)
   GetDevConfig(a.p-bstr, b.l, c.l)
   SetDevConfig(a.p-bstr, b.l, c.l)
@@ -557,14 +336,7 @@ EndInterface
 
 ; ITPrivateEvent interface definition
 ;
-Interface ITPrivateEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITPrivateEvent Extends IDispatch
   get_Address(a.l)
   get_Call(a.l)
   get_CallHub(a.l)
@@ -574,27 +346,14 @@ EndInterface
 
 ; ITLegacyAddressMediaControl2 interface definition
 ;
-Interface ITLegacyAddressMediaControl2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetID(a.p-bstr, b.l, c.l)
-  GetDevConfig(a.p-bstr, b.l, c.l)
-  SetDevConfig(a.p-bstr, b.l, c.l)
+Interface ITLegacyAddressMediaControl2 Extends ITLegacyAddressMediaControl
   ConfigDialog(a.l, b.p-bstr)
   ConfigDialogEdit(a.l, b.p-bstr, c.l, d.l, e.l, f.l)
 EndInterface
 
 ; ITLegacyCallMediaControl interface definition
 ;
-Interface ITLegacyCallMediaControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITLegacyCallMediaControl Extends IDispatch
   DetectDigits(a.l)
   GenerateDigits(a.p-bstr, b.l)
   GetID(a.p-bstr, b.l, c.l)
@@ -604,19 +363,7 @@ EndInterface
 
 ; ITLegacyCallMediaControl2 interface definition
 ;
-Interface ITLegacyCallMediaControl2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  DetectDigits(a.l)
-  GenerateDigits(a.p-bstr, b.l)
-  GetID(a.p-bstr, b.l, c.l)
-  SetMediaType(a.l)
-  MonitorMedia(a.l)
+Interface ITLegacyCallMediaControl2 Extends ITLegacyCallMediaControl
   GenerateDigits2(a.p-bstr, b.l, c.l)
   GatherDigits(a.l, b.l, c.p-bstr, d.l, e.l)
   DetectTones(a.l, b.l)
@@ -631,14 +378,7 @@ EndInterface
 
 ; ITDetectTone interface definition
 ;
-Interface ITDetectTone
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITDetectTone Extends IDispatch
   get_AppSpecific(a.l)
   put_AppSpecific(a.l)
   get_Duration(a.l)
@@ -649,14 +389,7 @@ EndInterface
 
 ; ITCustomTone interface definition
 ;
-Interface ITCustomTone
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITCustomTone Extends IDispatch
   get_Frequency(a.l)
   put_Frequency(a.l)
   get_CadenceOn(a.l)
@@ -669,10 +402,7 @@ EndInterface
 
 ; IEnumPhone interface definition
 ;
-Interface IEnumPhone
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumPhone Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -681,10 +411,7 @@ EndInterface
 
 ; IEnumTerminal interface definition
 ;
-Interface IEnumTerminal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumTerminal Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -693,10 +420,7 @@ EndInterface
 
 ; IEnumTerminalClass interface definition
 ;
-Interface IEnumTerminalClass
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumTerminalClass Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -705,10 +429,7 @@ EndInterface
 
 ; IEnumCall interface definition
 ;
-Interface IEnumCall
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumCall Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -717,10 +438,7 @@ EndInterface
 
 ; IEnumAddress interface definition
 ;
-Interface IEnumAddress
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumAddress Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -729,10 +447,7 @@ EndInterface
 
 ; IEnumCallHub interface definition
 ;
-Interface IEnumCallHub
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumCallHub Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -741,10 +456,7 @@ EndInterface
 
 ; IEnumBstr interface definition
 ;
-Interface IEnumBstr
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumBstr Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -753,10 +465,7 @@ EndInterface
 
 ; IEnumPluggableTerminalClassInfo interface definition
 ;
-Interface IEnumPluggableTerminalClassInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumPluggableTerminalClassInfo Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -765,10 +474,7 @@ EndInterface
 
 ; IEnumPluggableSuperclassInfo interface definition
 ;
-Interface IEnumPluggableSuperclassInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumPluggableSuperclassInfo Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -777,14 +483,7 @@ EndInterface
 
 ; ITPhoneEvent interface definition
 ;
-Interface ITPhoneEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITPhoneEvent Extends IDispatch
   get_Phone(a.l)
   get_Event(a.l)
   get_ButtonState(a.l)
@@ -798,14 +497,7 @@ EndInterface
 
 ; ITCallStateEvent interface definition
 ;
-Interface ITCallStateEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITCallStateEvent Extends IDispatch
   get_Call(a.l)
   get_State(a.l)
   get_Cause(a.l)
@@ -814,14 +506,7 @@ EndInterface
 
 ; ITPhoneDeviceSpecificEvent interface definition
 ;
-Interface ITPhoneDeviceSpecificEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITPhoneDeviceSpecificEvent Extends IDispatch
   get_Phone(a.l)
   get_lParam1(a.l)
   get_lParam2(a.l)
@@ -830,14 +515,7 @@ EndInterface
 
 ; ITCallMediaEvent interface definition
 ;
-Interface ITCallMediaEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITCallMediaEvent Extends IDispatch
   get_Call(a.l)
   get_Event(a.l)
   get_Error(a.l)
@@ -848,14 +526,7 @@ EndInterface
 
 ; ITDigitDetectionEvent interface definition
 ;
-Interface ITDigitDetectionEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITDigitDetectionEvent Extends IDispatch
   get_Call(a.l)
   get_Digit(a.l)
   get_DigitMode(a.l)
@@ -865,14 +536,7 @@ EndInterface
 
 ; ITDigitGenerationEvent interface definition
 ;
-Interface ITDigitGenerationEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITDigitGenerationEvent Extends IDispatch
   get_Call(a.l)
   get_GenerationTermination(a.l)
   get_TickCount(a.l)
@@ -881,14 +545,7 @@ EndInterface
 
 ; ITDigitsGatheredEvent interface definition
 ;
-Interface ITDigitsGatheredEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITDigitsGatheredEvent Extends IDispatch
   get_Call(a.l)
   get_Digits(a.l)
   get_GatherTermination(a.l)
@@ -898,14 +555,7 @@ EndInterface
 
 ; ITToneDetectionEvent interface definition
 ;
-Interface ITToneDetectionEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITToneDetectionEvent Extends IDispatch
   get_Call(a.l)
   get_AppSpecific(a.l)
   get_TickCount(a.l)
@@ -914,14 +564,7 @@ EndInterface
 
 ; ITTAPIObjectEvent interface definition
 ;
-Interface ITTAPIObjectEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITTAPIObjectEvent Extends IDispatch
   get_TAPIObject(a.l)
   get_Event(a.l)
   get_Address(a.l)
@@ -930,40 +573,19 @@ EndInterface
 
 ; ITTAPIObjectEvent2 interface definition
 ;
-Interface ITTAPIObjectEvent2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_TAPIObject(a.l)
-  get_Event(a.l)
-  get_Address(a.l)
-  get_CallbackInstance(a.l)
+Interface ITTAPIObjectEvent2 Extends ITTAPIObjectEvent
   get_Phone(a.l)
 EndInterface
 
 ; ITTAPIEventNotification interface definition
 ;
-Interface ITTAPIEventNotification
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITTAPIEventNotification Extends IUnknown
   Event(a.l, b.l)
 EndInterface
 
 ; ITCallHubEvent interface definition
 ;
-Interface ITCallHubEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITCallHubEvent Extends IDispatch
   get_Event(a.l)
   get_CallHub(a.l)
   get_Call(a.l)
@@ -971,14 +593,7 @@ EndInterface
 
 ; ITAddressEvent interface definition
 ;
-Interface ITAddressEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITAddressEvent Extends IDispatch
   get_Address(a.l)
   get_Event(a.l)
   get_Terminal(a.l)
@@ -986,14 +601,7 @@ EndInterface
 
 ; ITAddressDeviceSpecificEvent interface definition
 ;
-Interface ITAddressDeviceSpecificEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITAddressDeviceSpecificEvent Extends IDispatch
   get_Address(a.l)
   get_Call(a.l)
   get_lParam1(a.l)
@@ -1003,14 +611,7 @@ EndInterface
 
 ; ITFileTerminalEvent interface definition
 ;
-Interface ITFileTerminalEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITFileTerminalEvent Extends IDispatch
   get_Terminal(a.l)
   get_Track(a.l)
   get_Call(a.l)
@@ -1021,14 +622,7 @@ EndInterface
 
 ; ITTTSTerminalEvent interface definition
 ;
-Interface ITTTSTerminalEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITTTSTerminalEvent Extends IDispatch
   get_Terminal(a.l)
   get_Call(a.l)
   get_Error(a.l)
@@ -1036,14 +630,7 @@ EndInterface
 
 ; ITASRTerminalEvent interface definition
 ;
-Interface ITASRTerminalEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITASRTerminalEvent Extends IDispatch
   get_Terminal(a.l)
   get_Call(a.l)
   get_Error(a.l)
@@ -1051,14 +638,7 @@ EndInterface
 
 ; ITToneTerminalEvent interface definition
 ;
-Interface ITToneTerminalEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITToneTerminalEvent Extends IDispatch
   get_Terminal(a.l)
   get_Call(a.l)
   get_Error(a.l)
@@ -1066,14 +646,7 @@ EndInterface
 
 ; ITQOSEvent interface definition
 ;
-Interface ITQOSEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITQOSEvent Extends IDispatch
   get_Call(a.l)
   get_Event(a.l)
   get_MediaType(a.l)
@@ -1081,14 +654,7 @@ EndInterface
 
 ; ITCallInfoChangeEvent interface definition
 ;
-Interface ITCallInfoChangeEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITCallInfoChangeEvent Extends IDispatch
   get_Call(a.l)
   get_Cause(a.l)
   get_CallbackInstance(a.l)
@@ -1096,27 +662,13 @@ EndInterface
 
 ; ITRequest interface definition
 ;
-Interface ITRequest
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITRequest Extends IDispatch
   MakeCall(a.p-bstr, b.p-bstr, c.p-bstr, d.p-bstr)
 EndInterface
 
 ; ITRequestEvent interface definition
 ;
-Interface ITRequestEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITRequestEvent Extends IDispatch
   get_RegistrationInstance(a.l)
   get_RequestMode(a.l)
   get_DestAddress(a.l)
@@ -1127,14 +679,7 @@ EndInterface
 
 ; ITCollection interface definition
 ;
-Interface ITCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITCollection Extends IDispatch
   get_Count(a.l)
   get_Item(a.l, b.l)
   get__NewEnum(a.l)
@@ -1142,31 +687,14 @@ EndInterface
 
 ; ITCollection2 interface definition
 ;
-Interface ITCollection2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Count(a.l)
-  get_Item(a.l, b.l)
-  get__NewEnum(a.l)
+Interface ITCollection2 Extends ITCollection
   Add(a.l, b.l)
   Remove(a.l)
 EndInterface
 
 ; ITForwardInformation interface definition
 ;
-Interface ITForwardInformation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITForwardInformation Extends IDispatch
   put_NumRingsNoAnswer(a.l)
   get_NumRingsNoAnswer(a.l)
   SetForwardType(a.l, b.p-bstr, c.p-bstr)
@@ -1178,21 +706,7 @@ EndInterface
 
 ; ITForwardInformation2 interface definition
 ;
-Interface ITForwardInformation2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  put_NumRingsNoAnswer(a.l)
-  get_NumRingsNoAnswer(a.l)
-  SetForwardType(a.l, b.p-bstr, c.p-bstr)
-  get_ForwardTypeDestination(a.l, b.l)
-  get_ForwardTypeCaller(a.l, b.l)
-  GetForwardType(a.l, b.l, c.l)
-  Clear()
+Interface ITForwardInformation2 Extends ITForwardInformation
   SetForwardType2(a.l, b.p-bstr, c.l, d.p-bstr, e.l)
   GetForwardType2(a.l, b.l, c.l, d.l, e.l)
   get_ForwardTypeDestinationAddressType(a.l, b.l)
@@ -1201,14 +715,7 @@ EndInterface
 
 ; ITAddressTranslation interface definition
 ;
-Interface ITAddressTranslation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITAddressTranslation Extends IDispatch
   TranslateAddress(a.p-bstr, b.l, c.l, d.l)
   TranslateDialog(a.l, b.p-bstr)
   EnumerateLocations(a.l)
@@ -1219,14 +726,7 @@ EndInterface
 
 ; ITAddressTranslationInfo interface definition
 ;
-Interface ITAddressTranslationInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITAddressTranslationInfo Extends IDispatch
   get_DialableString(a.l)
   get_DisplayableString(a.l)
   get_CurrentCountryCode(a.l)
@@ -1236,14 +736,7 @@ EndInterface
 
 ; ITLocationInfo interface definition
 ;
-Interface ITLocationInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITLocationInfo Extends IDispatch
   get_PermanentLocationID(a.l)
   get_CountryCode(a.l)
   get_CountryID(a.l)
@@ -1259,10 +752,7 @@ EndInterface
 
 ; IEnumLocation interface definition
 ;
-Interface IEnumLocation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumLocation Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -1271,14 +761,7 @@ EndInterface
 
 ; ITCallingCard interface definition
 ;
-Interface ITCallingCard
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITCallingCard Extends IDispatch
   get_PermanentCardID(a.l)
   get_NumberOfDigits(a.l)
   get_Options(a.l)
@@ -1290,10 +773,7 @@ EndInterface
 
 ; IEnumCallingCard interface definition
 ;
-Interface IEnumCallingCard
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumCallingCard Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -1302,14 +782,7 @@ EndInterface
 
 ; ITCallNotificationEvent interface definition
 ;
-Interface ITCallNotificationEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITCallNotificationEvent Extends IDispatch
   get_Call(a.l)
   get_Event(a.l)
   get_CallbackInstance(a.l)
@@ -1317,27 +790,13 @@ EndInterface
 
 ; ITDispatchMapper interface definition
 ;
-Interface ITDispatchMapper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITDispatchMapper Extends IDispatch
   QueryDispatchInterface(a.p-bstr, b.l, c.l)
 EndInterface
 
 ; ITStreamControl interface definition
 ;
-Interface ITStreamControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITStreamControl Extends IDispatch
   CreateStream(a.l, b.l, c.l)
   RemoveStream(a.l)
   EnumerateStreams(a.l)
@@ -1346,14 +805,7 @@ EndInterface
 
 ; ITStream interface definition
 ;
-Interface ITStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITStream Extends IDispatch
   get_MediaType(a.l)
   get_Direction(a.l)
   get_Name(a.l)
@@ -1368,10 +820,7 @@ EndInterface
 
 ; IEnumStream interface definition
 ;
-Interface IEnumStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumStream Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -1380,14 +829,7 @@ EndInterface
 
 ; ITSubStreamControl interface definition
 ;
-Interface ITSubStreamControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITSubStreamControl Extends IDispatch
   CreateSubStream(a.l)
   RemoveSubStream(a.l)
   EnumerateSubStreams(a.l)
@@ -1396,14 +838,7 @@ EndInterface
 
 ; ITSubStream interface definition
 ;
-Interface ITSubStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITSubStream Extends IDispatch
   StartSubStream()
   PauseSubStream()
   StopSubStream()
@@ -1416,10 +851,7 @@ EndInterface
 
 ; IEnumSubStream interface definition
 ;
-Interface IEnumSubStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumSubStream Extends IUnknown
   Next(a.l, b.l, c.l)
   Reset()
   Skip(a.l)
@@ -1428,45 +860,13 @@ EndInterface
 
 ; ITLegacyWaveSupport interface definition
 ;
-Interface ITLegacyWaveSupport
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITLegacyWaveSupport Extends IDispatch
   IsFullDuplex(a.l)
 EndInterface
 
 ; ITBasicCallControl2 interface definition
 ;
-Interface ITBasicCallControl2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  Connect(a.l)
-  Answer()
-  Disconnect(a.l)
-  Hold(a.l)
-  HandoffDirect(a.p-bstr)
-  HandoffIndirect(a.l)
-  Conference(a.l, b.l)
-  Transfer(a.l, b.l)
-  BlindTransfer(a.p-bstr)
-  SwapHold(a.l)
-  ParkDirect(a.p-bstr)
-  ParkIndirect(a.l)
-  Unpark()
-  SetQOS(a.l, b.l)
-  Pickup(a.p-bstr)
-  Dial(a.p-bstr)
-  Finish(a.l)
-  RemoveFromConference()
+Interface ITBasicCallControl2 Extends ITBasicCallControl
   RequestTerminal(a.p-bstr, b.l, c.l, d.l)
   SelectTerminalOnCall(a.l)
   UnselectTerminalOnCall(a.l)
@@ -1474,14 +874,7 @@ EndInterface
 
 ; ITScriptableAudioFormat interface definition
 ;
-Interface ITScriptableAudioFormat
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITScriptableAudioFormat Extends IDispatch
   get_Channels(a.l)
   put_Channels(a.l)
   get_SamplesPerSec(a.l)

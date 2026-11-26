@@ -1,10 +1,7 @@
 ﻿
 ; IAMVideoAcceleratorNotify interface definition
 ;
-Interface IAMVideoAcceleratorNotify
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMVideoAcceleratorNotify Extends IUnknown
   GetUncompSurfacesInfo(a.l, b.l)
   SetUncompSurfacesInfo(a.l)
   GetCreateVideoAcceleratorData(a.l, b.l, c.l)
@@ -12,10 +9,7 @@ EndInterface
 
 ; IAMVideoAccelerator interface definition
 ;
-Interface IAMVideoAccelerator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMVideoAccelerator Extends IUnknown
   GetVideoAcceleratorGUIDs(a.l, b.l)
   GetUncompFormatsSupported(a.l, b.l, c.l)
   GetInternalMemInfo(a.l, b.l, c.l)

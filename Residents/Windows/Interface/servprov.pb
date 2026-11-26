@@ -1,9 +1,6 @@
 ﻿
 ; IServiceProvider interface definition
 ;
-Interface IServiceProvider
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IServiceProvider Extends IUnknown
   QueryService(a.l, b.l, c.l)
 EndInterface

@@ -1,53 +1,25 @@
 ﻿
 ; IFolderViewOC interface definition
 ;
-Interface IFolderViewOC
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFolderViewOC Extends IDispatch
   SetFolderView(a.l)
 EndInterface
 
 ; DShellFolderViewEvents interface definition
 ;
-Interface DShellFolderViewEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DShellFolderViewEvents Extends IDispatch
 EndInterface
 
 ; DFConstraint interface definition
 ;
-Interface DFConstraint
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DFConstraint Extends IDispatch
   get_Name(a.l)
   get_Value(a.l)
 EndInterface
 
 ; ISearchCommandExt interface definition
 ;
-Interface ISearchCommandExt
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISearchCommandExt Extends IDispatch
   ClearResults()
   NavigateToSearchResults()
   get_ProgressText(a.l)
@@ -63,14 +35,7 @@ EndInterface
 
 ; FolderItem interface definition
 ;
-Interface FolderItem
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface FolderItem Extends IDispatch
   get_Application(a.l)
   get_Parent(a.l)
   get_Name(a.l)
@@ -92,14 +57,7 @@ EndInterface
 
 ; FolderItems interface definition
 ;
-Interface FolderItems
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface FolderItems Extends IDispatch
   get_Count(a.l)
   get_Application(a.l)
   get_Parent(a.l)
@@ -109,14 +67,7 @@ EndInterface
 
 ; FolderItemVerb interface definition
 ;
-Interface FolderItemVerb
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface FolderItemVerb Extends IDispatch
   get_Application(a.l)
   get_Parent(a.l)
   get_Name(a.l)
@@ -125,14 +76,7 @@ EndInterface
 
 ; FolderItemVerbs interface definition
 ;
-Interface FolderItemVerbs
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface FolderItemVerbs Extends IDispatch
   get_Count(a.l)
   get_Application(a.l)
   get_Parent(a.l)
@@ -142,14 +86,7 @@ EndInterface
 
 ; Folder interface definition
 ;
-Interface Folder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface Folder Extends IDispatch
   get_Title(a.l)
   get_Application(a.l)
   get_Parent(a.l)
@@ -164,14 +101,7 @@ EndInterface
 
 ; Folder2 interface definition
 ;
-Interface Folder2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface Folder2 Extends IDispatch
   get_Title(a.l)
   get_Application(a.l)
   get_Parent(a.l)
@@ -191,14 +121,7 @@ EndInterface
 
 ; Folder3 interface definition
 ;
-Interface Folder3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface Folder3 Extends IDispatch
   get_Title(a.l)
   get_Application(a.l)
   get_Parent(a.l)
@@ -220,14 +143,7 @@ EndInterface
 
 ; FolderItem2 interface definition
 ;
-Interface FolderItem2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface FolderItem2 Extends IDispatch
   get_Application(a.l)
   get_Parent(a.l)
   get_Name(a.l)
@@ -251,14 +167,7 @@ EndInterface
 
 ; FolderItems2 interface definition
 ;
-Interface FolderItems2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface FolderItems2 Extends IDispatch
   get_Count(a.l)
   get_Application(a.l)
   get_Parent(a.l)
@@ -269,14 +178,7 @@ EndInterface
 
 ; FolderItems3 interface definition
 ;
-Interface FolderItems3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface FolderItems3 Extends IDispatch
   get_Count(a.l)
   get_Application(a.l)
   get_Parent(a.l)
@@ -289,14 +191,7 @@ EndInterface
 
 ; IShellLinkDual interface definition
 ;
-Interface IShellLinkDual
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IShellLinkDual Extends IDispatch
   get_Path(a.l)
   put_Path(a.p-bstr)
   get_Description(a.l)
@@ -317,43 +212,13 @@ EndInterface
 
 ; IShellLinkDual2 interface definition
 ;
-Interface IShellLinkDual2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Path(a.l)
-  put_Path(a.p-bstr)
-  get_Description(a.l)
-  put_Description(a.p-bstr)
-  get_WorkingDirectory(a.l)
-  put_WorkingDirectory(a.p-bstr)
-  get_Arguments(a.l)
-  put_Arguments(a.p-bstr)
-  get_Hotkey(a.l)
-  put_Hotkey(a.l)
-  get_ShowCommand(a.l)
-  put_ShowCommand(a.l)
-  Resolve(a.l)
-  GetIconLocation(a.l, b.l)
-  SetIconLocation(a.p-bstr, b.l)
-  Save(a.p-variant)
+Interface IShellLinkDual2 Extends IShellLinkDual
   get_Target(a.l)
 EndInterface
 
 ; IShellFolderViewDual interface definition
 ;
-Interface IShellFolderViewDual
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IShellFolderViewDual Extends IDispatch
   get_Application(a.l)
   get_Parent(a.l)
   get_Folder(a.l)
@@ -367,23 +232,7 @@ EndInterface
 
 ; IShellFolderViewDual2 interface definition
 ;
-Interface IShellFolderViewDual2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Application(a.l)
-  get_Parent(a.l)
-  get_Folder(a.l)
-  SelectedItems(a.l)
-  get_FocusedItem(a.l)
-  SelectItem(a.l, b.l)
-  PopupItemMenu(a.l, b.p-variant, c.p-variant, d.l)
-  get_Script(a.l)
-  get_ViewOptions(a.l)
+Interface IShellFolderViewDual2 Extends IShellFolderViewDual
   get_CurrentViewMode(a.l)
   put_CurrentViewMode(a.l)
   SelectItemRelative(a.l)
@@ -391,14 +240,7 @@ EndInterface
 
 ; IShellDispatch interface definition
 ;
-Interface IShellDispatch
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IShellDispatch Extends IDispatch
   get_Application(a.l)
   get_Parent(a.l)
   NameSpace(a.p-variant, b.l)
@@ -426,37 +268,7 @@ EndInterface
 
 ; IShellDispatch2 interface definition
 ;
-Interface IShellDispatch2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Application(a.l)
-  get_Parent(a.l)
-  NameSpace(a.p-variant, b.l)
-  BrowseForFolder(a.l, b.p-bstr, c.l, d.p-variant, e.l)
-  Windows(a.l)
-  Open(a.p-variant)
-  Explore(a.p-variant)
-  MinimizeAll()
-  UndoMinimizeALL()
-  FileRun()
-  CascadeWindows()
-  TileVertically()
-  TileHorizontally()
-  ShutdownWindows()
-  Suspend()
-  EjectPC()
-  SetTime()
-  TrayProperties()
-  Help()
-  FindFiles()
-  FindComputer()
-  RefreshMenu()
-  ControlPanelItem(a.p-bstr)
+Interface IShellDispatch2 Extends IShellDispatch
   IsRestricted(a.p-bstr, b.p-bstr, c.l)
   ShellExecute(a.p-bstr, b.p-variant, c.p-variant, d.p-variant, e.p-variant)
   FindPrinter(a.p-bstr, b.p-bstr, c.p-bstr)
@@ -470,92 +282,13 @@ EndInterface
 
 ; IShellDispatch3 interface definition
 ;
-Interface IShellDispatch3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Application(a.l)
-  get_Parent(a.l)
-  NameSpace(a.p-variant, b.l)
-  BrowseForFolder(a.l, b.p-bstr, c.l, d.p-variant, e.l)
-  Windows(a.l)
-  Open(a.p-variant)
-  Explore(a.p-variant)
-  MinimizeAll()
-  UndoMinimizeALL()
-  FileRun()
-  CascadeWindows()
-  TileVertically()
-  TileHorizontally()
-  ShutdownWindows()
-  Suspend()
-  EjectPC()
-  SetTime()
-  TrayProperties()
-  Help()
-  FindFiles()
-  FindComputer()
-  RefreshMenu()
-  ControlPanelItem(a.p-bstr)
-  IsRestricted(a.p-bstr, b.p-bstr, c.l)
-  ShellExecute(a.p-bstr, b.p-variant, c.p-variant, d.p-variant, e.p-variant)
-  FindPrinter(a.p-bstr, b.p-bstr, c.p-bstr)
-  GetSystemInformation(a.p-bstr, b.l)
-  ServiceStart(a.p-bstr, b.p-variant, c.l)
-  ServiceStop(a.p-bstr, b.p-variant, c.l)
-  IsServiceRunning(a.p-bstr, b.l)
-  CanStartStopService(a.p-bstr, b.l)
-  ShowBrowserBar(a.p-bstr, b.p-variant, c.l)
+Interface IShellDispatch3 Extends IShellDispatch2
   AddToRecent(a.p-variant, b.p-bstr)
 EndInterface
 
 ; IShellDispatch4 interface definition
 ;
-Interface IShellDispatch4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Application(a.l)
-  get_Parent(a.l)
-  NameSpace(a.p-variant, b.l)
-  BrowseForFolder(a.l, b.p-bstr, c.l, d.p-variant, e.l)
-  Windows(a.l)
-  Open(a.p-variant)
-  Explore(a.p-variant)
-  MinimizeAll()
-  UndoMinimizeALL()
-  FileRun()
-  CascadeWindows()
-  TileVertically()
-  TileHorizontally()
-  ShutdownWindows()
-  Suspend()
-  EjectPC()
-  SetTime()
-  TrayProperties()
-  Help()
-  FindFiles()
-  FindComputer()
-  RefreshMenu()
-  ControlPanelItem(a.p-bstr)
-  IsRestricted(a.p-bstr, b.p-bstr, c.l)
-  ShellExecute(a.p-bstr, b.p-variant, c.p-variant, d.p-variant, e.p-variant)
-  FindPrinter(a.p-bstr, b.p-bstr, c.p-bstr)
-  GetSystemInformation(a.p-bstr, b.l)
-  ServiceStart(a.p-bstr, b.p-variant, c.l)
-  ServiceStop(a.p-bstr, b.p-variant, c.l)
-  IsServiceRunning(a.p-bstr, b.l)
-  CanStartStopService(a.p-bstr, b.l)
-  ShowBrowserBar(a.p-bstr, b.p-variant, c.l)
-  AddToRecent(a.p-variant, b.p-bstr)
+Interface IShellDispatch4 Extends IShellDispatch3
   WindowsSecurity()
   ToggleDesktop()
   ExplorerPolicy(a.p-bstr, b.l)
@@ -564,26 +297,12 @@ EndInterface
 
 ; DSearchCommandEvents interface definition
 ;
-Interface DSearchCommandEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DSearchCommandEvents Extends IDispatch
 EndInterface
 
 ; IFileSearchBand interface definition
 ;
-Interface IFileSearchBand
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFileSearchBand Extends IDispatch
   SetFocus()
   SetSearchParameters(a.l, b.l, c.l, d.l)
   get_SearchID(a.l)
@@ -593,14 +312,7 @@ EndInterface
 
 ; IWebWizardHost interface definition
 ;
-Interface IWebWizardHost
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IWebWizardHost Extends IDispatch
   FinalBack()
   FinalNext()
   Cancel()
@@ -614,71 +326,33 @@ EndInterface
 
 ; INewWDEvents interface definition
 ;
-Interface INewWDEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  FinalBack()
-  FinalNext()
-  Cancel()
-  put_Caption(a.p-bstr)
-  get_Caption(a.l)
-  put_Property(a.p-bstr, b.l)
-  get_Property(a.p-bstr, b.l)
-  SetWizardButtons(a.l, b.l, c.l)
-  SetHeaderText(a.p-bstr, b.p-bstr)
+Interface INewWDEvents Extends IWebWizardHost
   PassportAuthenticate(a.p-bstr, b.l)
 EndInterface
 
 ; IPassportClientServices interface definition
 ;
-Interface IPassportClientServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IPassportClientServices Extends IDispatch
   MemberExists(a.p-bstr, b.p-bstr, c.l)
 EndInterface
 
 ; IAutoComplete interface definition
 ;
-Interface IAutoComplete
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAutoComplete Extends IUnknown
   Init(a.l, b.l, c.l, d.l)
   Enable(a.l)
 EndInterface
 
 ; IAutoComplete2 interface definition
 ;
-Interface IAutoComplete2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Init(a.l, b.l, c.l, d.l)
-  Enable(a.l)
+Interface IAutoComplete2 Extends IAutoComplete
   SetOptions(a.l)
   GetOptions(a.l)
 EndInterface
 
 ; IEnumACString interface definition
 ;
-Interface IEnumACString
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Next(a.l, b.l, c.l)
-  Skip(a.l)
-  Reset()
-  Clone(a.l)
+Interface IEnumACString Extends IEnumString
   NextItem(a.p-unicode, b.l, c.l)
   SetEnumOptions(a.l)
   GetEnumOptions(a.l)
@@ -686,10 +360,7 @@ EndInterface
 
 ; IAsyncOperation interface definition
 ;
-Interface IAsyncOperation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAsyncOperation Extends IUnknown
   SetAsyncMode(a.l)
   GetAsyncMode(a.l)
   StartOperation(a.l)

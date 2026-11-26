@@ -1,10 +1,7 @@
 ﻿
 ; ID3DXAnimationSet interface definition
 ;
-Interface ID3DXAnimationSet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXAnimationSet Extends IUnknown
   GetName()
   GetPeriod()
   GetPeriodicPosition(a.d)
@@ -17,18 +14,7 @@ EndInterface
 
 ; ID3DXKeyframedAnimationSet interface definition
 ;
-Interface ID3DXKeyframedAnimationSet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetName()
-  GetPeriod()
-  GetPeriodicPosition(a.d)
-  GetNumAnimations()
-  GetAnimationNameByIndex(a.l, b.l)
-  GetAnimationIndexByName(a.s, b.l)
-  GetSRT(a.d, b.l, c.l, d.l, e.l)
-  GetCallback(a.d, b.l, c.l, d.l)
+Interface ID3DXKeyframedAnimationSet Extends ID3DXAnimationSet
   GetPlaybackType()
   GetSourceTicksPerSecond()
   GetNumScaleKeys(a.l)
@@ -57,18 +43,7 @@ EndInterface
 
 ; ID3DXCompressedAnimationSet interface definition
 ;
-Interface ID3DXCompressedAnimationSet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetName()
-  GetPeriod()
-  GetPeriodicPosition(a.d)
-  GetNumAnimations()
-  GetAnimationNameByIndex(a.l, b.l)
-  GetAnimationIndexByName(a.s, b.l)
-  GetSRT(a.d, b.l, c.l, d.l, e.l)
-  GetCallback(a.d, b.l, c.l, d.l)
+Interface ID3DXCompressedAnimationSet Extends ID3DXAnimationSet
   GetPlaybackType()
   GetSourceTicksPerSecond()
   GetCompressedData(a.l)
@@ -78,10 +53,7 @@ EndInterface
 
 ; ID3DXAnimationController interface definition
 ;
-Interface ID3DXAnimationController
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXAnimationController Extends IUnknown
   GetMaxNumAnimationOutputs()
   GetMaxNumAnimationSets()
   GetMaxNumTracks()

@@ -1,10 +1,7 @@
 ﻿
 ; IUniformResourceLocatorA interface definition
 ;
-Interface IUniformResourceLocatorA
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IUniformResourceLocatorA Extends IUnknown
   SetURL(a.s, b.l)
   GetURL(a.l)
   InvokeCommand(a.l)
@@ -12,10 +9,7 @@ EndInterface
 
 ; IUniformResourceLocatorW interface definition
 ;
-Interface IUniformResourceLocatorW
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IUniformResourceLocatorW Extends IUnknown
   SetURL(a.l, b.l)
   GetURL(a.l)
   InvokeCommand(a.l)

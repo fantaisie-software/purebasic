@@ -1,10 +1,7 @@
 ﻿
 ; IAMDirectSound interface definition
 ;
-Interface IAMDirectSound
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMDirectSound Extends IUnknown
   GetDirectSoundInterface(a.l)
   GetPrimaryBufferInterface(a.l)
   GetSecondaryBufferInterface(a.l)

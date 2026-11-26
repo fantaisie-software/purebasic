@@ -1,10 +1,7 @@
 ﻿
 ; IDirectPlay8LobbyClient interface definition
 ;
-Interface IDirectPlay8LobbyClient
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay8LobbyClient Extends IUnknown
   Initialize(a.l, b.l, c.l)
   EnumLocalPrograms(a.l, b.l, c.l, d.l, e.l)
   ConnectApplication(a.l, b.l, c.l, d.l, e.l)
@@ -17,10 +14,7 @@ EndInterface
 
 ; IDirectPlay8LobbiedApplication interface definition
 ;
-Interface IDirectPlay8LobbiedApplication
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay8LobbiedApplication Extends IUnknown
   Initialize(a.l, b.l, c.l, d.l)
   RegisterProgram(a.l, b.l)
   UnRegisterProgram(a.l, b.l)

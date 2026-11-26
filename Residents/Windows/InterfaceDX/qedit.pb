@@ -1,10 +1,7 @@
 ﻿
 ; IPropertySetter interface definition
 ;
-Interface IPropertySetter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPropertySetter Extends IUnknown
   LoadXML(a.l)
   PrintXML(a.l, b.l, c.l, d.l)
   CloneProps(a.l, b.q, c.q)
@@ -20,14 +17,7 @@ EndInterface
 
 ; IDxtCompositor interface definition
 ;
-Interface IDxtCompositor
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDxtCompositor Extends IDispatch
   get_Capabilities(a.l)
   get_Progress(a.l)
   put_Progress(a.f)
@@ -54,14 +44,7 @@ EndInterface
 
 ; IDxtAlphaSetter interface definition
 ;
-Interface IDxtAlphaSetter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDxtAlphaSetter Extends IDispatch
   get_Capabilities(a.l)
   get_Progress(a.l)
   put_Progress(a.f)
@@ -76,14 +59,7 @@ EndInterface
 
 ; IDxtJpeg interface definition
 ;
-Interface IDxtJpeg
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDxtJpeg Extends IDispatch
   get_Capabilities(a.l)
   get_Progress(a.l)
   put_Progress(a.f)
@@ -118,14 +94,7 @@ EndInterface
 
 ; IDxtKey interface definition
 ;
-Interface IDxtKey
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDxtKey Extends IDispatch
   get_Capabilities(a.l)
   get_Progress(a.l)
   put_Progress(a.f)
@@ -148,20 +117,14 @@ EndInterface
 
 ; IMediaLocator interface definition
 ;
-Interface IMediaLocator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMediaLocator Extends IUnknown
   FindMediaFile(a.p-bstr, b.p-bstr, c.l, d.l)
   AddFoundLocation(a.p-bstr)
 EndInterface
 
 ; IMediaDet interface definition
 ;
-Interface IMediaDet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMediaDet Extends IUnknown
   get_Filter(a.l)
   put_Filter(a.l)
   get_OutputStreams(a.l)
@@ -182,14 +145,7 @@ EndInterface
 
 ; IGrfCache interface definition
 ;
-Interface IGrfCache
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IGrfCache Extends IDispatch
   AddFilter(a.l, b.q, c.l, d.l)
   ConnectPins(a.l, b.q, c.l, d.q, e.l)
   SetGraph(a.l)
@@ -198,10 +154,7 @@ EndInterface
 
 ; IRenderEngine interface definition
 ;
-Interface IRenderEngine
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRenderEngine Extends IUnknown
   SetTimelineObject(a.l)
   GetTimelineObject(a.l)
   GetFilterGraph(a.l)
@@ -227,28 +180,19 @@ EndInterface
 
 ; IRenderEngine2 interface definition
 ;
-Interface IRenderEngine2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRenderEngine2 Extends IUnknown
   SetResizerGUID(a.l)
 EndInterface
 
 ; IFindCompressorCB interface definition
 ;
-Interface IFindCompressorCB
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IFindCompressorCB Extends IUnknown
   GetCompressor(a.l, b.l, c.l)
 EndInterface
 
 ; ISmartRenderEngine interface definition
 ;
-Interface ISmartRenderEngine
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISmartRenderEngine Extends IUnknown
   SetGroupCompressor(a.l, b.l)
   GetGroupCompressor(a.l, b.l)
   SetFindCompressorCB(a.l)
@@ -256,10 +200,7 @@ EndInterface
 
 ; IAMTimelineObj interface definition
 ;
-Interface IAMTimelineObj
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineObj Extends IUnknown
   GetStartStop(a.l, b.l)
   GetStartStop2(a.l, b.l)
   FixTimes(a.l, b.l)
@@ -302,10 +243,7 @@ EndInterface
 
 ; IAMTimelineEffectable interface definition
 ;
-Interface IAMTimelineEffectable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineEffectable Extends IUnknown
   EffectInsBefore(a.l, b.l)
   EffectSwapPriorities(a.l, b.l)
   EffectGetCount(a.l)
@@ -314,19 +252,13 @@ EndInterface
 
 ; IAMTimelineEffect interface definition
 ;
-Interface IAMTimelineEffect
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineEffect Extends IUnknown
   EffectGetPriority(a.l)
 EndInterface
 
 ; IAMTimelineTransable interface definition
 ;
-Interface IAMTimelineTransable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineTransable Extends IUnknown
   TransAdd(a.l)
   TransGetCount(a.l)
   GetNextTrans(a.l, b.l)
@@ -337,20 +269,14 @@ EndInterface
 
 ; IAMTimelineSplittable interface definition
 ;
-Interface IAMTimelineSplittable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineSplittable Extends IUnknown
   SplitAt(a.q)
   SplitAt2(a.l)
 EndInterface
 
 ; IAMTimelineTrans interface definition
 ;
-Interface IAMTimelineTrans
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineTrans Extends IUnknown
   GetCutPoint(a.l)
   GetCutPoint2(a.l)
   SetCutPoint(a.q)
@@ -363,10 +289,7 @@ EndInterface
 
 ; IAMTimelineSrc interface definition
 ;
-Interface IAMTimelineSrc
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineSrc Extends IUnknown
   GetMediaTimes(a.l, b.l)
   GetMediaTimes2(a.l, b.l)
   ModifyStopTime(a.q)
@@ -393,10 +316,7 @@ EndInterface
 
 ; IAMTimelineTrack interface definition
 ;
-Interface IAMTimelineTrack
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineTrack Extends IUnknown
   SrcAdd(a.l)
   GetNextSrc(a.l, b.l)
   GetNextSrc2(a.l, b.l)
@@ -415,20 +335,14 @@ EndInterface
 
 ; IAMTimelineVirtualTrack interface definition
 ;
-Interface IAMTimelineVirtualTrack
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineVirtualTrack Extends IUnknown
   TrackGetPriority(a.l)
   SetTrackDirty()
 EndInterface
 
 ; IAMTimelineComp interface definition
 ;
-Interface IAMTimelineComp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineComp Extends IUnknown
   VTrackInsBefore(a.l, b.l)
   VTrackSwapPriorities(a.l, b.l)
   VTrackGetCount(a.l)
@@ -441,10 +355,7 @@ EndInterface
 
 ; IAMTimelineGroup interface definition
 ;
-Interface IAMTimelineGroup
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimelineGroup Extends IUnknown
   SetTimeline(a.l)
   GetTimeline(a.l)
   GetPriority(a.l)
@@ -469,10 +380,7 @@ EndInterface
 
 ; IAMTimeline interface definition
 ;
-Interface IAMTimeline
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMTimeline Extends IUnknown
   CreateEmptyNode(a.l, b.l)
   AddGroup(a.l)
   RemGroupFromList(a.l)
@@ -506,14 +414,7 @@ EndInterface
 
 ; IXml2Dex interface definition
 ;
-Interface IXml2Dex
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IXml2Dex Extends IDispatch
   CreateGraphFromFile(a.l, b.l, c.p-bstr)
   WriteGrfFile(a.l, b.p-bstr)
   WriteXMLFile(a.l, b.p-bstr)
@@ -530,39 +431,27 @@ EndInterface
 
 ; IAMErrorLog interface definition
 ;
-Interface IAMErrorLog
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMErrorLog Extends IUnknown
   LogError(a.l, b.p-bstr, c.l, d.l, e.l)
 EndInterface
 
 ; IAMSetErrorLog interface definition
 ;
-Interface IAMSetErrorLog
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMSetErrorLog Extends IUnknown
   get_ErrorLog(a.l)
   put_ErrorLog(a.l)
 EndInterface
 
 ; ISampleGrabberCB interface definition
 ;
-Interface ISampleGrabberCB
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISampleGrabberCB Extends IUnknown
   SampleCB(a.d, b.l)
   BufferCB(a.d, b.l, c.l)
 EndInterface
 
 ; ISampleGrabber interface definition
 ;
-Interface ISampleGrabber
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISampleGrabber Extends IUnknown
   SetOneShot(a.l)
   SetMediaType(a.l)
   GetConnectedMediaType(a.l)
@@ -574,10 +463,7 @@ EndInterface
 
 ; IResize interface definition
 ;
-Interface IResize
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IResize Extends IUnknown
   get_Size(a.l, b.l, c.l)
   get_InputSize(a.l, b.l)
   put_Size(a.l, b.l, c.l)

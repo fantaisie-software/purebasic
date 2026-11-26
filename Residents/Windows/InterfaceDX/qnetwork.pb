@@ -1,14 +1,7 @@
 ﻿
 ; IAMNetShowConfig interface definition
 ;
-Interface IAMNetShowConfig
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IAMNetShowConfig Extends IDispatch
   get_BufferingTime(a.l)
   put_BufferingTime(a.d)
   get_UseFixedUDPPort(a.l)
@@ -35,14 +28,7 @@ EndInterface
 
 ; IAMChannelInfo interface definition
 ;
-Interface IAMChannelInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IAMChannelInfo Extends IDispatch
   get_ChannelName(a.l)
   get_ChannelDescription(a.l)
   get_ChannelURL(a.l)
@@ -53,14 +39,7 @@ EndInterface
 
 ; IAMNetworkStatus interface definition
 ;
-Interface IAMNetworkStatus
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IAMNetworkStatus Extends IDispatch
   get_ReceivedPackets(a.l)
   get_RecoveredPackets(a.l)
   get_LostPackets(a.l)
@@ -72,14 +51,7 @@ EndInterface
 
 ; IAMExtendedSeeking interface definition
 ;
-Interface IAMExtendedSeeking
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IAMExtendedSeeking Extends IDispatch
   get_ExSeekCapabilities(a.l)
   get_MarkerCount(a.l)
   get_CurrentMarker(a.l)
@@ -91,14 +63,7 @@ EndInterface
 
 ; IAMNetShowExProps interface definition
 ;
-Interface IAMNetShowExProps
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IAMNetShowExProps Extends IDispatch
   get_SourceProtocol(a.l)
   get_Bandwidth(a.l)
   get_ErrorCorrection(a.l)
@@ -112,14 +77,7 @@ EndInterface
 
 ; IAMExtendedErrorInfo interface definition
 ;
-Interface IAMExtendedErrorInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IAMExtendedErrorInfo Extends IDispatch
   get_HasError(a.l)
   get_ErrorDescription(a.l)
   get_ErrorCode(a.l)
@@ -127,14 +85,7 @@ EndInterface
 
 ; IAMMediaContent interface definition
 ;
-Interface IAMMediaContent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IAMMediaContent Extends IDispatch
   get_AuthorName(a.l)
   get_Title(a.l)
   get_Rating(a.l)
@@ -152,14 +103,7 @@ EndInterface
 
 ; IAMMediaContent2 interface definition
 ;
-Interface IAMMediaContent2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IAMMediaContent2 Extends IDispatch
   get_MediaParameter(a.l, b.l, c.l)
   get_MediaParameterName(a.l, b.l, c.l)
   get_PlaylistCount(a.l)
@@ -167,24 +111,14 @@ EndInterface
 
 ; IAMNetShowPreroll interface definition
 ;
-Interface IAMNetShowPreroll
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IAMNetShowPreroll Extends IDispatch
   put_Preroll(a.l)
   get_Preroll(a.l)
 EndInterface
 
 ; IDShowPlugin interface definition
 ;
-Interface IDShowPlugin
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDShowPlugin Extends IUnknown
   get_URL(a.l)
   get_UserAgent(a.l)
 EndInterface

@@ -1,10 +1,7 @@
 ﻿
 ; IDirectDrawVideo interface definition
 ;
-Interface IDirectDrawVideo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawVideo Extends IUnknown
   GetSwitches(a.l)
   SetSwitches(a.l)
   GetCaps(a.l)
@@ -25,10 +22,7 @@ EndInterface
 
 ; IQualProp interface definition
 ;
-Interface IQualProp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IQualProp Extends IUnknown
   get_FramesDroppedInRenderer(a.l)
   get_FramesDrawn(a.l)
   get_AvgFrameRate(a.l)
@@ -39,10 +33,7 @@ EndInterface
 
 ; IFullScreenVideo interface definition
 ;
-Interface IFullScreenVideo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IFullScreenVideo Extends IUnknown
   CountModes(a.l)
   GetModeInfo(a.l, b.l, c.l, d.l)
   GetCurrentMode(a.l)
@@ -64,27 +55,7 @@ EndInterface
 
 ; IFullScreenVideoEx interface definition
 ;
-Interface IFullScreenVideoEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  CountModes(a.l)
-  GetModeInfo(a.l, b.l, c.l, d.l)
-  GetCurrentMode(a.l)
-  IsModeAvailable(a.l)
-  IsModeEnabled(a.l)
-  SetEnabled(a.l, b.l)
-  GetClipFactor(a.l)
-  SetClipFactor(a.l)
-  SetMessageDrain(a.l)
-  GetMessageDrain(a.l)
-  SetMonitor(a.l)
-  GetMonitor(a.l)
-  HideOnDeactivate(a.l)
-  IsHideOnDeactivate()
-  SetCaption(a.l)
-  GetCaption(a.l)
-  SetDefault()
+Interface IFullScreenVideoEx Extends IFullScreenVideo
   SetAcceleratorTable(a.l, b.l)
   GetAcceleratorTable(a.l, b.l)
   KeepPixelAspectRatio(a.l)

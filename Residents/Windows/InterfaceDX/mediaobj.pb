@@ -1,10 +1,7 @@
 ﻿
 ; IMediaBuffer interface definition
 ;
-Interface IMediaBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMediaBuffer Extends IUnknown
   SetLength(a.l)
   GetMaxLength(a.l)
   GetBufferAndLength(a.l, b.l)
@@ -12,10 +9,7 @@ EndInterface
 
 ; IMediaObject interface definition
 ;
-Interface IMediaObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMediaObject Extends IUnknown
   GetStreamCount(a.l, b.l)
   GetInputStreamInfo(a.l, b.l)
   GetOutputStreamInfo(a.l, b.l)
@@ -41,10 +35,7 @@ EndInterface
 
 ; IEnumDMO interface definition
 ;
-Interface IEnumDMO
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumDMO Extends IUnknown
   Next(a.l, b.l, c.l, d.l)
   Skip(a.l)
   Reset()
@@ -53,10 +44,7 @@ EndInterface
 
 ; IMediaObjectInPlace interface definition
 ;
-Interface IMediaObjectInPlace
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMediaObjectInPlace Extends IUnknown
   Process(a.l, b.l, c.q, d.l)
   Clone(a.l)
   GetLatency(a.l)
@@ -64,10 +52,7 @@ EndInterface
 
 ; IDMOQualityControl interface definition
 ;
-Interface IDMOQualityControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDMOQualityControl Extends IUnknown
   SetNow(a.q)
   SetStatus(a.l)
   GetStatus(a.l)
@@ -75,10 +60,7 @@ EndInterface
 
 ; IDMOVideoOutputOptimizations interface definition
 ;
-Interface IDMOVideoOutputOptimizations
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDMOVideoOutputOptimizations Extends IUnknown
   QueryOperationModePreferences(a.l, b.l)
   SetOperationMode(a.l, b.l)
   GetCurrentOperationMode(a.l, b.l)

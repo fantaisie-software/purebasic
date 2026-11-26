@@ -1,14 +1,7 @@
 ﻿
 ; IMSVidRect interface definition
 ;
-Interface IMSVidRect
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidRect Extends IDispatch
   get_Top(a.l)
   put_Top(a.l)
   get_Left(a.l)
@@ -24,10 +17,7 @@ EndInterface
 
 ; IMSVidGraphSegmentContainer interface definition
 ;
-Interface IMSVidGraphSegmentContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMSVidGraphSegmentContainer Extends IUnknown
   get_Graph(a.l)
   get_Input(a.l)
   get_Outputs(a.l)
@@ -43,11 +33,7 @@ EndInterface
 
 ; IMSVidGraphSegment interface definition
 ;
-Interface IMSVidGraphSegment
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
+Interface IMSVidGraphSegment Extends IPersist
   get_Init(a.l)
   put_Init(a.l)
   EnumFilters(a.l)
@@ -66,10 +52,7 @@ EndInterface
 
 ; IMSVidGraphSegmentUserInput interface definition
 ;
-Interface IMSVidGraphSegmentUserInput
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMSVidGraphSegmentUserInput Extends IUnknown
   Click()
   DblClick()
   KeyDown(a.l, b.l)
@@ -82,25 +65,7 @@ EndInterface
 
 ; IMSVidCompositionSegment interface definition
 ;
-Interface IMSVidCompositionSegment
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
-  get_Init(a.l)
-  put_Init(a.l)
-  EnumFilters(a.l)
-  get_Container(a.l)
-  put_Container(a.l)
-  get_Type(a.l)
-  get_Category(a.l)
-  Build()
-  PreRun()
-  PostRun()
-  PreStop()
-  PostStop()
-  OnEventNotify(a.l, b.l, c.l)
-  Decompose()
+Interface IMSVidCompositionSegment Extends IMSVidGraphSegment
   Compose(a.l, b.l)
   get_Up(a.l)
   get_Down(a.l)
@@ -108,10 +73,7 @@ EndInterface
 
 ; IEnumMSVidGraphSegment interface definition
 ;
-Interface IEnumMSVidGraphSegment
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumMSVidGraphSegment Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -120,25 +82,7 @@ EndInterface
 
 ; IMSVidVRGraphSegment interface definition
 ;
-Interface IMSVidVRGraphSegment
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
-  get_Init(a.l)
-  put_Init(a.l)
-  EnumFilters(a.l)
-  get_Container(a.l)
-  put_Container(a.l)
-  get_Type(a.l)
-  get_Category(a.l)
-  Build()
-  PreRun()
-  PostRun()
-  PreStop()
-  PostStop()
-  OnEventNotify(a.l, b.l, c.l)
-  Decompose()
+Interface IMSVidVRGraphSegment Extends IMSVidGraphSegment
   put__VMRendererMode(a.l)
   put_Owner(a.l)
   get_Owner(a.l)
@@ -164,14 +108,7 @@ EndInterface
 
 ; IMSVidDevice interface definition
 ;
-Interface IMSVidDevice
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidDevice Extends IDispatch
   get_Name(a.l)
   get_Status(a.l)
   put_Power(a.l)
@@ -185,96 +122,30 @@ EndInterface
 
 ; IMSVidInputDevice interface definition
 ;
-Interface IMSVidInputDevice
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
+Interface IMSVidInputDevice Extends IMSVidDevice
   IsViewable(a.l, b.l)
   View(a.l)
 EndInterface
 
 ; IMSVidDeviceEvent interface definition
 ;
-Interface IMSVidDeviceEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidDeviceEvent Extends IDispatch
   StateChange(a.l, b.l, c.l)
 EndInterface
 
 ; IMSVidInputDeviceEvent interface definition
 ;
-Interface IMSVidInputDeviceEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidInputDeviceEvent Extends IDispatch
 EndInterface
 
 ; IMSVidVideoInputDevice interface definition
 ;
-Interface IMSVidVideoInputDevice
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
-  IsViewable(a.l, b.l)
-  View(a.l)
+Interface IMSVidVideoInputDevice Extends IMSVidInputDevice
 EndInterface
 
 ; IMSVidPlayback interface definition
 ;
-Interface IMSVidPlayback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
-  IsViewable(a.l, b.l)
-  View(a.l)
+Interface IMSVidPlayback Extends IMSVidInputDevice
   get_EnableResetOnStop(a.l)
   put_EnableResetOnStop(a.l)
   Run()
@@ -293,38 +164,13 @@ EndInterface
 
 ; IMSVidPlaybackEvent interface definition
 ;
-Interface IMSVidPlaybackEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidPlaybackEvent Extends IMSVidInputDeviceEvent
   EndOfMedia(a.l)
 EndInterface
 
 ; IMSVidTuner interface definition
 ;
-Interface IMSVidTuner
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
-  IsViewable(a.l, b.l)
-  View(a.l)
+Interface IMSVidTuner Extends IMSVidVideoInputDevice
   get_Tune(a.l)
   put_Tune(a.l)
   get_TuningSpace(a.l)
@@ -333,42 +179,13 @@ EndInterface
 
 ; IMSVidTunerEvent interface definition
 ;
-Interface IMSVidTunerEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidTunerEvent Extends IMSVidInputDeviceEvent
   TuneChanged(a.l)
 EndInterface
 
 ; IMSVidAnalogTuner interface definition
 ;
-Interface IMSVidAnalogTuner
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
-  IsViewable(a.l, b.l)
-  View(a.l)
-  get_Tune(a.l)
-  put_Tune(a.l)
-  get_TuningSpace(a.l)
-  put_TuningSpace(a.l)
+Interface IMSVidAnalogTuner Extends IMSVidTuner
   get_Channel(a.l)
   put_Channel(a.l)
   get_VideoFrequency(a.l)
@@ -382,104 +199,24 @@ EndInterface
 
 ; IMSVidAnalogTunerEvent interface definition
 ;
-Interface IMSVidAnalogTunerEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  TuneChanged(a.l)
+Interface IMSVidAnalogTunerEvent Extends IMSVidTunerEvent
 EndInterface
 
 ; IMSVidFilePlayback interface definition
 ;
-Interface IMSVidFilePlayback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
-  IsViewable(a.l, b.l)
-  View(a.l)
-  get_EnableResetOnStop(a.l)
-  put_EnableResetOnStop(a.l)
-  Run()
-  Pause()
-  Stop()
-  get_CanStep(a.l, b.l)
-  Step(a.l)
-  put_Rate(a.d)
-  get_Rate(a.l)
-  put_CurrentPosition(a.l)
-  get_CurrentPosition(a.l)
-  put_PositionMode(a.l)
-  get_PositionMode(a.l)
-  get_Length(a.l)
+Interface IMSVidFilePlayback Extends IMSVidPlayback
   get_FileName(a.l)
   put_FileName(a.p-bstr)
 EndInterface
 
 ; IMSVidFilePlaybackEvent interface definition
 ;
-Interface IMSVidFilePlaybackEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  EndOfMedia(a.l)
+Interface IMSVidFilePlaybackEvent Extends IMSVidPlaybackEvent
 EndInterface
 
 ; IMSVidWebDVD interface definition
 ;
-Interface IMSVidWebDVD
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
-  IsViewable(a.l, b.l)
-  View(a.l)
-  get_EnableResetOnStop(a.l)
-  put_EnableResetOnStop(a.l)
-  Run()
-  Pause()
-  Stop()
-  get_CanStep(a.l, b.l)
-  Step(a.l)
-  put_Rate(a.d)
-  get_Rate(a.l)
-  put_CurrentPosition(a.l)
-  get_CurrentPosition(a.l)
-  put_PositionMode(a.l)
-  get_PositionMode(a.l)
-  get_Length(a.l)
+Interface IMSVidWebDVD Extends IMSVidPlayback
   OnDVDEvent(a.l, b.l, c.l)
   PlayTitle(a.l)
   PlayChapterInTitle(a.l, b.l)
@@ -579,15 +316,7 @@ EndInterface
 
 ; IMSVidWebDVDEvent interface definition
 ;
-Interface IMSVidWebDVDEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  EndOfMedia(a.l)
+Interface IMSVidWebDVDEvent Extends IMSVidPlaybackEvent
   DVDNotify(a.l, b.p-variant, c.p-variant)
   PlayForwards(a.l)
   PlayBackwards(a.l)
@@ -615,14 +344,7 @@ EndInterface
 
 ; IMSVidWebDVDAdm interface definition
 ;
-Interface IMSVidWebDVDAdm
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidWebDVDAdm Extends IDispatch
   ChangePassword(a.p-bstr, b.p-bstr, c.p-bstr)
   SaveParentalLevel(a.l, b.p-bstr, c.p-bstr)
   SaveParentalCountry(a.l, b.p-bstr, c.p-bstr)
@@ -641,217 +363,63 @@ EndInterface
 
 ; IMSVidOutputDevice interface definition
 ;
-Interface IMSVidOutputDevice
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
+Interface IMSVidOutputDevice Extends IMSVidDevice
 EndInterface
 
 ; IMSVidOutputDeviceEvent interface definition
 ;
-Interface IMSVidOutputDeviceEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  StateChange(a.l, b.l, c.l)
+Interface IMSVidOutputDeviceEvent Extends IMSVidDeviceEvent
 EndInterface
 
 ; IMSVidFeature interface definition
 ;
-Interface IMSVidFeature
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
+Interface IMSVidFeature Extends IMSVidDevice
 EndInterface
 
 ; IMSVidFeatureEvent interface definition
 ;
-Interface IMSVidFeatureEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  StateChange(a.l, b.l, c.l)
+Interface IMSVidFeatureEvent Extends IMSVidDeviceEvent
 EndInterface
 
 ; IMSVidEncoder interface definition
 ;
-Interface IMSVidEncoder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
+Interface IMSVidEncoder Extends IMSVidFeature
   get_VideoEncoderInterface(a.l)
   get_AudioEncoderInterface(a.l)
 EndInterface
 
 ; IMSVidXDS interface definition
 ;
-Interface IMSVidXDS
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
+Interface IMSVidXDS Extends IMSVidFeature
 EndInterface
 
 ; IMSVidDataServices interface definition
 ;
-Interface IMSVidDataServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
+Interface IMSVidDataServices Extends IMSVidFeature
 EndInterface
 
 ; IMSVidDataServicesEvent interface definition
 ;
-Interface IMSVidDataServicesEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  StateChange(a.l, b.l, c.l)
+Interface IMSVidDataServicesEvent Extends IMSVidDeviceEvent
 EndInterface
 
 ; IMSVidClosedCaptioning interface definition
 ;
-Interface IMSVidClosedCaptioning
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
+Interface IMSVidClosedCaptioning Extends IMSVidFeature
   get_Enable(a.l)
   put_Enable(a.l)
 EndInterface
 
 ; IMSVidClosedCaptioning2 interface definition
 ;
-Interface IMSVidClosedCaptioning2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
-  get_Enable(a.l)
-  put_Enable(a.l)
+Interface IMSVidClosedCaptioning2 Extends IMSVidClosedCaptioning
   get_Service(a.l)
   put_Service(a.l)
 EndInterface
 
 ; IMSVidVideoRenderer interface definition
 ;
-Interface IMSVidVideoRenderer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
+Interface IMSVidVideoRenderer Extends IMSVidOutputDevice
   get_CustomCompositorClass(a.l)
   put_CustomCompositorClass(a.p-bstr)
   get__CustomCompositorClass(a.l)
@@ -886,28 +454,13 @@ EndInterface
 
 ; IMSVidVideoRendererEvent interface definition
 ;
-Interface IMSVidVideoRendererEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  StateChange(a.l, b.l, c.l)
+Interface IMSVidVideoRendererEvent Extends IMSVidOutputDeviceEvent
   OverlayUnavailable()
 EndInterface
 
 ; IMSVidStreamBufferRecordingControl interface definition
 ;
-Interface IMSVidStreamBufferRecordingControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidStreamBufferRecordingControl Extends IDispatch
   get_StartTime(a.l)
   put_StartTime(a.l)
   get_StopTime(a.l)
@@ -920,23 +473,7 @@ EndInterface
 
 ; IMSVidStreamBufferSink interface definition
 ;
-Interface IMSVidStreamBufferSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
+Interface IMSVidStreamBufferSink Extends IMSVidOutputDevice
   get_ContentRecorder(a.p-bstr, b.l)
   get_ReferenceRecorder(a.p-bstr, b.l)
   get_SinkName(a.l)
@@ -947,15 +484,7 @@ EndInterface
 
 ; IMSVidStreamBufferSinkEvent interface definition
 ;
-Interface IMSVidStreamBufferSinkEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  StateChange(a.l, b.l, c.l)
+Interface IMSVidStreamBufferSinkEvent Extends IMSVidOutputDeviceEvent
   CertificateFailure()
   CertificateSuccess()
   WriteFailure()
@@ -963,41 +492,7 @@ EndInterface
 
 ; IMSVidStreamBufferSource interface definition
 ;
-Interface IMSVidStreamBufferSource
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
-  IsViewable(a.l, b.l)
-  View(a.l)
-  get_EnableResetOnStop(a.l)
-  put_EnableResetOnStop(a.l)
-  Run()
-  Pause()
-  Stop()
-  get_CanStep(a.l, b.l)
-  Step(a.l)
-  put_Rate(a.d)
-  get_Rate(a.l)
-  put_CurrentPosition(a.l)
-  get_CurrentPosition(a.l)
-  put_PositionMode(a.l)
-  get_PositionMode(a.l)
-  get_Length(a.l)
-  get_FileName(a.l)
-  put_FileName(a.p-bstr)
+Interface IMSVidStreamBufferSource Extends IMSVidFilePlayback
   get_Start(a.l)
   get_RecordingAttribute(a.l)
   CurrentRatings(a.l, b.l, c.l)
@@ -1009,15 +504,7 @@ EndInterface
 
 ; IMSVidStreamBufferSourceEvent interface definition
 ;
-Interface IMSVidStreamBufferSourceEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  EndOfMedia(a.l)
+Interface IMSVidStreamBufferSourceEvent Extends IMSVidFilePlaybackEvent
   CertificateFailure()
   CertificateSuccess()
   RatingsBlocked()
@@ -1031,53 +518,7 @@ EndInterface
 
 ; IMSVidVideoRenderer2 interface definition
 ;
-Interface IMSVidVideoRenderer2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
-  get_CustomCompositorClass(a.l)
-  put_CustomCompositorClass(a.p-bstr)
-  get__CustomCompositorClass(a.l)
-  put__CustomCompositorClass(a.l)
-  get__CustomCompositor(a.l)
-  put__CustomCompositor(a.l)
-  get_MixerBitmap(a.l)
-  get__MixerBitmap(a.l)
-  put_MixerBitmap(a.l)
-  put__MixerBitmap(a.l)
-  get_MixerBitmapPositionRect(a.l)
-  put_MixerBitmapPositionRect(a.l)
-  get_MixerBitmapOpacity(a.l)
-  put_MixerBitmapOpacity(a.l)
-  SetupMixerBitmap(a.l, b.l, c.l)
-  get_SourceSize(a.l)
-  put_SourceSize(a.l)
-  get_OverScan(a.l)
-  put_OverScan(a.l)
-  get_AvailableSourceRect(a.l)
-  get_MaxVidRect(a.l)
-  get_MinVidRect(a.l)
-  get_ClippedSourceRect(a.l)
-  put_ClippedSourceRect(a.l)
-  get_UsingOverlay(a.l)
-  put_UsingOverlay(a.l)
-  Capture(a.l)
-  get_FramesPerSecond(a.l)
-  get_DecimateInput(a.l)
-  put_DecimateInput(a.l)
+Interface IMSVidVideoRenderer2 Extends IMSVidVideoRenderer
   get_Allocator(a.l)
   get__Allocator(a.l)
   get_Allocator_ID(a.l)
@@ -1089,37 +530,13 @@ EndInterface
 
 ; IMSVidVideoRendererEvent2 interface definition
 ;
-Interface IMSVidVideoRendererEvent2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  StateChange(a.l, b.l, c.l)
+Interface IMSVidVideoRendererEvent2 Extends IMSVidOutputDeviceEvent
   OverlayUnavailable()
 EndInterface
 
 ; IMSVidAudioRenderer interface definition
 ;
-Interface IMSVidAudioRenderer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Status(a.l)
-  put_Power(a.l)
-  get_Power(a.l)
-  get_Category(a.l)
-  get_ClassID(a.l)
-  get__Category(a.l)
-  get__ClassID(a.l)
-  IsEqualDevice(a.l, b.l)
+Interface IMSVidAudioRenderer Extends IMSVidOutputDevice
   put_Volume(a.l)
   get_Volume(a.l)
   put_Balance(a.l)
@@ -1128,27 +545,12 @@ EndInterface
 
 ; IMSVidAudioRendererEvent interface definition
 ;
-Interface IMSVidAudioRendererEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  StateChange(a.l, b.l, c.l)
+Interface IMSVidAudioRendererEvent Extends IMSVidOutputDeviceEvent
 EndInterface
 
 ; IMSVidInputDevices interface definition
 ;
-Interface IMSVidInputDevices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidInputDevices Extends IDispatch
   get_Count(a.l)
   get__NewEnum(a.l)
   get_Item(a.p-variant, b.l)
@@ -1158,14 +560,7 @@ EndInterface
 
 ; IMSVidOutputDevices interface definition
 ;
-Interface IMSVidOutputDevices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidOutputDevices Extends IDispatch
   get_Count(a.l)
   get__NewEnum(a.l)
   get_Item(a.p-variant, b.l)
@@ -1175,14 +570,7 @@ EndInterface
 
 ; IMSVidVideoRendererDevices interface definition
 ;
-Interface IMSVidVideoRendererDevices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidVideoRendererDevices Extends IDispatch
   get_Count(a.l)
   get__NewEnum(a.l)
   get_Item(a.p-variant, b.l)
@@ -1192,14 +580,7 @@ EndInterface
 
 ; IMSVidAudioRendererDevices interface definition
 ;
-Interface IMSVidAudioRendererDevices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidAudioRendererDevices Extends IDispatch
   get_Count(a.l)
   get__NewEnum(a.l)
   get_Item(a.p-variant, b.l)
@@ -1209,14 +590,7 @@ EndInterface
 
 ; IMSVidFeatures interface definition
 ;
-Interface IMSVidFeatures
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMSVidFeatures Extends IDispatch
   get_Count(a.l)
   get__NewEnum(a.l)
   get_Item(a.p-variant, b.l)

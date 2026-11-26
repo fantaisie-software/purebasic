@@ -1,14 +1,7 @@
 ﻿
 ; IFaxTiff interface definition
 ;
-Interface IFaxTiff
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFaxTiff Extends IDispatch
   get_ReceiveTime(a.l)
   get_Image(a.l)
   put_Image(a.p-bstr)
@@ -25,14 +18,7 @@ EndInterface
 
 ; IFaxServer interface definition
 ;
-Interface IFaxServer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFaxServer Extends IDispatch
   Connect(a.p-bstr)
   Disconnect()
   GetPorts(a.l)
@@ -70,14 +56,7 @@ EndInterface
 
 ; IFaxPort interface definition
 ;
-Interface IFaxPort
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFaxPort Extends IDispatch
   get_Name(a.l)
   get_DeviceId(a.l)
   get_Rings(a.l)
@@ -99,28 +78,14 @@ EndInterface
 
 ; IFaxPorts interface definition
 ;
-Interface IFaxPorts
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFaxPorts Extends IDispatch
   get_Count(a.l)
   get_Item(a.l, b.l)
 EndInterface
 
 ; IFaxRoutingMethod interface definition
 ;
-Interface IFaxRoutingMethod
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFaxRoutingMethod Extends IDispatch
   get_DeviceId(a.l)
   get_Enable(a.l)
   put_Enable(a.l)
@@ -135,28 +100,14 @@ EndInterface
 
 ; IFaxRoutingMethods interface definition
 ;
-Interface IFaxRoutingMethods
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFaxRoutingMethods Extends IDispatch
   get_Count(a.l)
   get_Item(a.l, b.l)
 EndInterface
 
 ; IFaxStatus interface definition
 ;
-Interface IFaxStatus
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFaxStatus Extends IDispatch
   get_CallerId(a.l)
   get_Csid(a.l)
   get_CurrentPage(a.l)
@@ -181,14 +132,7 @@ EndInterface
 
 ; IFaxDoc interface definition
 ;
-Interface IFaxDoc
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFaxDoc Extends IDispatch
   get_FileName(a.l)
   put_FileName(a.p-bstr)
   get_CoverpageName(a.l)
@@ -263,28 +207,14 @@ EndInterface
 
 ; IFaxJobs interface definition
 ;
-Interface IFaxJobs
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFaxJobs Extends IDispatch
   get_Count(a.l)
   get_Item(a.l, b.l)
 EndInterface
 
 ; IFaxJob interface definition
 ;
-Interface IFaxJob
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IFaxJob Extends IDispatch
   get_JobId(a.l)
   get_Type(a.l)
   get_UserName(a.l)

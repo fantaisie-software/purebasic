@@ -1,10 +1,7 @@
 ﻿
 ; IMAPISession interface definition
 ;
-Interface IMAPISession
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPISession Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   GetMsgStoresTable(a.l, b.l)
   OpenMsgStore(a.l, b.l, c.l, d.l, e.l, f.l)
@@ -28,10 +25,7 @@ EndInterface
 
 ; IAddrBook interface definition
 ;
-Interface IAddrBook
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAddrBook Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -65,10 +59,7 @@ EndInterface
 
 ; IProfAdmin interface definition
 ;
-Interface IProfAdmin
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IProfAdmin Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   GetProfileTable(a.l, b.l)
   CreateProfile(a.l, b.l, c.l, d.l)
@@ -82,10 +73,7 @@ EndInterface
 
 ; IMsgServiceAdmin Interface definition
 ;
-Interface IMsgServiceAdmin
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMsgServiceAdmin Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   GetMsgServiceTable(a.l, b.l)
   CreateMsgService(a.l, b.l, c.l, d.l)

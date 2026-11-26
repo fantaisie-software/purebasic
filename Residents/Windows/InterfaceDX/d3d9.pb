@@ -1,10 +1,7 @@
 ﻿
 ; IDirect3D9 interface definition
 ;
-Interface IDirect3D9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3D9 Extends IUnknown
   RegisterSoftwareDevice(a.l)
   GetAdapterCount()
   GetAdapterIdentifier(a.l, b.l, c.l)
@@ -23,10 +20,7 @@ EndInterface
 
 ; IDirect3DDevice9 interface definition
 ;
-Interface IDirect3DDevice9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DDevice9 Extends IUnknown
   TestCooperativeLevel()
   GetAvailableTextureMem()
   EvictManagedResources()
@@ -147,10 +141,7 @@ EndInterface
 
 ; IDirect3DStateBlock9 interface definition
 ;
-Interface IDirect3DStateBlock9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DStateBlock9 Extends IUnknown
   GetDevice(a.l)
   Capture()
   Apply()
@@ -158,10 +149,7 @@ EndInterface
 
 ; IDirect3DSwapChain9 interface definition
 ;
-Interface IDirect3DSwapChain9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DSwapChain9 Extends IUnknown
   Present(a.l, b.l, c.l, d.l, e.l)
   GetFrontBufferData(a.l)
   GetBackBuffer(a.l, b.l, c.l)
@@ -173,10 +161,7 @@ EndInterface
 
 ; IDirect3DResource9 interface definition
 ;
-Interface IDirect3DResource9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DResource9 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)
@@ -189,48 +174,28 @@ EndInterface
 
 ; IDirect3DVertexDeclaration9 interface definition
 ;
-Interface IDirect3DVertexDeclaration9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DVertexDeclaration9 Extends IUnknown
   GetDevice(a.l)
   GetDeclaration(a.l, b.l)
 EndInterface
 
 ; IDirect3DVertexShader9 interface definition
 ;
-Interface IDirect3DVertexShader9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DVertexShader9 Extends IUnknown
   GetDevice(a.l)
   GetFunction(a.l, b.l)
 EndInterface
 
 ; IDirect3DPixelShader9 interface definition
 ;
-Interface IDirect3DPixelShader9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DPixelShader9 Extends IUnknown
   GetDevice(a.l)
   GetFunction(a.l, b.l)
 EndInterface
 
 ; IDirect3DBaseTexture9 interface definition
 ;
-Interface IDirect3DBaseTexture9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetDevice(a.l)
-  SetPrivateData(a.l, b.l, c.l, d.l)
-  GetPrivateData(a.l, b.l, c.l)
-  FreePrivateData(a.l)
-  SetPriority(a.l)
-  GetPriority()
-  PreLoad()
-  GetType()
+Interface IDirect3DBaseTexture9 Extends IDirect3DResource9
   SetLOD(a.l)
   GetLOD()
   GetLevelCount()
@@ -241,24 +206,7 @@ EndInterface
 
 ; IDirect3DTexture9 interface definition
 ;
-Interface IDirect3DTexture9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetDevice(a.l)
-  SetPrivateData(a.l, b.l, c.l, d.l)
-  GetPrivateData(a.l, b.l, c.l)
-  FreePrivateData(a.l)
-  SetPriority(a.l)
-  GetPriority()
-  PreLoad()
-  GetType()
-  SetLOD(a.l)
-  GetLOD()
-  GetLevelCount()
-  SetAutoGenFilterType(a.l)
-  GetAutoGenFilterType()
-  GenerateMipSubLevels()
+Interface IDirect3DTexture9 Extends IDirect3DBaseTexture9
   GetLevelDesc(a.l, b.l)
   GetSurfaceLevel(a.l, b.l)
   LockRect(a.l, b.l, c.l, d.l)
@@ -268,24 +216,7 @@ EndInterface
 
 ; IDirect3DVolumeTexture9 interface definition
 ;
-Interface IDirect3DVolumeTexture9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetDevice(a.l)
-  SetPrivateData(a.l, b.l, c.l, d.l)
-  GetPrivateData(a.l, b.l, c.l)
-  FreePrivateData(a.l)
-  SetPriority(a.l)
-  GetPriority()
-  PreLoad()
-  GetType()
-  SetLOD(a.l)
-  GetLOD()
-  GetLevelCount()
-  SetAutoGenFilterType(a.l)
-  GetAutoGenFilterType()
-  GenerateMipSubLevels()
+Interface IDirect3DVolumeTexture9 Extends IDirect3DBaseTexture9
   GetLevelDesc(a.l, b.l)
   GetVolumeLevel(a.l, b.l)
   LockBox(a.l, b.l, c.l, d.l)
@@ -295,24 +226,7 @@ EndInterface
 
 ; IDirect3DCubeTexture9 interface definition
 ;
-Interface IDirect3DCubeTexture9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetDevice(a.l)
-  SetPrivateData(a.l, b.l, c.l, d.l)
-  GetPrivateData(a.l, b.l, c.l)
-  FreePrivateData(a.l)
-  SetPriority(a.l)
-  GetPriority()
-  PreLoad()
-  GetType()
-  SetLOD(a.l)
-  GetLOD()
-  GetLevelCount()
-  SetAutoGenFilterType(a.l)
-  GetAutoGenFilterType()
-  GenerateMipSubLevels()
+Interface IDirect3DCubeTexture9 Extends IDirect3DBaseTexture9
   GetLevelDesc(a.l, b.l)
   GetCubeMapSurface(a.l, b.l, c.l)
   LockRect(a.l, b.l, c.l, d.l, e.l)
@@ -322,18 +236,7 @@ EndInterface
 
 ; IDirect3DVertexBuffer9 interface definition
 ;
-Interface IDirect3DVertexBuffer9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetDevice(a.l)
-  SetPrivateData(a.l, b.l, c.l, d.l)
-  GetPrivateData(a.l, b.l, c.l)
-  FreePrivateData(a.l)
-  SetPriority(a.l)
-  GetPriority()
-  PreLoad()
-  GetType()
+Interface IDirect3DVertexBuffer9 Extends IDirect3DResource9
   Lock(a.l, b.l, c.l, d.l)
   Unlock()
   GetDesc(a.l)
@@ -341,18 +244,7 @@ EndInterface
 
 ; IDirect3DIndexBuffer9 interface definition
 ;
-Interface IDirect3DIndexBuffer9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetDevice(a.l)
-  SetPrivateData(a.l, b.l, c.l, d.l)
-  GetPrivateData(a.l, b.l, c.l)
-  FreePrivateData(a.l)
-  SetPriority(a.l)
-  GetPriority()
-  PreLoad()
-  GetType()
+Interface IDirect3DIndexBuffer9 Extends IDirect3DResource9
   Lock(a.l, b.l, c.l, d.l)
   Unlock()
   GetDesc(a.l)
@@ -360,18 +252,7 @@ EndInterface
 
 ; IDirect3DSurface9 interface definition
 ;
-Interface IDirect3DSurface9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetDevice(a.l)
-  SetPrivateData(a.l, b.l, c.l, d.l)
-  GetPrivateData(a.l, b.l, c.l)
-  FreePrivateData(a.l)
-  SetPriority(a.l)
-  GetPriority()
-  PreLoad()
-  GetType()
+Interface IDirect3DSurface9 Extends IDirect3DResource9
   GetContainer(a.l, b.l)
   GetDesc(a.l)
   LockRect(a.l, b.l, c.l)
@@ -382,10 +263,7 @@ EndInterface
 
 ; IDirect3DVolume9 interface definition
 ;
-Interface IDirect3DVolume9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DVolume9 Extends IUnknown
   GetDevice(a.l)
   SetPrivateData(a.l, b.l, c.l, d.l)
   GetPrivateData(a.l, b.l, c.l)
@@ -398,10 +276,7 @@ EndInterface
 
 ; IDirect3DQuery9 interface definition
 ;
-Interface IDirect3DQuery9
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DQuery9 Extends IUnknown
   GetDevice(a.l)
   GetType()
   GetDataSize()

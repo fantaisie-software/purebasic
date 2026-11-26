@@ -1,10 +1,7 @@
 ﻿
 ; IGPEInformation interface definition
 ;
-Interface IGPEInformation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IGPEInformation Extends IUnknown
   GetName(a.l, b.l)
   GetDisplayName(a.l, b.l)
   GetRegistryKey(a.l, b.l)
@@ -18,10 +15,7 @@ EndInterface
 
 ; IGroupPolicyObject interface definition
 ;
-Interface IGroupPolicyObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IGroupPolicyObject Extends IUnknown
   New(a.l, b.l, c.l)
   OpenDSGPO(a.l, b.l)
   OpenLocalMachineGPO(a.l)
@@ -44,10 +38,7 @@ EndInterface
 
 ; IRSOPInformation interface definition
 ;
-Interface IRSOPInformation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRSOPInformation Extends IUnknown
   GetNamespace(a.l, b.l, c.l)
   GetFlags(a.l)
   GetEventLogEntryText(a.l, b.l, c.l, d.l, e.l)

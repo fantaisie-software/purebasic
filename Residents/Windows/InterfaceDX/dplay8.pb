@@ -1,10 +1,7 @@
 ﻿
 ; IDirectPlay8Client interface definition
 ;
-Interface IDirectPlay8Client
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay8Client Extends IUnknown
   Initialize(a.l, b.l, c.l)
   EnumServiceProviders(a.l, b.l, c.l, d.l, e.l, f.l)
   EnumHosts(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l, k.l)
@@ -28,10 +25,7 @@ EndInterface
 
 ; IDirectPlay8Server interface definition
 ;
-Interface IDirectPlay8Server
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay8Server Extends IUnknown
   Initialize(a.l, b.l, c.l)
   EnumServiceProviders(a.l, b.l, c.l, d.l, e.l, f.l)
   CancelAsyncOperation(a.l, b.l)
@@ -67,10 +61,7 @@ EndInterface
 
 ; IDirectPlay8Peer interface definition
 ;
-Interface IDirectPlay8Peer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay8Peer Extends IUnknown
   Initialize(a.l, b.l, c.l)
   EnumServiceProviders(a.l, b.l, c.l, d.l, e.l, f.l)
   CancelAsyncOperation(a.l, b.l)
@@ -109,10 +100,7 @@ EndInterface
 
 ; IDirectPlay8ThreadPool interface definition
 ;
-Interface IDirectPlay8ThreadPool
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay8ThreadPool Extends IUnknown
   Initialize(a.l, b.l, c.l)
   Close(a.l)
   GetThreadCount(a.l, b.l, c.l)
@@ -122,10 +110,7 @@ EndInterface
 
 ; IDirectPlay8NATResolver interface definition
 ;
-Interface IDirectPlay8NATResolver
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay8NATResolver Extends IUnknown
   Initialize(a.l, b.l, c.l)
   Start(a.l, b.l, c.l)
   Close(a.l)

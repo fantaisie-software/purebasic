@@ -1,14 +1,7 @@
 ﻿
 ; IADs interface definition
 ;
-Interface IADs
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADs Extends IDispatch
   get_Name(a.l)
   get_Class(a.l)
   get_GUID(a.l)
@@ -26,14 +19,7 @@ EndInterface
 
 ; IADsContainer interface definition
 ;
-Interface IADsContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsContainer Extends IDispatch
   get_Count(a.l)
   get__NewEnum(a.l)
   get_Filter(a.l)
@@ -49,14 +35,7 @@ EndInterface
 
 ; IADsCollection interface definition
 ;
-Interface IADsCollection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsCollection Extends IDispatch
   get__NewEnum(a.l)
   Add(a.p-bstr, b.p-variant)
   Remove(a.p-bstr)
@@ -65,14 +44,7 @@ EndInterface
 
 ; IADsMembers interface definition
 ;
-Interface IADsMembers
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsMembers Extends IDispatch
   get_Count(a.l)
   get__NewEnum(a.l)
   get_Filter(a.l)
@@ -81,14 +53,7 @@ EndInterface
 
 ; IADsPropertyList interface definition
 ;
-Interface IADsPropertyList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsPropertyList Extends IDispatch
   get_PropertyCount(a.l)
   Next(a.l)
   Skip(a.l)
@@ -102,14 +67,7 @@ EndInterface
 
 ; IADsPropertyEntry interface definition
 ;
-Interface IADsPropertyEntry
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsPropertyEntry Extends IDispatch
   Clear()
   get_Name(a.l)
   put_Name(a.p-bstr)
@@ -123,14 +81,7 @@ EndInterface
 
 ; IADsPropertyValue interface definition
 ;
-Interface IADsPropertyValue
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsPropertyValue Extends IDispatch
   Clear()
   get_ADsType(a.l)
   put_ADsType(a.l)
@@ -160,24 +111,14 @@ EndInterface
 
 ; IADsPropertyValue2 interface definition
 ;
-Interface IADsPropertyValue2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsPropertyValue2 Extends IDispatch
   GetObjectProperty(a.l, b.l)
   PutObjectProperty(a.l, b.p-variant)
 EndInterface
 
 ; IPrivateDispatch interface definition
 ;
-Interface IPrivateDispatch
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPrivateDispatch Extends IUnknown
   ADSIInitializeDispatchManager(a.l)
   ADSIGetTypeInfoCount(a.l)
   ADSIGetTypeInfo(a.l, b.l, c.l)
@@ -187,20 +128,14 @@ EndInterface
 
 ; IPrivateUnknown interface definition
 ;
-Interface IPrivateUnknown
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPrivateUnknown Extends IUnknown
   ADSIInitializeObject(a.p-bstr, b.p-bstr, c.l)
   ADSIReleaseObject()
 EndInterface
 
 ; IADsExtension interface definition
 ;
-Interface IADsExtension
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IADsExtension Extends IUnknown
   Operate(a.l, b.p-variant, c.p-variant, d.p-variant)
   PrivateGetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
   PrivateInvoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
@@ -208,67 +143,20 @@ EndInterface
 
 ; IADsDeleteOps interface definition
 ;
-Interface IADsDeleteOps
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsDeleteOps Extends IDispatch
   DeleteObject(a.l)
 EndInterface
 
 ; IADsNamespaces interface definition
 ;
-Interface IADsNamespaces
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsNamespaces Extends IADs
   get_DefaultContainer(a.l)
   put_DefaultContainer(a.p-bstr)
 EndInterface
 
 ; IADsClass interface definition
 ;
-Interface IADsClass
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsClass Extends IADs
   get_PrimaryInterface(a.l)
   get_CLSID(a.l)
   put_CLSID(a.p-bstr)
@@ -303,27 +191,7 @@ EndInterface
 
 ; IADsProperty interface definition
 ;
-Interface IADsProperty
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsProperty Extends IADs
   get_OID(a.l)
   put_OID(a.p-bstr)
   get_Syntax(a.l)
@@ -339,54 +207,14 @@ EndInterface
 
 ; IADsSyntax interface definition
 ;
-Interface IADsSyntax
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsSyntax Extends IADs
   get_OleAutoDataType(a.l)
   put_OleAutoDataType(a.l)
 EndInterface
 
 ; IADsLocality interface definition
 ;
-Interface IADsLocality
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsLocality Extends IADs
   get_Description(a.l)
   put_Description(a.p-bstr)
   get_LocalityName(a.l)
@@ -399,27 +227,7 @@ EndInterface
 
 ; IADsO interface definition
 ;
-Interface IADsO
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsO Extends IADs
   get_Description(a.l)
   put_Description(a.p-bstr)
   get_LocalityName(a.l)
@@ -436,27 +244,7 @@ EndInterface
 
 ; IADsOU interface definition
 ;
-Interface IADsOU
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsOU Extends IADs
   get_Description(a.l)
   put_Description(a.p-bstr)
   get_LocalityName(a.l)
@@ -475,27 +263,7 @@ EndInterface
 
 ; IADsDomain interface definition
 ;
-Interface IADsDomain
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsDomain Extends IADs
   get_IsWorkgroup(a.l)
   get_MinPasswordLength(a.l)
   put_MinPasswordLength(a.l)
@@ -517,27 +285,7 @@ EndInterface
 
 ; IADsComputer interface definition
 ;
-Interface IADsComputer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsComputer Extends IADs
   get_ComputerID(a.l)
   get_Site(a.l)
   get_Description(a.l)
@@ -574,54 +322,14 @@ EndInterface
 
 ; IADsComputerOperations interface definition
 ;
-Interface IADsComputerOperations
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsComputerOperations Extends IADs
   Status(a.l)
   Shutdown(a.l)
 EndInterface
 
 ; IADsGroup interface definition
 ;
-Interface IADsGroup
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsGroup Extends IADs
   get_Description(a.l)
   put_Description(a.p-bstr)
   Members(a.l)
@@ -632,27 +340,7 @@ EndInterface
 
 ; IADsUser interface definition
 ;
-Interface IADsUser
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsUser Extends IADs
   get_BadLoginAddress(a.l)
   get_BadLoginCount(a.l)
   get_LastLogin(a.l)
@@ -748,27 +436,7 @@ EndInterface
 
 ; IADsPrintQueue interface definition
 ;
-Interface IADsPrintQueue
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsPrintQueue Extends IADs
   get_PrinterPath(a.l)
   put_PrinterPath(a.p-bstr)
   get_Model(a.l)
@@ -799,27 +467,7 @@ EndInterface
 
 ; IADsPrintQueueOperations interface definition
 ;
-Interface IADsPrintQueueOperations
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsPrintQueueOperations Extends IADs
   get_Status(a.l)
   PrintJobs(a.l)
   Pause()
@@ -829,27 +477,7 @@ EndInterface
 
 ; IADsPrintJob interface definition
 ;
-Interface IADsPrintJob
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsPrintJob Extends IADs
   get_HostPrintQueue(a.l)
   get_User(a.l)
   get_UserPath(a.l)
@@ -872,27 +500,7 @@ EndInterface
 
 ; IADsPrintJobOperations interface definition
 ;
-Interface IADsPrintJobOperations
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsPrintJobOperations Extends IADs
   get_Status(a.l)
   get_TimeElapsed(a.l)
   get_PagesPrinted(a.l)
@@ -904,27 +512,7 @@ EndInterface
 
 ; IADsService interface definition
 ;
-Interface IADsService
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsService Extends IADs
   get_HostComputer(a.l)
   put_HostComputer(a.p-bstr)
   get_DisplayName(a.l)
@@ -953,27 +541,7 @@ EndInterface
 
 ; IADsServiceOperations interface definition
 ;
-Interface IADsServiceOperations
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsServiceOperations Extends IADs
   get_Status(a.l)
   Start()
   Stop()
@@ -984,51 +552,7 @@ EndInterface
 
 ; IADsFileService interface definition
 ;
-Interface IADsFileService
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
-  get_HostComputer(a.l)
-  put_HostComputer(a.p-bstr)
-  get_DisplayName(a.l)
-  put_DisplayName(a.p-bstr)
-  get_Version(a.l)
-  put_Version(a.p-bstr)
-  get_ServiceType(a.l)
-  put_ServiceType(a.l)
-  get_StartType(a.l)
-  put_StartType(a.l)
-  get_Path(a.l)
-  put_Path(a.p-bstr)
-  get_StartupParameters(a.l)
-  put_StartupParameters(a.p-bstr)
-  get_ErrorControl(a.l)
-  put_ErrorControl(a.l)
-  get_LoadOrderGroup(a.l)
-  put_LoadOrderGroup(a.p-bstr)
-  get_ServiceAccountName(a.l)
-  put_ServiceAccountName(a.p-bstr)
-  get_ServiceAccountPath(a.l)
-  put_ServiceAccountPath(a.p-bstr)
-  get_Dependencies(a.l)
-  put_Dependencies(a.p-variant)
+Interface IADsFileService Extends IADsService
   get_Description(a.l)
   put_Description(a.p-bstr)
   get_MaxUserCount(a.l)
@@ -1037,60 +561,14 @@ EndInterface
 
 ; IADsFileServiceOperations interface definition
 ;
-Interface IADsFileServiceOperations
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
-  get_Status(a.l)
-  Start()
-  Stop()
-  Pause()
-  Continue()
-  SetPassword(a.p-bstr)
+Interface IADsFileServiceOperations Extends IADsServiceOperations
   Sessions(a.l)
   Resources(a.l)
 EndInterface
 
 ; IADsFileShare interface definition
 ;
-Interface IADsFileShare
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsFileShare Extends IADs
   get_CurrentUserCount(a.l)
   get_Description(a.l)
   put_Description(a.p-bstr)
@@ -1104,27 +582,7 @@ EndInterface
 
 ; IADsSession interface definition
 ;
-Interface IADsSession
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsSession Extends IADs
   get_User(a.l)
   get_UserPath(a.l)
   get_Computer(a.l)
@@ -1135,27 +593,7 @@ EndInterface
 
 ; IADsResource interface definition
 ;
-Interface IADsResource
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  get_Name(a.l)
-  get_Class(a.l)
-  get_GUID(a.l)
-  get_ADsPath(a.l)
-  get_Parent(a.l)
-  get_Schema(a.l)
-  GetInfo()
-  SetInfo()
-  Get(a.p-bstr, b.l)
-  Put(a.p-bstr, b.p-variant)
-  GetEx(a.p-bstr, b.l)
-  PutEx(a.l, b.p-bstr, c.p-variant)
-  GetInfoEx(a.p-variant, b.l)
+Interface IADsResource Extends IADs
   get_User(a.l)
   get_UserPath(a.l)
   get_Path(a.l)
@@ -1164,23 +602,13 @@ EndInterface
 
 ; IADsOpenDSObject interface definition
 ;
-Interface IADsOpenDSObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsOpenDSObject Extends IDispatch
   OpenDSObject(a.p-bstr, b.p-bstr, c.p-bstr, d.l, e.l)
 EndInterface
 
 ; IDirectoryObject interface definition
 ;
-Interface IDirectoryObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectoryObject Extends IUnknown
   GetObjectInformation(a.l)
   GetObjectAttributes(a.l, b.l, c.l, d.l)
   SetObjectAttributes(a.l, b.l, c.l)
@@ -1190,10 +618,7 @@ EndInterface
 
 ; IDirectorySearch interface definition
 ;
-Interface IDirectorySearch
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectorySearch Extends IUnknown
   SetSearchPreference(a.l, b.l)
   ExecuteSearch(a.p-unicode, b.l, c.l, d.l)
   AbandonSearch(a.l)
@@ -1208,10 +633,7 @@ EndInterface
 
 ; IDirectorySchemaMgmt interface definition
 ;
-Interface IDirectorySchemaMgmt
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectorySchemaMgmt Extends IUnknown
   EnumAttributes(a.l, b.l, c.l, d.l)
   CreateAttributeDefinition(a.p-unicode, b.l)
   WriteAttributeDefinition(a.p-unicode, b.l)
@@ -1224,10 +646,7 @@ EndInterface
 
 ; IADsAggregatee interface definition
 ;
-Interface IADsAggregatee
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IADsAggregatee Extends IUnknown
   ConnectAsAggregatee(a.l)
   DisconnectAsAggregatee()
   RelinquishInterface(a.l)
@@ -1236,24 +655,14 @@ EndInterface
 
 ; IADsAggregator interface definition
 ;
-Interface IADsAggregator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IADsAggregator Extends IUnknown
   ConnectAsAggregator(a.l)
   DisconnectAsAggregator()
 EndInterface
 
 ; IADsAccessControlEntry interface definition
 ;
-Interface IADsAccessControlEntry
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsAccessControlEntry Extends IDispatch
   get_AccessMask(a.l)
   put_AccessMask(a.l)
   get_AceType(a.l)
@@ -1272,14 +681,7 @@ EndInterface
 
 ; IADsAccessControlList interface definition
 ;
-Interface IADsAccessControlList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsAccessControlList Extends IDispatch
   get_AclRevision(a.l)
   put_AclRevision(a.l)
   get_AceCount(a.l)
@@ -1292,14 +694,7 @@ EndInterface
 
 ; IADsSecurityDescriptor interface definition
 ;
-Interface IADsSecurityDescriptor
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsSecurityDescriptor Extends IDispatch
   get_Revision(a.l)
   put_Revision(a.l)
   get_Control(a.l)
@@ -1325,14 +720,7 @@ EndInterface
 
 ; IADsLargeInteger interface definition
 ;
-Interface IADsLargeInteger
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsLargeInteger Extends IDispatch
   get_HighPart(a.l)
   put_HighPart(a.l)
   get_LowPart(a.l)
@@ -1341,14 +729,7 @@ EndInterface
 
 ; IADsNameTranslate interface definition
 ;
-Interface IADsNameTranslate
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsNameTranslate Extends IDispatch
   put_ChaseReferral(a.l)
   Init(a.l, b.p-bstr)
   InitEx(a.l, b.p-bstr, c.p-bstr, d.p-bstr, e.p-bstr)
@@ -1360,28 +741,14 @@ EndInterface
 
 ; IADsCaseIgnoreList interface definition
 ;
-Interface IADsCaseIgnoreList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsCaseIgnoreList Extends IDispatch
   get_CaseIgnoreList(a.l)
   put_CaseIgnoreList(a.p-variant)
 EndInterface
 
 ; IADsFaxNumber interface definition
 ;
-Interface IADsFaxNumber
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsFaxNumber Extends IDispatch
   get_TelephoneNumber(a.l)
   put_TelephoneNumber(a.p-bstr)
   get_Parameters(a.l)
@@ -1390,14 +757,7 @@ EndInterface
 
 ; IADsNetAddress interface definition
 ;
-Interface IADsNetAddress
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsNetAddress Extends IDispatch
   get_AddressType(a.l)
   put_AddressType(a.l)
   get_Address(a.l)
@@ -1406,28 +766,14 @@ EndInterface
 
 ; IADsOctetList interface definition
 ;
-Interface IADsOctetList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsOctetList Extends IDispatch
   get_OctetList(a.l)
   put_OctetList(a.p-variant)
 EndInterface
 
 ; IADsEmail interface definition
 ;
-Interface IADsEmail
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsEmail Extends IDispatch
   get_Type(a.l)
   put_Type(a.l)
   get_Address(a.l)
@@ -1436,14 +782,7 @@ EndInterface
 
 ; IADsPath interface definition
 ;
-Interface IADsPath
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsPath Extends IDispatch
   get_Type(a.l)
   put_Type(a.l)
   get_VolumeName(a.l)
@@ -1454,14 +793,7 @@ EndInterface
 
 ; IADsReplicaPointer interface definition
 ;
-Interface IADsReplicaPointer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsReplicaPointer Extends IDispatch
   get_ServerName(a.l)
   put_ServerName(a.p-bstr)
   get_ReplicaType(a.l)
@@ -1476,14 +808,7 @@ EndInterface
 
 ; IADsAcl interface definition
 ;
-Interface IADsAcl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsAcl Extends IDispatch
   get_ProtectedAttrName(a.l)
   put_ProtectedAttrName(a.p-bstr)
   get_SubjectName(a.l)
@@ -1495,14 +820,7 @@ EndInterface
 
 ; IADsTimestamp interface definition
 ;
-Interface IADsTimestamp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsTimestamp Extends IDispatch
   get_WholeSeconds(a.l)
   put_WholeSeconds(a.l)
   get_EventID(a.l)
@@ -1511,28 +829,14 @@ EndInterface
 
 ; IADsPostalAddress interface definition
 ;
-Interface IADsPostalAddress
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsPostalAddress Extends IDispatch
   get_PostalAddress(a.l)
   put_PostalAddress(a.p-variant)
 EndInterface
 
 ; IADsBackLink interface definition
 ;
-Interface IADsBackLink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsBackLink Extends IDispatch
   get_RemoteID(a.l)
   put_RemoteID(a.l)
   get_ObjectName(a.l)
@@ -1541,14 +845,7 @@ EndInterface
 
 ; IADsTypedName interface definition
 ;
-Interface IADsTypedName
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsTypedName Extends IDispatch
   get_ObjectName(a.l)
   put_ObjectName(a.p-bstr)
   get_Level(a.l)
@@ -1559,14 +856,7 @@ EndInterface
 
 ; IADsHold interface definition
 ;
-Interface IADsHold
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsHold Extends IDispatch
   get_ObjectName(a.l)
   put_ObjectName(a.p-bstr)
   get_Amount(a.l)
@@ -1575,28 +865,14 @@ EndInterface
 
 ; IADsObjectOptions interface definition
 ;
-Interface IADsObjectOptions
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsObjectOptions Extends IDispatch
   GetOption(a.l, b.l)
   SetOption(a.l, b.p-variant)
 EndInterface
 
 ; IADsPathname interface definition
 ;
-Interface IADsPathname
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsPathname Extends IDispatch
   Set(a.p-bstr, b.l)
   SetDisplayType(a.l)
   Retrieve(a.l, b.l)
@@ -1612,14 +888,7 @@ EndInterface
 
 ; IADsADSystemInfo interface definition
 ;
-Interface IADsADSystemInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsADSystemInfo Extends IDispatch
   get_UserName(a.l)
   get_ComputerName(a.l)
   get_SiteName(a.l)
@@ -1637,14 +906,7 @@ EndInterface
 
 ; IADsWinNTSystemInfo interface definition
 ;
-Interface IADsWinNTSystemInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsWinNTSystemInfo Extends IDispatch
   get_UserName(a.l)
   get_ComputerName(a.l)
   get_DomainName(a.l)
@@ -1653,14 +915,7 @@ EndInterface
 
 ; IADsDNWithBinary interface definition
 ;
-Interface IADsDNWithBinary
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsDNWithBinary Extends IDispatch
   get_BinaryValue(a.l)
   put_BinaryValue(a.p-variant)
   get_DNString(a.l)
@@ -1669,14 +924,7 @@ EndInterface
 
 ; IADsDNWithString interface definition
 ;
-Interface IADsDNWithString
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsDNWithString Extends IDispatch
   get_StringValue(a.l)
   put_StringValue(a.p-bstr)
   get_DNString(a.l)
@@ -1685,14 +933,7 @@ EndInterface
 
 ; IADsSecurityUtility interface definition
 ;
-Interface IADsSecurityUtility
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IADsSecurityUtility Extends IDispatch
   GetSecurityDescriptor(a.p-variant, b.l, c.l, d.l)
   SetSecurityDescriptor(a.p-variant, b.l, c.p-variant, d.l)
   ConvertSecurityDescriptor(a.p-variant, b.l, c.l, d.l)

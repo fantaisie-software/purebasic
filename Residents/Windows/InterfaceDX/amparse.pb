@@ -1,10 +1,7 @@
 ﻿
 ; IAMParse interface definition
 ;
-Interface IAMParse
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMParse Extends IUnknown
   GetParseTime(a.l)
   SetParseTime(a.q)
   Flush()

@@ -1,10 +1,7 @@
 ﻿
 ; IDirectPlay8Address interface definition
 ;
-Interface IDirectPlay8Address
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay8Address Extends IUnknown
   BuildFromURLW(a.l)
   BuildFromURLA(a.s)
   Duplicate(a.l)
@@ -28,10 +25,7 @@ EndInterface
 
 ; IDirectPlay8AddressIP interface definition
 ;
-Interface IDirectPlay8AddressIP
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay8AddressIP Extends IUnknown
   BuildFromSockAddr(a.l)
   BuildAddress(a.l, b.l)
   BuildLocalAddress(a.l, b.l)

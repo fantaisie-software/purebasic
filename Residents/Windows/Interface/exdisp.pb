@@ -1,14 +1,7 @@
 ﻿
 ; IWebBrowser interface definition
 ;
-Interface IWebBrowser
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IWebBrowser Extends IDispatch
   GoBack()
   GoForward()
   GoHome()
@@ -38,51 +31,12 @@ EndInterface
 
 ; DWebBrowserEvents interface definition
 ;
-Interface DWebBrowserEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DWebBrowserEvents Extends IDispatch
 EndInterface
 
 ; IWebBrowserApp interface definition
 ;
-Interface IWebBrowserApp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  GoBack()
-  GoForward()
-  GoHome()
-  GoSearch()
-  Navigate(a.p-bstr, b.l, c.l, d.l, e.l)
-  Refresh()
-  Refresh2(a.l)
-  Stop()
-  get_Application(a.l)
-  get_Parent(a.l)
-  get_Container(a.l)
-  get_Document(a.l)
-  get_TopLevelContainer(a.l)
-  get_Type(a.l)
-  get_Left(a.l)
-  put_Left(a.l)
-  get_Top(a.l)
-  put_Top(a.l)
-  get_Width(a.l)
-  put_Width(a.l)
-  get_Height(a.l)
-  put_Height(a.l)
-  get_LocationName(a.l)
-  get_LocationURL(a.l)
-  get_Busy(a.l)
+Interface IWebBrowserApp Extends IWebBrowser
   Quit()
   ClientToWindow(a.l, b.l)
   PutProperty(a.p-bstr, b.p-variant)
@@ -107,59 +61,7 @@ EndInterface
 
 ; IWebBrowser2 interface definition
 ;
-Interface IWebBrowser2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  GoBack()
-  GoForward()
-  GoHome()
-  GoSearch()
-  Navigate(a.p-bstr, b.l, c.l, d.l, e.l)
-  Refresh()
-  Refresh2(a.l)
-  Stop()
-  get_Application(a.l)
-  get_Parent(a.l)
-  get_Container(a.l)
-  get_Document(a.l)
-  get_TopLevelContainer(a.l)
-  get_Type(a.l)
-  get_Left(a.l)
-  put_Left(a.l)
-  get_Top(a.l)
-  put_Top(a.l)
-  get_Width(a.l)
-  put_Width(a.l)
-  get_Height(a.l)
-  put_Height(a.l)
-  get_LocationName(a.l)
-  get_LocationURL(a.l)
-  get_Busy(a.l)
-  Quit()
-  ClientToWindow(a.l, b.l)
-  PutProperty(a.p-bstr, b.p-variant)
-  GetProperty(a.p-bstr, b.l)
-  get_Name(a.l)
-  get_HWND(a.l)
-  get_FullName(a.l)
-  get_Path(a.l)
-  get_Visible(a.l)
-  put_Visible(a.l)
-  get_StatusBar(a.l)
-  put_StatusBar(a.l)
-  get_StatusText(a.l)
-  put_StatusText(a.p-bstr)
-  get_ToolBar(a.l)
-  put_ToolBar(a.l)
-  get_MenuBar(a.l)
-  put_MenuBar(a.l)
-  get_FullScreen(a.l)
-  put_FullScreen(a.l)
+Interface IWebBrowser2 Extends IWebBrowserApp
   Navigate2(a.l, b.l, c.l, d.l, e.l)
   QueryStatusWB(a.l, b.l)
   ExecWB(a.l, b.l, c.l, d.l)
@@ -183,38 +85,17 @@ EndInterface
 
 ; DWebBrowserEvents2 interface definition
 ;
-Interface DWebBrowserEvents2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DWebBrowserEvents2 Extends IDispatch
 EndInterface
 
 ; DShellWindowsEvents interface definition
 ;
-Interface DShellWindowsEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DShellWindowsEvents Extends IDispatch
 EndInterface
 
 ; IShellWindows interface definition
 ;
-Interface IShellWindows
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IShellWindows Extends IDispatch
   get_Count(a.l)
   Item(a.p-variant, b.l)
   _NewEnum(a.l)
@@ -230,14 +111,7 @@ EndInterface
 
 ; IShellUIHelper interface definition
 ;
-Interface IShellUIHelper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IShellUIHelper Extends IDispatch
   ResetFirstBootMode()
   ResetSafeMode()
   RefreshOfflineDesktop()
@@ -255,26 +129,12 @@ EndInterface
 
 ; DShellNameSpaceEvents interface definition
 ;
-Interface DShellNameSpaceEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface DShellNameSpaceEvents Extends IDispatch
 EndInterface
 
 ; IShellFavoritesNameSpace interface definition
 ;
-Interface IShellFavoritesNameSpace
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IShellFavoritesNameSpace Extends IDispatch
   MoveSelectionUp()
   MoveSelectionDown()
   ResetSort()
@@ -292,27 +152,7 @@ EndInterface
 
 ; IShellNameSpace interface definition
 ;
-Interface IShellNameSpace
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
-  MoveSelectionUp()
-  MoveSelectionDown()
-  ResetSort()
-  NewFolder()
-  Synchronize()
-  Import()
-  Export()
-  InvokeContextMenuCommand(a.p-bstr)
-  MoveSelectionTo()
-  get_SubscriptionsEnabled(a.l)
-  CreateSubscriptionForSelection(a.l)
-  DeleteSubscriptionForSelection(a.l)
-  SetRoot(a.p-bstr)
+Interface IShellNameSpace Extends IShellFavoritesNameSpace
   get_EnumOptions(a.l)
   put_EnumOptions(a.l)
   get_SelectedItem(a.l)
@@ -338,14 +178,7 @@ EndInterface
 
 ; IScriptErrorList interface definition
 ;
-Interface IScriptErrorList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IScriptErrorList Extends IDispatch
   advanceError()
   retreatError()
   canAdvanceError(a.l)
@@ -364,14 +197,7 @@ EndInterface
 
 ; ISearch interface definition
 ;
-Interface ISearch
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISearch Extends IDispatch
   get_Title(a.l)
   get_Id(a.l)
   get_Url(a.l)
@@ -379,14 +205,7 @@ EndInterface
 
 ; ISearches interface definition
 ;
-Interface ISearches
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISearches Extends IDispatch
   get_Count(a.l)
   get_Default(a.l)
   Item(a.p-variant, b.l)
@@ -395,14 +214,7 @@ EndInterface
 
 ; ISearchAssistantOC interface definition
 ;
-Interface ISearchAssistantOC
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISearchAssistantOC Extends IDispatch
   AddNextMenuItem(a.p-bstr, b.l)
   SetDefaultSearchUrl(a.p-bstr)
   NavigateToDefaultSearch()
@@ -434,14 +246,7 @@ EndInterface
 
 ; ISearchAssistantOC2 interface definition
 ;
-Interface ISearchAssistantOC2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISearchAssistantOC2 Extends IDispatch
   AddNextMenuItem(a.p-bstr, b.l)
   SetDefaultSearchUrl(a.p-bstr)
   NavigateToDefaultSearch()
@@ -474,14 +279,7 @@ EndInterface
 
 ; ISearchAssistantOC3 interface definition
 ;
-Interface ISearchAssistantOC3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ISearchAssistantOC3 Extends IDispatch
   AddNextMenuItem(a.p-bstr, b.l)
   SetDefaultSearchUrl(a.p-bstr)
   NavigateToDefaultSearch()
@@ -517,12 +315,5 @@ EndInterface
 
 ; _SearchAssistantEvents interface definition
 ;
-Interface _SearchAssistantEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _SearchAssistantEvents Extends IDispatch
 EndInterface

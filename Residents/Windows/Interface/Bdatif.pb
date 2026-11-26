@@ -1,20 +1,14 @@
 ﻿
 ; IBDA_TIF_REGISTRATION interface definition
 ;
-Interface IBDA_TIF_REGISTRATION
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_TIF_REGISTRATION Extends IUnknown
   RegisterTIFEx(a.l, b.l, c.l)
   UnregisterTIF(a.l)
 EndInterface
 
 ; IMPEG2_TIF_CONTROL interface definition
 ;
-Interface IMPEG2_TIF_CONTROL
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMPEG2_TIF_CONTROL Extends IUnknown
   RegisterTIF(a.l, b.l)
   UnregisterTIF(a.l)
   AddPIDs(a.l, b.l)
@@ -25,10 +19,7 @@ EndInterface
 
 ; ITuneRequestInfo interface definition
 ;
-Interface ITuneRequestInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITuneRequestInfo Extends IUnknown
   GetLocatorData(a.l)
   GetComponentData(a.l)
   CreateComponentList(a.l)
@@ -40,10 +31,7 @@ EndInterface
 
 ; IGuideDataEvent interface definition
 ;
-Interface IGuideDataEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IGuideDataEvent Extends IUnknown
   GuideDataAcquired()
   ProgramChanged(a.p-variant)
   ServiceChanged(a.p-variant)
@@ -55,10 +43,7 @@ EndInterface
 
 ; IGuideDataProperty interface definition
 ;
-Interface IGuideDataProperty
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IGuideDataProperty Extends IUnknown
   get_Name(a.l)
   get_Language(a.l)
   get_Value(a.l)
@@ -66,10 +51,7 @@ EndInterface
 
 ; IEnumGuideDataProperties interface definition
 ;
-Interface IEnumGuideDataProperties
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumGuideDataProperties Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -78,10 +60,7 @@ EndInterface
 
 ; IEnumTuneRequests interface definition
 ;
-Interface IEnumTuneRequests
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumTuneRequests Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -90,10 +69,7 @@ EndInterface
 
 ; IGuideData interface definition
 ;
-Interface IGuideData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IGuideData Extends IUnknown
   GetServices(a.l)
   GetServiceProperties(a.l, b.l)
   GetGuideProgramIDs(a.l)
@@ -104,10 +80,7 @@ EndInterface
 
 ; IGuideDataLoader interface definition
 ;
-Interface IGuideDataLoader
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IGuideDataLoader Extends IUnknown
   Init(a.l)
   Terminate()
 EndInterface

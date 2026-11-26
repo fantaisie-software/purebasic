@@ -1,10 +1,7 @@
 ﻿
 ; IMarshal interface definition
 ;
-Interface IMarshal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMarshal Extends IUnknown
   GetUnmarshalClass(a.l, b.l, c.l, d.l, e.l, f.l)
   GetMarshalSizeMax(a.l, b.l, c.l, d.l, e.l, f.l)
   MarshalInterface(a.l, b.l, c.l, d.l, e.l, f.l)
@@ -15,24 +12,12 @@ EndInterface
 
 ; IMarshal2 interface definition
 ;
-Interface IMarshal2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetUnmarshalClass(a.l, b.l, c.l, d.l, e.l, f.l)
-  GetMarshalSizeMax(a.l, b.l, c.l, d.l, e.l, f.l)
-  MarshalInterface(a.l, b.l, c.l, d.l, e.l, f.l)
-  UnmarshalInterface(a.l, b.l, c.l)
-  ReleaseMarshalData(a.l)
-  DisconnectObject(a.l)
+Interface IMarshal2 Extends IMarshal
 EndInterface
 
 ; IMalloc interface definition
 ;
-Interface IMalloc
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMalloc Extends IUnknown
   Alloc(a.l)
   Realloc(a.l, b.l)
   Free(a.l)
@@ -43,10 +28,7 @@ EndInterface
 
 ; IMallocSpy interface definition
 ;
-Interface IMallocSpy
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMallocSpy Extends IUnknown
   PreAlloc(a.l)
   PostAlloc(a.l)
   PreFree(a.l, b.l)
@@ -63,57 +45,39 @@ EndInterface
 
 ; IStdMarshalInfo interface definition
 ;
-Interface IStdMarshalInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStdMarshalInfo Extends IUnknown
   GetClassForHandler(a.l, b.l, c.l)
 EndInterface
 
 ; IExternalConnection interface definition
 ;
-Interface IExternalConnection
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IExternalConnection Extends IUnknown
   AddConnection(a.l, b.l)
   ReleaseConnection(a.l, b.l, c.l)
 EndInterface
 
 ; IMultiQI interface definition
 ;
-Interface IMultiQI
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMultiQI Extends IUnknown
   QueryMultipleInterfaces(a.l, b.l)
 EndInterface
 
 ; AsyncIMultiQI interface definition
 ;
-Interface AsyncIMultiQI
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface AsyncIMultiQI Extends IUnknown
   Begin_QueryMultipleInterfaces(a.l, b.l)
   Finish_QueryMultipleInterfaces(a.l)
 EndInterface
 
 ; IInternalUnknown interface definition
 ;
-Interface IInternalUnknown
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInternalUnknown Extends IUnknown
   QueryInternalInterface(a.l, b.l)
 EndInterface
 
 ; IEnumUnknown interface definition
 ;
-Interface IEnumUnknown
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumUnknown Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -122,10 +86,7 @@ EndInterface
 
 ; IBindCtx interface definition
 ;
-Interface IBindCtx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBindCtx Extends IUnknown
   RegisterObjectBound(a.l)
   RevokeObjectBound(a.l)
   ReleaseBoundObjects()
@@ -140,10 +101,7 @@ EndInterface
 
 ; IEnumMoniker interface definition
 ;
-Interface IEnumMoniker
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumMoniker Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -152,10 +110,7 @@ EndInterface
 
 ; IRunnableObject interface definition
 ;
-Interface IRunnableObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRunnableObject Extends IUnknown
   GetRunningClass(a.l)
   Run(a.l)
   IsRunning()
@@ -165,10 +120,7 @@ EndInterface
 
 ; IRunningObjectTable interface definition
 ;
-Interface IRunningObjectTable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRunningObjectTable Extends IUnknown
   Register(a.l, b.l, c.l, d.l)
   Revoke(a.l)
   IsRunning(a.l)
@@ -180,20 +132,13 @@ EndInterface
 
 ; IPersist interface definition
 ;
-Interface IPersist
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPersist Extends IUnknown
   GetClassID(a.l)
 EndInterface
 
 ; IPersistStream interface definition
 ;
-Interface IPersistStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
+Interface IPersistStream Extends IPersist
   IsDirty()
   Load(a.l)
   Save(a.l, b.l)
@@ -202,15 +147,7 @@ EndInterface
 
 ; IMoniker interface definition
 ;
-Interface IMoniker
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
-  IsDirty()
-  Load(a.l)
-  Save(a.l, b.l)
-  GetSizeMax(a.l)
+Interface IMoniker Extends IPersistStream
   BindToObject(a.l, b.l, c.l, d.l)
   BindToStorage(a.l, b.l, c.l, d.l)
   Reduce(a.l, b.l, c.l, d.l)
@@ -230,19 +167,13 @@ EndInterface
 
 ; IROTData interface definition
 ;
-Interface IROTData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IROTData Extends IUnknown
   GetComparisonData(a.l, b.l, c.l)
 EndInterface
 
 ; IEnumString interface definition
 ;
-Interface IEnumString
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumString Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -251,22 +182,14 @@ EndInterface
 
 ; ISequentialStream interface definition
 ;
-Interface ISequentialStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISequentialStream Extends IUnknown
   Read(a.l, b.l, c.l)
   Write(a.l, b.l, c.l)
 EndInterface
 
 ; IStream interface definition
 ;
-Interface IStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Read(a.l, b.l, c.l)
-  Write(a.l, b.l, c.l)
+Interface IStream Extends ISequentialStream
   Seek(a.q, b.l, c.l)
   SetSize(a.q)
   CopyTo(a.l, b.q, c.l, d.l)
@@ -280,10 +203,7 @@ EndInterface
 
 ; IEnumSTATSTG interface definition
 ;
-Interface IEnumSTATSTG
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumSTATSTG Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -292,10 +212,7 @@ EndInterface
 
 ; IStorage interface definition
 ;
-Interface IStorage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IStorage Extends IUnknown
   CreateStream(a.l, b.l, c.l, d.l, e.l)
   OpenStream(a.l, b.l, c.l, d.l, e.l)
   CreateStorage(a.l, b.l, c.l, d.l, e.l)
@@ -315,11 +232,7 @@ EndInterface
 
 ; IPersistFile interface definition
 ;
-Interface IPersistFile
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
+Interface IPersistFile Extends IPersist
   IsDirty()
   Load(a.p-unicode, b.l)
   Save(a.p-unicode, b.l)
@@ -329,11 +242,7 @@ EndInterface
 
 ; IPersistStorage interface definition
 ;
-Interface IPersistStorage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetClassID(a.l)
+Interface IPersistStorage Extends IPersist
   IsDirty()
   InitNew(a.l)
   Load(a.p-unicode)
@@ -344,10 +253,7 @@ EndInterface
 
 ; ILockBytes interface definition
 ;
-Interface ILockBytes
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ILockBytes Extends IUnknown
   ReadAt(a.q, b.l, c.l, d.l)
   WriteAt(a.q, b.l, c.l, d.l)
   Flush()
@@ -359,10 +265,7 @@ EndInterface
 
 ; IEnumFORMATETC interface definition
 ;
-Interface IEnumFORMATETC
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumFORMATETC Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -371,10 +274,7 @@ EndInterface
 
 ; IEnumSTATDATA interface definition
 ;
-Interface IEnumSTATDATA
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumSTATDATA Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -383,19 +283,13 @@ EndInterface
 
 ; IRootStorage interface definition
 ;
-Interface IRootStorage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRootStorage Extends IUnknown
   SwitchToFile(a.p-unicode)
 EndInterface
 
 ; IAdviseSink interface definition
 ;
-Interface IAdviseSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAdviseSink Extends IUnknown
   OnDataChange(a.l, b.l)
   OnViewChange(a.l, b.l)
   OnRename(a.l)
@@ -405,10 +299,7 @@ EndInterface
 
 ; AsyncIAdviseSink interface definition
 ;
-Interface AsyncIAdviseSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface AsyncIAdviseSink Extends IUnknown
   Begin_OnDataChange(a.l, b.l)
   Finish_OnDataChange()
   Begin_OnViewChange(a.l, b.l)
@@ -423,24 +314,13 @@ EndInterface
 
 ; IAdviseSink2 interface definition
 ;
-Interface IAdviseSink2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  OnDataChange(a.l, b.l)
-  OnViewChange(a.l, b.l)
-  OnRename(a.l)
-  OnSave()
-  OnClose()
+Interface IAdviseSink2 Extends IAdviseSink
   OnLinkSrcChange(a.l)
 EndInterface
 
 ; AsyncIAdviseSink2 interface definition
 ;
-Interface AsyncIAdviseSink2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface AsyncIAdviseSink2 Extends IUnknown
   Begin_OnDataChange(a.l, b.l)
   Finish_OnDataChange()
   Begin_OnViewChange(a.l, b.l)
@@ -457,10 +337,7 @@ EndInterface
 
 ; IDataObject interface definition
 ;
-Interface IDataObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDataObject Extends IUnknown
   GetData(a.l, b.l)
   GetDataHere(a.l, b.l)
   QueryGetData(a.l)
@@ -474,10 +351,7 @@ EndInterface
 
 ; IDataAdviseHolder interface definition
 ;
-Interface IDataAdviseHolder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDataAdviseHolder Extends IUnknown
   Advise(a.l, b.l, c.l, d.l, e.l)
   Unadvise(a.l)
   EnumAdvise(a.l)
@@ -486,10 +360,7 @@ EndInterface
 
 ; IMessageFilter interface definition
 ;
-Interface IMessageFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMessageFilter Extends IUnknown
   HandleInComingCall(a.l, b.l, c.l, d.l)
   RetryRejectedCall(a.l, b.l, c.l)
   MessagePending(a.l, b.l, c.l)
@@ -497,10 +368,7 @@ EndInterface
 
 ; IRpcChannelBuffer interface definition
 ;
-Interface IRpcChannelBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRpcChannelBuffer Extends IUnknown
   GetBuffer(a.l, b.l)
   SendReceive(a.l, b.l)
   FreeBuffer(a.l)
@@ -510,30 +378,13 @@ EndInterface
 
 ; IRpcChannelBuffer2 interface definition
 ;
-Interface IRpcChannelBuffer2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetBuffer(a.l, b.l)
-  SendReceive(a.l, b.l)
-  FreeBuffer(a.l)
-  GetDestCtx(a.l, b.l)
-  IsConnected()
+Interface IRpcChannelBuffer2 Extends IRpcChannelBuffer
   GetProtocolVersion(a.l)
 EndInterface
 
 ; IAsyncRpcChannelBuffer interface definition
 ;
-Interface IAsyncRpcChannelBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetBuffer(a.l, b.l)
-  SendReceive(a.l, b.l)
-  FreeBuffer(a.l)
-  GetDestCtx(a.l, b.l)
-  IsConnected()
-  GetProtocolVersion(a.l)
+Interface IAsyncRpcChannelBuffer Extends IRpcChannelBuffer2
   Send(a.l, b.l, c.l)
   Receive(a.l, b.l)
   GetDestCtxEx(a.l, b.l, c.l)
@@ -541,16 +392,7 @@ EndInterface
 
 ; IRpcChannelBuffer3 interface definition
 ;
-Interface IRpcChannelBuffer3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetBuffer(a.l, b.l)
-  SendReceive(a.l, b.l)
-  FreeBuffer(a.l)
-  GetDestCtx(a.l, b.l)
-  IsConnected()
-  GetProtocolVersion(a.l)
+Interface IRpcChannelBuffer3 Extends IRpcChannelBuffer2
   Send(a.l, b.l)
   Receive(a.l, b.l, c.l)
   Cancel(a.l)
@@ -562,29 +404,20 @@ EndInterface
 
 ; IRpcSyntaxNegotiate interface definition
 ;
-Interface IRpcSyntaxNegotiate
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRpcSyntaxNegotiate Extends IUnknown
   NegotiateSyntax(a.l)
 EndInterface
 
 ; IRpcProxyBuffer interface definition
 ;
-Interface IRpcProxyBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRpcProxyBuffer Extends IUnknown
   Connect(a.l)
   Disconnect()
 EndInterface
 
 ; IRpcStubBuffer interface definition
 ;
-Interface IRpcStubBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRpcStubBuffer Extends IUnknown
   Connect(a.l)
   Disconnect()
   Invoke(a.l, b.l)
@@ -596,20 +429,14 @@ EndInterface
 
 ; IPSFactoryBuffer interface definition
 ;
-Interface IPSFactoryBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPSFactoryBuffer Extends IUnknown
   CreateProxy(a.l, b.l, c.l, d.l)
   CreateStub(a.l, b.l, c.l)
 EndInterface
 
 ; IChannelHook interface definition
 ;
-Interface IChannelHook
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IChannelHook Extends IUnknown
   ClientGetSize(a.l, b.l, c.l)
   ClientFillBuffer(a.l, b.l, c.l, d.l)
   ClientNotify(a.l, b.l, c.l, d.l, e.l, f.l)
@@ -620,10 +447,7 @@ EndInterface
 
 ; IClientSecurity interface definition
 ;
-Interface IClientSecurity
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IClientSecurity Extends IUnknown
   QueryBlanket(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
   SetBlanket(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
   CopyProxy(a.l, b.l)
@@ -631,10 +455,7 @@ EndInterface
 
 ; IServerSecurity interface definition
 ;
-Interface IServerSecurity
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IServerSecurity Extends IUnknown
   QueryBlanket(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
   ImpersonateClient()
   RevertToSelf()
@@ -643,29 +464,20 @@ EndInterface
 
 ; IClassActivator interface definition
 ;
-Interface IClassActivator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IClassActivator Extends IUnknown
   GetClassObject(a.l, b.l, c.l, d.l, e.l)
 EndInterface
 
 ; IRpcOptions interface definition
 ;
-Interface IRpcOptions
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRpcOptions Extends IUnknown
   Set(a.l, b.l, c.l)
   Query(a.l, b.l, c.l)
 EndInterface
 
 ; IFillLockBytes interface definition
 ;
-Interface IFillLockBytes
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IFillLockBytes Extends IUnknown
   FillAppend(a.l, b.l, c.l)
   FillAt(a.q, b.l, c.l, d.l)
   SetFillSize(a.q)
@@ -674,19 +486,13 @@ EndInterface
 
 ; IProgressNotify interface definition
 ;
-Interface IProgressNotify
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IProgressNotify Extends IUnknown
   OnProgress(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; ILayoutStorage interface definition
 ;
-Interface ILayoutStorage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ILayoutStorage Extends IUnknown
   LayoutScript(a.l, b.l, c.l)
   BeginMonitor()
   EndMonitor()
@@ -696,49 +502,34 @@ EndInterface
 
 ; IBlockingLock interface definition
 ;
-Interface IBlockingLock
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBlockingLock Extends IUnknown
   Lock(a.l)
   Unlock()
 EndInterface
 
 ; ITimeAndNoticeControl interface definition
 ;
-Interface ITimeAndNoticeControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITimeAndNoticeControl Extends IUnknown
   SuppressChanges(a.l, b.l)
 EndInterface
 
 ; IOplockStorage interface definition
 ;
-Interface IOplockStorage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOplockStorage Extends IUnknown
   CreateStorageEx(a.l, b.l, c.l, d.l, e.l, f.l)
   OpenStorageEx(a.l, b.l, c.l, d.l, e.l, f.l)
 EndInterface
 
 ; ISurrogate interface definition
 ;
-Interface ISurrogate
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISurrogate Extends IUnknown
   LoadDllServer(a.l)
   FreeSurrogate()
 EndInterface
 
 ; IGlobalInterfaceTable interface definition
 ;
-Interface IGlobalInterfaceTable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IGlobalInterfaceTable Extends IUnknown
   RegisterInterfaceInGlobal(a.l, b.l, c.l)
   RevokeInterfaceFromGlobal(a.l)
   GetInterfaceFromGlobal(a.l, b.l, c.l)
@@ -746,10 +537,7 @@ EndInterface
 
 ; IDirectWriterLock interface definition
 ;
-Interface IDirectWriterLock
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectWriterLock Extends IUnknown
   WaitForWriteAccess(a.l)
   ReleaseWriteAccess()
   HaveWriteAccess()
@@ -757,10 +545,7 @@ EndInterface
 
 ; ISynchronize interface definition
 ;
-Interface ISynchronize
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISynchronize Extends IUnknown
   Wait(a.l, b.l)
   Signal()
   Reset()
@@ -768,61 +553,39 @@ EndInterface
 
 ; ISynchronizeHandle interface definition
 ;
-Interface ISynchronizeHandle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISynchronizeHandle Extends IUnknown
   GetHandle(a.l)
 EndInterface
 
 ; ISynchronizeEvent interface definition
 ;
-Interface ISynchronizeEvent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetHandle(a.l)
+Interface ISynchronizeEvent Extends ISynchronizeHandle
   SetEventHandle(a.l)
 EndInterface
 
 ; ISynchronizeContainer interface definition
 ;
-Interface ISynchronizeContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISynchronizeContainer Extends IUnknown
   AddSynchronize(a.l)
   WaitMultiple(a.l, b.l, c.l)
 EndInterface
 
 ; ISynchronizeMutex interface definition
 ;
-Interface ISynchronizeMutex
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Wait(a.l, b.l)
-  Signal()
-  Reset()
+Interface ISynchronizeMutex Extends ISynchronize
   ReleaseMutex()
 EndInterface
 
 ; ICancelMethodCalls interface definition
 ;
-Interface ICancelMethodCalls
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICancelMethodCalls Extends IUnknown
   Cancel(a.l)
   TestCancel()
 EndInterface
 
 ; IAsyncManager interface definition
 ;
-Interface IAsyncManager
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAsyncManager Extends IUnknown
   CompleteCall(a.l)
   GetCallContext(a.l, b.l)
   GetState(a.l)
@@ -830,96 +593,66 @@ EndInterface
 
 ; ICallFactory interface definition
 ;
-Interface ICallFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICallFactory Extends IUnknown
   CreateCall(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IRpcHelper interface definition
 ;
-Interface IRpcHelper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IRpcHelper Extends IUnknown
   GetDCOMProtocolVersion(a.l)
   GetIIDFromOBJREF(a.l, b.l)
 EndInterface
 
 ; IReleaseMarshalBuffers interface definition
 ;
-Interface IReleaseMarshalBuffers
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IReleaseMarshalBuffers Extends IUnknown
   ReleaseMarshalBuffer(a.l, b.l, c.l)
 EndInterface
 
 ; IWaitMultiple interface definition
 ;
-Interface IWaitMultiple
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWaitMultiple Extends IUnknown
   WaitMultiple(a.l, b.l)
   AddSynchronize(a.l)
 EndInterface
 
 ; IUrlMon interface definition
 ;
-Interface IUrlMon
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IUrlMon Extends IUnknown
   AsyncGetClassBits(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l)
 EndInterface
 
 ; IForegroundTransfer interface definition
 ;
-Interface IForegroundTransfer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IForegroundTransfer Extends IUnknown
   AllowForegroundTransfer(a.l)
 EndInterface
 
 ; IAddrTrackingControl interface definition
 ;
-Interface IAddrTrackingControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAddrTrackingControl Extends IUnknown
   EnableCOMDynamicAddrTracking()
   DisableCOMDynamicAddrTracking()
 EndInterface
 
 ; IAddrExclusionControl interface definition
 ;
-Interface IAddrExclusionControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAddrExclusionControl Extends IUnknown
   GetCurrentAddrExclusionList(a.l, b.l)
   UpdateAddrExclusionList(a.l)
 EndInterface
 
 ; IPipeByte interface definition
 ;
-Interface IPipeByte
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPipeByte Extends IUnknown
   Pull(a.l, b.l, c.l)
   Push(a.l, b.l)
 EndInterface
 
 ; AsyncIPipeByte interface definition
 ;
-Interface AsyncIPipeByte
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface AsyncIPipeByte Extends IUnknown
   Begin_Pull(a.l)
   Finish_Pull(a.l, b.l)
   Begin_Push(a.l, b.l)
@@ -928,20 +661,14 @@ EndInterface
 
 ; IPipeLong interface definition
 ;
-Interface IPipeLong
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPipeLong Extends IUnknown
   Pull(a.l, b.l, c.l)
   Push(a.l, b.l)
 EndInterface
 
 ; AsyncIPipeLong interface definition
 ;
-Interface AsyncIPipeLong
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface AsyncIPipeLong Extends IUnknown
   Begin_Pull(a.l)
   Finish_Pull(a.l, b.l)
   Begin_Push(a.l, b.l)
@@ -950,20 +677,14 @@ EndInterface
 
 ; IPipeDouble interface definition
 ;
-Interface IPipeDouble
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IPipeDouble Extends IUnknown
   Pull(a.l, b.l, c.l)
   Push(a.l, b.l)
 EndInterface
 
 ; AsyncIPipeDouble interface definition
 ;
-Interface AsyncIPipeDouble
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface AsyncIPipeDouble Extends IUnknown
   Begin_Pull(a.l)
   Finish_Pull(a.l, b.l)
   Begin_Push(a.l, b.l)
@@ -972,29 +693,20 @@ EndInterface
 
 ; IThumbnailExtractor interface definition
 ;
-Interface IThumbnailExtractor
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IThumbnailExtractor Extends IUnknown
   ExtractThumbnail(a.l, b.l, c.l, d.l, e.l, f.l)
   OnFileUpdated(a.l)
 EndInterface
 
 ; IDummyHICONIncluder interface definition
 ;
-Interface IDummyHICONIncluder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDummyHICONIncluder Extends IUnknown
   Dummy(a.l, b.l)
 EndInterface
 
 ; IEnumContextProps interface definition
 ;
-Interface IEnumContextProps
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumContextProps Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -1004,10 +716,7 @@ EndInterface
 
 ; IContext interface definition
 ;
-Interface IContext
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IContext Extends IUnknown
   SetProperty(a.l, b.l, c.l)
   RemoveProperty(a.l)
   GetProperty(a.l, b.l, c.l)
@@ -1016,14 +725,7 @@ EndInterface
 
 ; IObjContext interface definition
 ;
-Interface IObjContext
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  SetProperty(a.l, b.l, c.l)
-  RemoveProperty(a.l)
-  GetProperty(a.l, b.l, c.l)
-  EnumContextProps(a.l)
+Interface IObjContext Extends IContext
   Reserved1()
   Reserved2()
   Reserved3()
@@ -1035,20 +737,14 @@ EndInterface
 
 ; IProcessLock interface definition
 ;
-Interface IProcessLock
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IProcessLock Extends IUnknown
   AddRefOnProcess()
   ReleaseRefOnProcess()
 EndInterface
 
 ; ISurrogateService interface definition
 ;
-Interface ISurrogateService
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISurrogateService Extends IUnknown
   Init(a.l, b.l, c.l)
   ApplicationLaunch(a.l, b.l)
   ApplicationFree(a.l)
@@ -1058,10 +754,7 @@ EndInterface
 
 ; IComThreadingInfo interface definition
 ;
-Interface IComThreadingInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IComThreadingInfo Extends IUnknown
   GetCurrentApartmentType(a.l)
   GetCurrentThreadType(a.l)
   GetCurrentLogicalThreadId(a.l)
@@ -1070,19 +763,13 @@ EndInterface
 
 ; IProcessInitControl interface definition
 ;
-Interface IProcessInitControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IProcessInitControl Extends IUnknown
   ResetInitializerTimeout(a.l)
 EndInterface
 
 ; IInitializeSpy interface definition
 ;
-Interface IInitializeSpy
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IInitializeSpy Extends IUnknown
   PreInitialize(a.l, b.l)
   PostInitialize(a.l, b.l, c.l)
   PreUninitialize(a.l)

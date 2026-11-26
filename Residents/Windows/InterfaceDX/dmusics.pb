@@ -1,10 +1,7 @@
 ﻿
 ; IDirectMusicSynth interface definition
 ;
-Interface IDirectMusicSynth
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicSynth Extends IUnknown
   Open(a.l)
   Close()
   SetNumChannelGroups(a.l)
@@ -26,27 +23,7 @@ EndInterface
 
 ; IDirectMusicSynth8 interface definition
 ;
-Interface IDirectMusicSynth8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Open(a.l)
-  Close()
-  SetNumChannelGroups(a.l)
-  Download(a.l, b.l, c.l)
-  Unload(a.l, b.l, c.l, d.l)
-  PlayBuffer(a.q, b.l, c.l)
-  GetRunningStats(a.l)
-  GetPortCaps(a.l)
-  SetMasterClock(a.l)
-  GetLatencyClock(a.l)
-  Activate(a.l)
-  SetSynthSink(a.l)
-  Render(a.l, b.l, c.q)
-  SetChannelPriority(a.l, b.l, c.l)
-  GetChannelPriority(a.l, b.l, c.l)
-  GetFormat(a.l, b.l)
-  GetAppend(a.l)
+Interface IDirectMusicSynth8 Extends IDirectMusicSynth
   PlayVoice(a.q, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l)
   StopVoice(a.q, b.l)
   GetVoiceState(a.l, b.l, c.l)
@@ -56,10 +33,7 @@ EndInterface
 
 ; IDirectMusicSynthSink interface definition
 ;
-Interface IDirectMusicSynthSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicSynthSink Extends IUnknown
   Init(a.l)
   SetMasterClock(a.l)
   GetLatencyClock(a.l)

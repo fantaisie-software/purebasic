@@ -1,10 +1,7 @@
 ﻿
 ; IDirectMusicBand interface definition
 ;
-Interface IDirectMusicBand
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicBand Extends IUnknown
   CreateSegment(a.l)
   Download(a.l)
   Unload(a.l)
@@ -12,10 +9,7 @@ EndInterface
 
 ; IDirectMusicObject interface definition
 ;
-Interface IDirectMusicObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicObject Extends IUnknown
   GetDescriptor(a.l)
   SetDescriptor(a.l)
   ParseDescriptor(a.l, b.l)
@@ -23,10 +17,7 @@ EndInterface
 
 ; IDirectMusicLoader interface definition
 ;
-Interface IDirectMusicLoader
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicLoader Extends IUnknown
   GetObject(a.l, b.l, c.l)
   SetObject(a.l)
   SetSearchDirectory(a.l, b.l, c.l)
@@ -40,10 +31,7 @@ EndInterface
 
 ; IDirectMusicLoader8 interface definition
 ;
-Interface IDirectMusicLoader8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicLoader8 Extends IUnknown
   GetObject(a.l, b.l, c.l)
   SetObject(a.l)
   SetSearchDirectory(a.l, b.l, c.l)
@@ -60,19 +48,13 @@ EndInterface
 
 ; IDirectMusicGetLoader interface definition
 ;
-Interface IDirectMusicGetLoader
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicGetLoader Extends IUnknown
   GetLoader(a.l)
 EndInterface
 
 ; IDirectMusicSegment interface definition
 ;
-Interface IDirectMusicSegment
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicSegment Extends IUnknown
   GetLength(a.l)
   SetLength(a.l)
   GetRepeats(a.l)
@@ -100,10 +82,7 @@ EndInterface
 
 ; IDirectMusicSegment8 interface definition
 ;
-Interface IDirectMusicSegment8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicSegment8 Extends IUnknown
   GetLength(a.l)
   SetLength(a.l)
   GetRepeats(a.l)
@@ -136,10 +115,7 @@ EndInterface
 
 ; IDirectMusicSegmentState interface definition
 ;
-Interface IDirectMusicSegmentState
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicSegmentState Extends IUnknown
   GetRepeats(a.l)
   GetSegment(a.l)
   GetStartTime(a.l)
@@ -149,10 +125,7 @@ EndInterface
 
 ; IDirectMusicSegmentState8 interface definition
 ;
-Interface IDirectMusicSegmentState8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicSegmentState8 Extends IUnknown
   GetRepeats(a.l)
   GetSegment(a.l)
   GetStartTime(a.l)
@@ -164,10 +137,7 @@ EndInterface
 
 ; IDirectMusicAudioPath interface definition
 ;
-Interface IDirectMusicAudioPath
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicAudioPath Extends IUnknown
   GetObjectInPath(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
   Activate(a.l)
   SetVolume(a.l, b.l)
@@ -176,10 +146,7 @@ EndInterface
 
 ; IDirectMusicPerformance interface definition
 ;
-Interface IDirectMusicPerformance
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicPerformance Extends IUnknown
   Init(a.l, b.l, c.l)
   PlaySegment(a.l, b.l, c.l, d.l)
   Stop(a.l, b.l, c.l, d.l)
@@ -225,10 +192,7 @@ EndInterface
 
 ; IDirectMusicPerformance8 interface definition
 ;
-Interface IDirectMusicPerformance8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicPerformance8 Extends IUnknown
   Init(a.l, b.l, c.l)
   PlaySegment(a.l, b.l, c.l, d.l)
   Stop(a.l, b.l, c.l, d.l)
@@ -283,10 +247,7 @@ EndInterface
 
 ; IDirectMusicGraph interface definition
 ;
-Interface IDirectMusicGraph
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicGraph Extends IUnknown
   StampPMsg(a.l)
   InsertTool(a.l, b.l, c.l, d.l)
   GetTool(a.l, b.l)
@@ -295,10 +256,7 @@ EndInterface
 
 ; IDirectMusicStyle interface definition
 ;
-Interface IDirectMusicStyle
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicStyle Extends IUnknown
   GetBand(a.l, b.l)
   EnumBand(a.l, b.l)
   GetDefaultBand(a.l)
@@ -314,10 +272,7 @@ EndInterface
 
 ; IDirectMusicStyle8 interface definition
 ;
-Interface IDirectMusicStyle8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicStyle8 Extends IUnknown
   GetBand(a.l, b.l)
   EnumBand(a.l, b.l)
   GetDefaultBand(a.l)
@@ -334,19 +289,13 @@ EndInterface
 
 ; IDirectMusicChordMap interface definition
 ;
-Interface IDirectMusicChordMap
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicChordMap Extends IUnknown
   GetScale(a.l)
 EndInterface
 
 ; IDirectMusicComposer interface definition
 ;
-Interface IDirectMusicComposer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicComposer Extends IUnknown
   ComposeSegmentFromTemplate(a.l, b.l, c.l, d.l, e.l)
   ComposeSegmentFromShape(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
   ComposeTransition(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
@@ -357,10 +306,7 @@ EndInterface
 
 ; IDirectMusicPatternTrack interface definition
 ;
-Interface IDirectMusicPatternTrack
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicPatternTrack Extends IUnknown
   CreateSegment(a.l, b.l)
   SetVariation(a.l, b.l, c.l)
   SetPatternByName(a.l, b.l, c.l, d.l, e.l)
@@ -368,10 +314,7 @@ EndInterface
 
 ; IDirectMusicScript interface definition
 ;
-Interface IDirectMusicScript
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicScript Extends IUnknown
   Init(a.l, b.l)
   CallRoutine(a.l, b.l)
   SetVariableVariant(a.l, b.l, c.l, d.l)
@@ -386,9 +329,6 @@ EndInterface
 
 ; IDirectMusicContainer interface definition
 ;
-Interface IDirectMusicContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicContainer Extends IUnknown
   EnumObject(a.l, b.l, c.l, d.l)
 EndInterface

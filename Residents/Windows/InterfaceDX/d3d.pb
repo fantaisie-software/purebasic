@@ -1,10 +1,7 @@
 ﻿
 ; IDirect3D interface definition
 ;
-Interface IDirect3D
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3D Extends IUnknown
   Initialize(a.l)
   EnumDevices(a.l, b.l)
   CreateLight(a.l, b.l)
@@ -15,10 +12,7 @@ EndInterface
 
 ; IDirect3D2 interface definition
 ;
-Interface IDirect3D2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3D2 Extends IUnknown
   EnumDevices(a.l, b.l)
   CreateLight(a.l, b.l)
   CreateMaterial(a.l, b.l)
@@ -29,10 +23,7 @@ EndInterface
 
 ; IDirect3D3 interface definition
 ;
-Interface IDirect3D3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3D3 Extends IUnknown
   EnumDevices(a.l, b.l)
   CreateLight(a.l, b.l)
   CreateMaterial(a.l, b.l)
@@ -46,10 +37,7 @@ EndInterface
 
 ; IDirect3D7 interface definition
 ;
-Interface IDirect3D7
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3D7 Extends IUnknown
   EnumDevices(a.l, b.l)
   CreateDevice(a.l, b.l, c.l)
   CreateVertexBuffer(a.l, b.l, c.l)
@@ -59,10 +47,7 @@ EndInterface
 
 ; IDirect3DDevice interface definition
 ;
-Interface IDirect3DDevice
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DDevice Extends IUnknown
   Initialize(a.l, b.l, c.l)
   GetCaps(a.l, b.l)
   SwapTextureHandles(a.l, b.l)
@@ -86,10 +71,7 @@ EndInterface
 
 ; IDirect3DDevice2 interface definition
 ;
-Interface IDirect3DDevice2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DDevice2 Extends IUnknown
   GetCaps(a.l, b.l)
   SwapTextureHandles(a.l, b.l)
   GetStats(a.l)
@@ -124,10 +106,7 @@ EndInterface
 
 ; IDirect3DDevice3 interface definition
 ;
-Interface IDirect3DDevice3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DDevice3 Extends IUnknown
   GetCaps(a.l, b.l)
   GetStats(a.l)
   AddViewport(a.l)
@@ -171,10 +150,7 @@ EndInterface
 
 ; IDirect3DDevice7 interface definition
 ;
-Interface IDirect3DDevice7
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DDevice7 Extends IUnknown
   GetCaps(a.l)
   EnumTextureFormats(a.l, b.l)
   BeginScene()
@@ -225,10 +201,7 @@ EndInterface
 
 ; IDirect3DExecuteBuffer interface definition
 ;
-Interface IDirect3DExecuteBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DExecuteBuffer Extends IUnknown
   Initialize(a.l, b.l)
   Lock(a.l)
   Unlock()
@@ -240,10 +213,7 @@ EndInterface
 
 ; IDirect3DLight interface definition
 ;
-Interface IDirect3DLight
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DLight Extends IUnknown
   Initialize(a.l)
   SetLight(a.l)
   GetLight(a.l)
@@ -251,10 +221,7 @@ EndInterface
 
 ; IDirect3DMaterial interface definition
 ;
-Interface IDirect3DMaterial
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DMaterial Extends IUnknown
   Initialize(a.l)
   SetMaterial(a.l)
   GetMaterial(a.l)
@@ -265,10 +232,7 @@ EndInterface
 
 ; IDirect3DMaterial2 interface definition
 ;
-Interface IDirect3DMaterial2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DMaterial2 Extends IUnknown
   SetMaterial(a.l)
   GetMaterial(a.l)
   GetHandle(a.l, b.l)
@@ -276,10 +240,7 @@ EndInterface
 
 ; IDirect3DMaterial3 interface definition
 ;
-Interface IDirect3DMaterial3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DMaterial3 Extends IUnknown
   SetMaterial(a.l)
   GetMaterial(a.l)
   GetHandle(a.l, b.l)
@@ -287,10 +248,7 @@ EndInterface
 
 ; IDirect3DTexture interface definition
 ;
-Interface IDirect3DTexture
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DTexture Extends IUnknown
   Initialize(a.l, b.l)
   GetHandle(a.l, b.l)
   PaletteChanged(a.l, b.l)
@@ -300,10 +258,7 @@ EndInterface
 
 ; IDirect3DTexture2 interface definition
 ;
-Interface IDirect3DTexture2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DTexture2 Extends IUnknown
   GetHandle(a.l, b.l)
   PaletteChanged(a.l, b.l)
   Load(a.l)
@@ -311,10 +266,7 @@ EndInterface
 
 ; IDirect3DViewport interface definition
 ;
-Interface IDirect3DViewport
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DViewport Extends IUnknown
   Initialize(a.l)
   GetViewport(a.l)
   SetViewport(a.l)
@@ -332,48 +284,14 @@ EndInterface
 
 ; IDirect3DViewport2 interface definition
 ;
-Interface IDirect3DViewport2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Initialize(a.l)
-  GetViewport(a.l)
-  SetViewport(a.l)
-  TransformVertices(a.l, b.l, c.l, d.l)
-  LightElements(a.l, b.l)
-  SetBackground(a.l)
-  GetBackground(a.l, b.l)
-  SetBackgroundDepth(a.l)
-  GetBackgroundDepth(a.l, b.l)
-  Clear(a.l, b.l, c.l)
-  AddLight(a.l)
-  DeleteLight(a.l)
-  NextLight(a.l, b.l, c.l)
+Interface IDirect3DViewport2 Extends IDirect3DViewport
   GetViewport2(a.l)
   SetViewport2(a.l)
 EndInterface
 
 ; IDirect3DViewport3 interface definition
 ;
-Interface IDirect3DViewport3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Initialize(a.l)
-  GetViewport(a.l)
-  SetViewport(a.l)
-  TransformVertices(a.l, b.l, c.l, d.l)
-  LightElements(a.l, b.l)
-  SetBackground(a.l)
-  GetBackground(a.l, b.l)
-  SetBackgroundDepth(a.l)
-  GetBackgroundDepth(a.l, b.l)
-  Clear(a.l, b.l, c.l)
-  AddLight(a.l)
-  DeleteLight(a.l)
-  NextLight(a.l, b.l, c.l)
-  GetViewport2(a.l)
-  SetViewport2(a.l)
+Interface IDirect3DViewport3 Extends IDirect3DViewport2
   SetBackgroundDepth2(a.l)
   GetBackgroundDepth2(a.l, b.l)
   Clear2(a.l, b.l, c.l, d.l, e.f, f.l)
@@ -381,10 +299,7 @@ EndInterface
 
 ; IDirect3DVertexBuffer interface definition
 ;
-Interface IDirect3DVertexBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DVertexBuffer Extends IUnknown
   Lock(a.l, b.l, c.l)
   Unlock()
   ProcessVertices(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
@@ -394,10 +309,7 @@ EndInterface
 
 ; IDirect3DVertexBuffer7 interface definition
 ;
-Interface IDirect3DVertexBuffer7
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirect3DVertexBuffer7 Extends IUnknown
   Lock(a.l, b.l, c.l)
   Unlock()
   ProcessVertices(a.l, b.l, c.l, d.l, e.l, f.l, g.l)

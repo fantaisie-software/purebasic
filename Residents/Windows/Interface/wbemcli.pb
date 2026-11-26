@@ -1,10 +1,7 @@
 ﻿
 ; IWbemClassObject interface definition
 ;
-Interface IWbemClassObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemClassObject Extends IUnknown
   GetQualifierSet(a.l)
   Get(a.l, b.l, c.l, d.l, e.l)
   Put(a.l, b.l, c.l, d.l)
@@ -33,34 +30,7 @@ EndInterface
 
 ; IWbemObjectAccess interface definition
 ;
-Interface IWbemObjectAccess
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetQualifierSet(a.l)
-  Get(a.l, b.l, c.l, d.l, e.l)
-  Put(a.l, b.l, c.l, d.l)
-  Delete(a.l)
-  GetNames(a.l, b.l, c.l, d.l)
-  BeginEnumeration(a.l)
-  Next(a.l, b.l, c.l, d.l, e.l)
-  EndEnumeration()
-  GetPropertyQualifierSet(a.l, b.l)
-  Clone(a.l)
-  GetObjectText(a.l, b.l)
-  SpawnDerivedClass(a.l, b.l)
-  SpawnInstance(a.l, b.l)
-  CompareTo(a.l, b.l)
-  GetPropertyOrigin(a.l, b.l)
-  InheritsFrom(a.l)
-  GetMethod(a.l, b.l, c.l, d.l)
-  PutMethod(a.l, b.l, c.l, d.l)
-  DeleteMethod(a.l)
-  BeginMethodEnumeration(a.l)
-  NextMethod(a.l, b.l, c.l, d.l)
-  EndMethodEnumeration()
-  GetMethodQualifierSet(a.l, b.l)
-  GetMethodOrigin(a.l, b.l)
+Interface IWbemObjectAccess Extends IWbemClassObject
   GetPropertyHandle(a.l, b.l, c.l)
   WritePropertyValue(a.l, b.l, c.l)
   ReadPropertyValue(a.l, b.l, c.l, d.l)
@@ -75,10 +45,7 @@ EndInterface
 
 ; IWbemQualifierSet interface definition
 ;
-Interface IWbemQualifierSet
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemQualifierSet Extends IUnknown
   Get(a.l, b.l, c.l, d.l)
   Put(a.l, b.l, c.l)
   Delete(a.l)
@@ -90,10 +57,7 @@ EndInterface
 
 ; IWbemServices interface definition
 ;
-Interface IWbemServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemServices Extends IUnknown
   OpenNamespace(a.l, b.l, c.l, d.l, e.l)
   CancelAsyncCall(a.l)
   QueryObjectSink(a.l, b.l)
@@ -121,29 +85,20 @@ EndInterface
 
 ; IWbemLocator interface definition
 ;
-Interface IWbemLocator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemLocator Extends IUnknown
   ConnectServer(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
 EndInterface
 
 ; IWbemObjectSink interface definition
 ;
-Interface IWbemObjectSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemObjectSink Extends IUnknown
   Indicate(a.l, b.l)
   SetStatus(a.l, b.l, c.p-bstr, d.l)
 EndInterface
 
 ; IEnumWbemClassObject interface definition
 ;
-Interface IEnumWbemClassObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumWbemClassObject Extends IUnknown
   Reset()
   Next(a.l, b.l, c.l, d.l)
   NextAsync(a.l, b.l)
@@ -153,10 +108,7 @@ EndInterface
 
 ; IWbemCallResult interface definition
 ;
-Interface IWbemCallResult
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemCallResult Extends IUnknown
   GetResultObject(a.l, b.l)
   GetResultString(a.l, b.l)
   GetResultServices(a.l, b.l)
@@ -165,10 +117,7 @@ EndInterface
 
 ; IWbemContext interface definition
 ;
-Interface IWbemContext
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemContext Extends IUnknown
   Clone(a.l)
   GetNames(a.l, b.l)
   BeginEnumeration(a.l)
@@ -182,70 +131,46 @@ EndInterface
 
 ; IUnsecuredApartment interface definition
 ;
-Interface IUnsecuredApartment
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IUnsecuredApartment Extends IUnknown
   CreateObjectStub(a.l, b.l)
 EndInterface
 
 ; IWbemUnsecuredApartment interface definition
 ;
-Interface IWbemUnsecuredApartment
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  CreateObjectStub(a.l, b.l)
+Interface IWbemUnsecuredApartment Extends IUnsecuredApartment
   CreateSinkStub(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IWbemStatusCodeText interface definition
 ;
-Interface IWbemStatusCodeText
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemStatusCodeText Extends IUnknown
   GetErrorCodeText(a.l, b.l, c.l, d.l)
   GetFacilityCodeText(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IWbemBackupRestore interface definition
 ;
-Interface IWbemBackupRestore
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemBackupRestore Extends IUnknown
   Backup(a.l, b.l)
   Restore(a.l, b.l)
 EndInterface
 
 ; IWbemBackupRestoreEx interface definition
 ;
-Interface IWbemBackupRestoreEx
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Backup(a.l, b.l)
-  Restore(a.l, b.l)
+Interface IWbemBackupRestoreEx Extends IWbemBackupRestore
   Pause()
   Resume()
 EndInterface
 
 ; IWbemRefresher interface definition
 ;
-Interface IWbemRefresher
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemRefresher Extends IUnknown
   Refresh(a.l)
 EndInterface
 
 ; IWbemHiPerfEnum interface definition
 ;
-Interface IWbemHiPerfEnum
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemHiPerfEnum Extends IUnknown
   AddObjects(a.l, b.l, c.l, d.l)
   RemoveObjects(a.l, b.l, c.l)
   GetObjects(a.l, b.l, c.l, d.l)
@@ -254,10 +179,7 @@ EndInterface
 
 ; IWbemConfigureRefresher interface definition
 ;
-Interface IWbemConfigureRefresher
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemConfigureRefresher Extends IUnknown
   AddObjectByPath(a.l, b.l, c.l, d.l, e.l, f.l)
   AddObjectByTemplate(a.l, b.l, c.l, d.l, e.l, f.l)
   AddRefresher(a.l, b.l, c.l)
@@ -267,29 +189,20 @@ EndInterface
 
 ; IWbemShutdown interface definition
 ;
-Interface IWbemShutdown
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemShutdown Extends IUnknown
   Shutdown(a.l, b.l, c.l)
 EndInterface
 
 ; IWbemObjectTextSrc interface definition
 ;
-Interface IWbemObjectTextSrc
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IWbemObjectTextSrc Extends IUnknown
   GetText(a.l, b.l, c.l, d.l, e.l)
   CreateFromText(a.l, b.p-bstr, c.l, d.l, e.l)
 EndInterface
 
 ; IMofCompiler interface definition
 ;
-Interface IMofCompiler
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMofCompiler Extends IUnknown
   CompileFile(a.p-unicode, b.p-unicode, c.p-unicode, d.p-unicode, e.p-unicode, f.l, g.l, h.l, i.l)
   CompileBuffer(a.l, b.l, c.p-unicode, d.p-unicode, e.p-unicode, f.p-unicode, g.l, h.l, i.l, j.l)
   CreateBMOF(a.p-unicode, b.p-unicode, c.p-unicode, d.l, e.l, f.l, g.l)

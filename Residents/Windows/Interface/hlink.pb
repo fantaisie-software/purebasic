@@ -1,10 +1,7 @@
 ﻿
 ; IHlink interface definition
 ;
-Interface IHlink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHlink Extends IUnknown
   SetHlinkSite(a.l, b.l)
   GetHlinkSite(a.l, b.l)
   SetMonikerReference(a.l, b.l, c.l)
@@ -23,10 +20,7 @@ EndInterface
 
 ; IHlinkSite interface definition
 ;
-Interface IHlinkSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHlinkSite Extends IUnknown
   QueryService(a.l, b.l, c.l, d.l)
   GetMoniker(a.l, b.l, c.l, d.l)
   ReadyToNavigate(a.l, b.l)
@@ -35,10 +29,7 @@ EndInterface
 
 ; IHlinkTarget interface definition
 ;
-Interface IHlinkTarget
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHlinkTarget Extends IUnknown
   SetBrowseContext(a.l)
   GetBrowseContext(a.l)
   Navigate(a.l, b.l)
@@ -48,10 +39,7 @@ EndInterface
 
 ; IHlinkFrame interface definition
 ;
-Interface IHlinkFrame
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHlinkFrame Extends IUnknown
   SetBrowseContext(a.l)
   GetBrowseContext(a.l)
   Navigate(a.l, b.l, c.l, d.l)
@@ -61,10 +49,7 @@ EndInterface
 
 ; IEnumHLITEM interface definition
 ;
-Interface IEnumHLITEM
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumHLITEM Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -73,10 +58,7 @@ EndInterface
 
 ; IHlinkBrowseContext interface definition
 ;
-Interface IHlinkBrowseContext
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHlinkBrowseContext Extends IUnknown
   Register(a.l, b.l, c.l, d.l)
   GetObject(a.l, b.l, c.l)
   Revoke(a.l)
@@ -95,10 +77,7 @@ EndInterface
 
 ; IExtensionServices interface definition
 ;
-Interface IExtensionServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IExtensionServices Extends IUnknown
   SetAdditionalHeaders(a.l)
   SetAuthenticateData(a.l, b.l, c.l)
 EndInterface

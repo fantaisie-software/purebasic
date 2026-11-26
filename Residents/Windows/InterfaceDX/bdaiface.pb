@@ -1,10 +1,7 @@
 ﻿
 ; IBDA_NetworkProvider interface definition
 ;
-Interface IBDA_NetworkProvider
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_NetworkProvider Extends IUnknown
   PutSignalSource(a.l)
   GetSignalSource(a.l)
   GetNetworkType(a.l)
@@ -16,10 +13,7 @@ EndInterface
 
 ; IBDA_EthernetFilter interface definition
 ;
-Interface IBDA_EthernetFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_EthernetFilter Extends IUnknown
   GetMulticastListSize(a.l)
   PutMulticastList(a.l, b.l)
   GetMulticastList(a.l, b.l)
@@ -29,10 +23,7 @@ EndInterface
 
 ; IBDA_IPV4Filter interface definition
 ;
-Interface IBDA_IPV4Filter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_IPV4Filter Extends IUnknown
   GetMulticastListSize(a.l)
   PutMulticastList(a.l, b.l)
   GetMulticastList(a.l, b.l)
@@ -42,10 +33,7 @@ EndInterface
 
 ; IBDA_IPV6Filter interface definition
 ;
-Interface IBDA_IPV6Filter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_IPV6Filter Extends IUnknown
   GetMulticastListSize(a.l)
   PutMulticastList(a.l, b.l)
   GetMulticastList(a.l, b.l)
@@ -55,10 +43,7 @@ EndInterface
 
 ; IBDA_DeviceControl interface definition
 ;
-Interface IBDA_DeviceControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_DeviceControl Extends IUnknown
   StartChanges()
   CheckChanges()
   CommitChanges()
@@ -67,10 +52,7 @@ EndInterface
 
 ; IBDA_PinControl interface definition
 ;
-Interface IBDA_PinControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_PinControl Extends IUnknown
   GetPinID(a.l)
   GetPinType(a.l)
   RegistrationContext(a.l)
@@ -78,10 +60,7 @@ EndInterface
 
 ; IBDA_SignalProperties interface definition
 ;
-Interface IBDA_SignalProperties
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_SignalProperties Extends IUnknown
   PutNetworkType(a.l)
   GetNetworkType(a.l)
   PutSignalSource(a.l)
@@ -92,10 +71,7 @@ EndInterface
 
 ; IBDA_SignalStatistics interface definition
 ;
-Interface IBDA_SignalStatistics
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_SignalStatistics Extends IUnknown
   put_SignalStrength(a.l)
   get_SignalStrength(a.l)
   put_SignalQuality(a.l)
@@ -110,10 +86,7 @@ EndInterface
 
 ; IBDA_Topology interface definition
 ;
-Interface IBDA_Topology
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_Topology Extends IUnknown
   GetNodeTypes(a.l, b.l, c.l)
   GetNodeDescriptors(a.l, b.l, c.l)
   GetNodeInterfaces(a.l, b.l, c.l, d.l)
@@ -129,30 +102,21 @@ EndInterface
 
 ; IBDA_VoidTransform interface definition
 ;
-Interface IBDA_VoidTransform
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_VoidTransform Extends IUnknown
   Start()
   Stop()
 EndInterface
 
 ; IBDA_NullTransform interface definition
 ;
-Interface IBDA_NullTransform
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_NullTransform Extends IUnknown
   Start()
   Stop()
 EndInterface
 
 ; IBDA_FrequencyFilter interface definition
 ;
-Interface IBDA_FrequencyFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_FrequencyFilter Extends IUnknown
   put_Autotune(a.l)
   get_Autotune(a.l)
   put_Frequency(a.l)
@@ -169,10 +133,7 @@ EndInterface
 
 ; IBDA_LNBInfo interface definition
 ;
-Interface IBDA_LNBInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_LNBInfo Extends IUnknown
   put_LocalOscilatorFrequencyLowBand(a.l)
   get_LocalOscilatorFrequencyLowBand(a.l)
   put_LocalOscilatorFrequencyHighBand(a.l)
@@ -183,19 +144,13 @@ EndInterface
 
 ; IBDA_AutoDemodulate interface definition
 ;
-Interface IBDA_AutoDemodulate
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_AutoDemodulate Extends IUnknown
   put_AutoDemodulate()
 EndInterface
 
 ; IBDA_DigitalDemodulator interface definition
 ;
-Interface IBDA_DigitalDemodulator
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_DigitalDemodulator Extends IUnknown
   put_ModulationType(a.l)
   get_ModulationType(a.l)
   put_InnerFECMethod(a.l)
@@ -214,20 +169,14 @@ EndInterface
 
 ; IBDA_IPSinkControl interface definition
 ;
-Interface IBDA_IPSinkControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_IPSinkControl Extends IUnknown
   GetMulticastList(a.l, b.l)
   GetAdapterIPAddress(a.l, b.l)
 EndInterface
 
 ; IBDA_IPSinkInfo interface definition
 ;
-Interface IBDA_IPSinkInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBDA_IPSinkInfo Extends IUnknown
   get_MulticastList(a.l, b.l)
   get_AdapterIPAddress(a.l)
   get_AdapterDescription(a.l)
@@ -235,10 +184,7 @@ EndInterface
 
 ; IEnumPIDMap interface definition
 ;
-Interface IEnumPIDMap
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumPIDMap Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -247,10 +193,7 @@ EndInterface
 
 ; IMPEG2PIDMap interface definition
 ;
-Interface IMPEG2PIDMap
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMPEG2PIDMap Extends IUnknown
   MapPID(a.l, b.l, c.l)
   UnmapPID(a.l, b.l)
   EnumPIDMap(a.l)
@@ -258,10 +201,7 @@ EndInterface
 
 ; IFrequencyMap interface definition
 ;
-Interface IFrequencyMap
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IFrequencyMap Extends IUnknown
   get_FrequencyMapping(a.l, b.l)
   put_FrequencyMapping(a.l, b.l)
   get_CountryCode(a.l)

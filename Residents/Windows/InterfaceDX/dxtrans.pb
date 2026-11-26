@@ -1,10 +1,7 @@
 ﻿
 ; IDXBaseObject interface definition
 ;
-Interface IDXBaseObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXBaseObject Extends IUnknown
   GetGenerationId(a.l)
   IncrementGenerationId(a.l)
   GetObjectSize(a.l)
@@ -12,10 +9,7 @@ EndInterface
 
 ; IDXTransformFactory interface definition
 ;
-Interface IDXTransformFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXTransformFactory Extends IUnknown
   QueryService(a.l, b.l, c.l)
   SetService(a.l, b.l, c.l)
   CreateTransform(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l)
@@ -24,10 +18,7 @@ EndInterface
 
 ; IDXTransform interface definition
 ;
-Interface IDXTransform
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXTransform Extends IUnknown
   GetGenerationId(a.l)
   IncrementGenerationId(a.l)
   GetObjectSize(a.l)
@@ -44,28 +35,19 @@ EndInterface
 
 ; IDXSurfacePick interface definition
 ;
-Interface IDXSurfacePick
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXSurfacePick Extends IUnknown
   PointPick(a.l, b.l, c.l)
 EndInterface
 
 ; IDXTBindHost interface definition
 ;
-Interface IDXTBindHost
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXTBindHost Extends IUnknown
   SetBindHost(a.l)
 EndInterface
 
 ; IDXTaskManager interface definition
 ;
-Interface IDXTaskManager
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXTaskManager Extends IUnknown
   QueryNumProcessors(a.l)
   SetThreadPoolSize(a.l)
   GetThreadPoolSize(a.l)
@@ -78,10 +60,7 @@ EndInterface
 
 ; IDXSurfaceFactory interface definition
 ;
-Interface IDXSurfaceFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXSurfaceFactory Extends IUnknown
   CreateSurface(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
   CreateFromDDSurface(a.l, b.l, c.l, d.l, e.l, f.l)
   LoadImage(a.l, b.l, c.l, d.l, e.l, f.l)
@@ -93,10 +72,7 @@ EndInterface
 
 ; IDXSurfaceModifier interface definition
 ;
-Interface IDXSurfaceModifier
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXSurfaceModifier Extends IUnknown
   SetFillColor(a.l)
   GetFillColor(a.l)
   SetBounds(a.l)
@@ -114,10 +90,7 @@ EndInterface
 
 ; IDXSurface interface definition
 ;
-Interface IDXSurface
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXSurface Extends IUnknown
   GetGenerationId(a.l)
   IncrementGenerationId(a.l)
   GetObjectSize(a.l)
@@ -136,19 +109,13 @@ EndInterface
 
 ; IDXSurfaceInit interface definition
 ;
-Interface IDXSurfaceInit
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXSurfaceInit Extends IUnknown
   InitSurface(a.l, b.l, c.l, d.l, e.l)
 EndInterface
 
 ; IDXARGBSurfaceInit interface definition
 ;
-Interface IDXARGBSurfaceInit
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXARGBSurfaceInit Extends IUnknown
   InitSurface(a.l, b.l, c.l, d.l, e.l)
   InitFromDDSurface(a.l, b.l, c.l)
   InitFromRawSurface(a.l)
@@ -156,10 +123,7 @@ EndInterface
 
 ; IDXARGBReadPtr interface definition
 ;
-Interface IDXARGBReadPtr
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXARGBReadPtr Extends IUnknown
   GetSurface(a.l, b.l)
   GetNativeType(a.l)
   Move(a.l)
@@ -173,10 +137,7 @@ EndInterface
 
 ; IDXARGBReadWritePtr interface definition
 ;
-Interface IDXARGBReadWritePtr
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXARGBReadWritePtr Extends IUnknown
   GetSurface(a.l, b.l)
   GetNativeType(a.l)
   Move(a.l)
@@ -199,28 +160,19 @@ EndInterface
 
 ; IDXDCLock interface definition
 ;
-Interface IDXDCLock
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXDCLock Extends IUnknown
   GetDC()
 EndInterface
 
 ; IDXTScaleOutput interface definition
 ;
-Interface IDXTScaleOutput
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXTScaleOutput Extends IUnknown
   SetOutputSize(a.l, b.l)
 EndInterface
 
 ; IDXGradient interface definition
 ;
-Interface IDXGradient
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXGradient Extends IUnknown
   SetOutputSize(a.l, b.l)
   SetGradient(a.l, b.l, c.l)
   GetOutputSize(a.l)
@@ -228,10 +180,7 @@ EndInterface
 
 ; IDXTScale interface definition
 ;
-Interface IDXTScale
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXTScale Extends IUnknown
   SetScales(a.f)
   GetScales(a.f)
   ScaleFitToSize(a.l, b.l, c.l)
@@ -239,14 +188,7 @@ EndInterface
 
 ; IDXEffect interface definition
 ;
-Interface IDXEffect
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IDXEffect Extends IDispatch
   get_Capabilities(a.l)
   get_Progress(a.l)
   put_Progress(a.f)
@@ -257,10 +199,7 @@ EndInterface
 
 ; IDXLookupTable interface definition
 ;
-Interface IDXLookupTable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXLookupTable Extends IUnknown
   GetGenerationId(a.l)
   IncrementGenerationId(a.l)
   GetObjectSize(a.l)
@@ -272,32 +211,19 @@ EndInterface
 
 ; IDXRawSurface interface definition
 ;
-Interface IDXRawSurface
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDXRawSurface Extends IUnknown
   GetSurfaceInfo(a.l)
 EndInterface
 
 ; IHTMLDXTransform interface definition
 ;
-Interface IHTMLDXTransform
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IHTMLDXTransform Extends IUnknown
   SetHostUrl(a.p-bstr)
 EndInterface
 
 ; ICSSFilterDispatch interface definition
 ;
-Interface ICSSFilterDispatch
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICSSFilterDispatch Extends IDispatch
   get_Percent(a.l)
   put_Percent(a.f)
   get_Duration(a.l)

@@ -1,10 +1,7 @@
 ﻿
 ; IMpeg2Data interface definition
 ;
-Interface IMpeg2Data
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMpeg2Data Extends IUnknown
   GetSection(a.l, b.l, c.l, d.l, e.l)
   GetTable(a.l, b.l, c.l, d.l, e.l)
   GetStreamOfSections(a.l, b.l, c.l, d.l, e.l)
@@ -12,10 +9,7 @@ EndInterface
 
 ; ISectionList interface definition
 ;
-Interface ISectionList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISectionList Extends IUnknown
   Initialize(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
   InitializeWithRawSections(a.l)
   CancelPendingRequest()
@@ -27,10 +21,7 @@ EndInterface
 
 ; IMpeg2Stream interface definition
 ;
-Interface IMpeg2Stream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMpeg2Stream Extends IUnknown
   Initialize(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
   SupplyDataBuffer(a.l)
 EndInterface

@@ -1,10 +1,7 @@
 ﻿
 ; IBackgroundCopyFile interface definition
 ;
-Interface IBackgroundCopyFile
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBackgroundCopyFile Extends IUnknown
   GetRemoteName(a.l)
   GetLocalName(a.l)
   GetProgress(a.l)
@@ -12,10 +9,7 @@ EndInterface
 
 ; IEnumBackgroundCopyFiles interface definition
 ;
-Interface IEnumBackgroundCopyFiles
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumBackgroundCopyFiles Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -25,10 +19,7 @@ EndInterface
 
 ; IBackgroundCopyError interface definition
 ;
-Interface IBackgroundCopyError
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBackgroundCopyError Extends IUnknown
   GetError(a.l, b.l)
   GetFile(a.l)
   GetErrorDescription(a.l, b.l)
@@ -38,10 +29,7 @@ EndInterface
 
 ; IBackgroundCopyJob interface definition
 ;
-Interface IBackgroundCopyJob
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBackgroundCopyJob Extends IUnknown
   AddFileSet(a.l, b.l)
   AddFile(a.l, b.l)
   EnumFiles(a.l)
@@ -78,10 +66,7 @@ EndInterface
 
 ; IEnumBackgroundCopyJobs interface definition
 ;
-Interface IEnumBackgroundCopyJobs
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumBackgroundCopyJobs Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()
@@ -91,10 +76,7 @@ EndInterface
 
 ; IBackgroundCopyCallback interface definition
 ;
-Interface IBackgroundCopyCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBackgroundCopyCallback Extends IUnknown
   JobTransferred(a.l)
   JobError(a.l, b.l)
   JobModification(a.l, b.l)
@@ -102,10 +84,7 @@ EndInterface
 
 ; AsyncIBackgroundCopyCallback interface definition
 ;
-Interface AsyncIBackgroundCopyCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface AsyncIBackgroundCopyCallback Extends IUnknown
   Begin_JobTransferred(a.l)
   Finish_JobTransferred()
   Begin_JobError(a.l, b.l)
@@ -116,10 +95,7 @@ EndInterface
 
 ; IBackgroundCopyManager interface definition
 ;
-Interface IBackgroundCopyManager
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IBackgroundCopyManager Extends IUnknown
   CreateJob(a.l, b.l, c.l, d.l)
   GetJob(a.l, b.l)
   EnumJobs(a.l, b.l)

@@ -1,10 +1,7 @@
 ﻿
 ; IAVIStream interface definition
 ;
-Interface IAVIStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAVIStream Extends IUnknown
   Create(a.l, b.l)
   Info(a.l, b.l)
   FindSample(a.l, b.l)
@@ -25,20 +22,14 @@ EndInterface
 
 ; IAVIStreaming interface definition
 ;
-Interface IAVIStreaming
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAVIStreaming Extends IUnknown
   Begin(a.l, b.l, c.l)
   End()
 EndInterface
 
 ; IAVIEditStream interface definition
 ;
-Interface IAVIEditStream
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAVIEditStream Extends IUnknown
   Cut(a.l, b.l, c.l)
   Copy(a.l, b.l, c.l)
   Paste(a.l, b.l, c.l, d.l, e.l)
@@ -54,10 +45,7 @@ EndInterface
 
 ; IAVIFile interface definition
 ;
-Interface IAVIFile
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAVIFile Extends IUnknown
   Info(a.l, b.l)
   GetStream(a.l, b.l, c.l)
   CreateStream(a.l, b.l)
@@ -69,10 +57,7 @@ EndInterface
 
 ; IGetFrame interface definition
 ;
-Interface IGetFrame
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IGetFrame Extends IUnknown
   GetFrame(a.l)
   Begin(a.l, b.l, c.l)
   End()

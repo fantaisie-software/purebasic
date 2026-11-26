@@ -1,10 +1,7 @@
 ﻿
 ; IQueryAssociations interface definition
 ;
-Interface IQueryAssociations
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IQueryAssociations Extends IUnknown
   Init(a.l, b.l, c.l, d.l)
   GetString(a.l, b.l, c.l, d.l, e.l)
   GetKey(a.l, b.l, c.l, d.l)

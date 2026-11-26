@@ -1,9 +1,6 @@
 ﻿
 ; IDMOWrapperFilter interface definition
 ;
-Interface IDMOWrapperFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDMOWrapperFilter Extends IUnknown
   Init(a.l, b.l)
 EndInterface

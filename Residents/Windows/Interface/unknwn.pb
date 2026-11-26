@@ -9,10 +9,7 @@ EndInterface
 
 ; AsyncIUnknown interface definition
 ;
-Interface AsyncIUnknown
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface AsyncIUnknown Extends IUnknown
   Begin_QueryInterface(a.l)
   Finish_QueryInterface(a.l)
   Begin_AddRef()
@@ -23,10 +20,7 @@ EndInterface
 
 ; IClassFactory interface definition
 ;
-Interface IClassFactory
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IClassFactory Extends IUnknown
   CreateInstance(a.l, b.l, c.l)
   LockServer(a.l)
 EndInterface

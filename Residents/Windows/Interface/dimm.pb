@@ -1,10 +1,7 @@
 ﻿
 ; IEnumRegisterWordA interface definition
 ;
-Interface IEnumRegisterWordA
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumRegisterWordA Extends IUnknown
   Clone(a.l)
   Next(a.l, b.l, c.l)
   Reset()
@@ -13,10 +10,7 @@ EndInterface
 
 ; IEnumRegisterWordW interface definition
 ;
-Interface IEnumRegisterWordW
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumRegisterWordW Extends IUnknown
   Clone(a.l)
   Next(a.l, b.l, c.l)
   Reset()
@@ -25,10 +19,7 @@ EndInterface
 
 ; IEnumInputContext interface definition
 ;
-Interface IEnumInputContext
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumInputContext Extends IUnknown
   Clone(a.l)
   Next(a.l, b.l, c.l)
   Reset()
@@ -37,20 +28,14 @@ EndInterface
 
 ; IActiveIMMRegistrar interface definition
 ;
-Interface IActiveIMMRegistrar
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IActiveIMMRegistrar Extends IUnknown
   RegisterIME(a.l, b.l, c.l, d.l)
   UnregisterIME(a.l)
 EndInterface
 
 ; IActiveIMMMessagePumpOwner interface definition
 ;
-Interface IActiveIMMMessagePumpOwner
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IActiveIMMMessagePumpOwner Extends IUnknown
   Start()
   End()
   OnTranslateMessage(a.l)
@@ -136,10 +121,7 @@ EndInterface
 
 ; IActiveIMMIME interface definition
 ;
-Interface IActiveIMMIME
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IActiveIMMIME Extends IUnknown
   AssociateContext(a.l, b.l, c.l)
   ConfigureIMEA(a.l, b.l, c.l, d.l)
   ConfigureIMEW(a.l, b.l, c.l, d.l)
@@ -232,10 +214,7 @@ EndInterface
 
 ; IActiveIME interface definition
 ;
-Interface IActiveIME
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IActiveIME Extends IUnknown
   Inquire(a.l, b.l, c.p-unicode, d.l)
   ConversionList(a.l, b.p-unicode, c.l, d.l, e.l, f.l)
   Configure(a.l, b.l, c.l, d.l)
@@ -257,27 +236,7 @@ EndInterface
 
 ; IActiveIME2 interface definition
 ;
-Interface IActiveIME2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Inquire(a.l, b.l, c.p-unicode, d.l)
-  ConversionList(a.l, b.p-unicode, c.l, d.l, e.l, f.l)
-  Configure(a.l, b.l, c.l, d.l)
-  Destroy(a.l)
-  Escape(a.l, b.l, c.l, d.l)
-  SetActiveContext(a.l, b.l)
-  ProcessKey(a.l, b.l, c.l, d.l)
-  Notify(a.l, b.l, c.l, d.l)
-  Select(a.l, b.l)
-  SetCompositionString(a.l, b.l, c.l, d.l, e.l, f.l)
-  ToAsciiEx(a.l, b.l, c.l, d.l, e.l, f.l, g.l)
-  RegisterWord(a.p-unicode, b.l, c.p-unicode)
-  UnregisterWord(a.p-unicode, b.l, c.p-unicode)
-  GetRegisterWordStyle(a.l, b.l, c.l)
-  EnumRegisterWord(a.p-unicode, b.l, c.p-unicode, d.l, e.l)
-  GetCodePageA(a.l)
-  GetLangId(a.l)
+Interface IActiveIME2 Extends IActiveIME
   Sleep()
   Unsleep(a.l)
 EndInterface

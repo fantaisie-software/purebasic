@@ -1,10 +1,7 @@
 ﻿
 ; IDirectDraw interface definition
 ;
-Interface IDirectDraw
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDraw Extends IUnknown
   Compact()
   CreateClipper(a.l, b.l, c.l)
   CreatePalette(a.l, b.l, c.l, d.l)
@@ -29,10 +26,7 @@ EndInterface
 
 ; IDirectDraw2 interface definition
 ;
-Interface IDirectDraw2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDraw2 Extends IUnknown
   Compact()
   CreateClipper(a.l, b.l, c.l)
   CreatePalette(a.l, b.l, c.l, d.l)
@@ -58,10 +52,7 @@ EndInterface
 
 ; IDirectDraw4 interface definition
 ;
-Interface IDirectDraw4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDraw4 Extends IUnknown
   Compact()
   CreateClipper(a.l, b.l, c.l)
   CreatePalette(a.l, b.l, c.l, d.l)
@@ -91,10 +82,7 @@ EndInterface
 
 ; IDirectDraw7 interface definition
 ;
-Interface IDirectDraw7
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDraw7 Extends IUnknown
   Compact()
   CreateClipper(a.l, b.l, c.l)
   CreatePalette(a.l, b.l, c.l, d.l)
@@ -126,10 +114,7 @@ EndInterface
 
 ; IDirectDrawPalette interface definition
 ;
-Interface IDirectDrawPalette
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawPalette Extends IUnknown
   GetCaps(a.l)
   GetEntries(a.l, b.l, c.l, d.l)
   Initialize(a.l, b.l, c.l)
@@ -138,10 +123,7 @@ EndInterface
 
 ; IDirectDrawClipper interface definition
 ;
-Interface IDirectDrawClipper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawClipper Extends IUnknown
   GetClipList(a.l, b.l, c.l)
   GetHWnd(a.l)
   Initialize(a.l, b.l)
@@ -152,10 +134,7 @@ EndInterface
 
 ; IDirectDrawSurface interface definition
 ;
-Interface IDirectDrawSurface
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawSurface Extends IUnknown
   AddAttachedSurface(a.l)
   AddOverlayDirtyRect(a.l)
   Blt(a.l, b.l, c.l, d.l, e.l)
@@ -193,10 +172,7 @@ EndInterface
 
 ; IDirectDrawSurface2 interface definition
 ;
-Interface IDirectDrawSurface2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawSurface2 Extends IUnknown
   AddAttachedSurface(a.l)
   AddOverlayDirtyRect(a.l)
   Blt(a.l, b.l, c.l, d.l, e.l)
@@ -237,10 +213,7 @@ EndInterface
 
 ; IDirectDrawSurface3 interface definition
 ;
-Interface IDirectDrawSurface3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawSurface3 Extends IUnknown
   AddAttachedSurface(a.l)
   AddOverlayDirtyRect(a.l)
   Blt(a.l, b.l, c.l, d.l, e.l)
@@ -282,10 +255,7 @@ EndInterface
 
 ; IDirectDrawSurface4 interface definition
 ;
-Interface IDirectDrawSurface4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawSurface4 Extends IUnknown
   AddAttachedSurface(a.l)
   AddOverlayDirtyRect(a.l)
   Blt(a.l, b.l, c.l, d.l, e.l)
@@ -332,10 +302,7 @@ EndInterface
 
 ; IDirectDrawSurface7 interface definition
 ;
-Interface IDirectDrawSurface7
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawSurface7 Extends IUnknown
   AddAttachedSurface(a.l)
   AddOverlayDirtyRect(a.l)
   Blt(a.l, b.l, c.l, d.l, e.l)
@@ -386,20 +353,14 @@ EndInterface
 
 ; IDirectDrawColorControl interface definition
 ;
-Interface IDirectDrawColorControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawColorControl Extends IUnknown
   GetColorControls(a.l)
   SetColorControls(a.l)
 EndInterface
 
 ; IDirectDrawGammaControl interface definition
 ;
-Interface IDirectDrawGammaControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectDrawGammaControl Extends IUnknown
   GetGammaRamp(a.l, b.l)
   SetGammaRamp(a.l, b.l)
 EndInterface

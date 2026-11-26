@@ -1,10 +1,7 @@
 ﻿
 ; IMediaParamInfo interface definition
 ;
-Interface IMediaParamInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMediaParamInfo Extends IUnknown
   GetParamCount(a.l)
   GetParamInfo(a.l, b.l)
   GetParamText(a.l, b.l)
@@ -15,10 +12,7 @@ EndInterface
 
 ; IMediaParams interface definition
 ;
-Interface IMediaParams
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMediaParams Extends IUnknown
   GetParam(a.l, b.l)
   SetParam(a.l, b.l)
   AddEnvelope(a.l, b.l, c.l)

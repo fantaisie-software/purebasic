@@ -1,10 +1,7 @@
 ﻿
 ; ID3DXFile interface definition
 ;
-Interface ID3DXFile
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXFile Extends IUnknown
   CreateEnumObject(a.l, b.l, c.l)
   CreateSaveObject(a.l, b.l, c.l, d.l)
   RegisterTemplates(a.l, b.l)
@@ -13,10 +10,7 @@ EndInterface
 
 ; ID3DXFileSaveObject interface definition
 ;
-Interface ID3DXFileSaveObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXFileSaveObject Extends IUnknown
   GetFile(a.l)
   AddDataObject(a.l, b.s, c.l, d.l, e.l, f.l)
   Save()
@@ -24,10 +18,7 @@ EndInterface
 
 ; ID3DXFileSaveData interface definition
 ;
-Interface ID3DXFileSaveData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXFileSaveData Extends IUnknown
   GetSave(a.l)
   GetName(a.l, b.l)
   GetId(a.l)
@@ -38,10 +29,7 @@ EndInterface
 
 ; ID3DXFileEnumObject interface definition
 ;
-Interface ID3DXFileEnumObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXFileEnumObject Extends IUnknown
   GetFile(a.l)
   GetChildren(a.l)
   GetChild(a.l, b.l)
@@ -51,10 +39,7 @@ EndInterface
 
 ; ID3DXFileData interface definition
 ;
-Interface ID3DXFileData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXFileData Extends IUnknown
   GetEnum(a.l)
   GetName(a.l, b.l)
   GetId(a.l)

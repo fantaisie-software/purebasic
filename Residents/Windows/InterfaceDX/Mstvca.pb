@@ -1,10 +1,7 @@
 ﻿
 ; ICAManagerInternal interface definition
 ;
-Interface ICAManagerInternal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICAManagerInternal Extends IUnknown
   Save()
   Load()
   put_MarkDirty(a.l)
@@ -43,10 +40,7 @@ EndInterface
 
 ; ICAManagerXProxy interface definition
 ;
-Interface ICAManagerXProxy
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICAManagerXProxy Extends IUnknown
   get_PunkCAManagerProxy(a.l)
   NotifyRequestActivated_XProxy(a.l)
   NotifyRequestDeactivated_XProxy(a.l)
@@ -70,14 +64,7 @@ EndInterface
 
 ; ICAPolicies interface definition
 ;
-Interface ICAPolicies
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICAPolicies Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -87,24 +74,14 @@ EndInterface
 
 ; ICAPoliciesInternal interface definition
 ;
-Interface ICAPoliciesInternal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICAPoliciesInternal Extends IUnknown
   SetCAManager(a.l)
   CheckRequest(a.l)
 EndInterface
 
 ; ICATolls interface definition
 ;
-Interface ICATolls
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICATolls Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -114,10 +91,7 @@ EndInterface
 
 ; ICATollsInternal interface definition
 ;
-Interface ICATollsInternal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICATollsInternal Extends IUnknown
   SetCAManager(a.l)
   GetCAManager(a.l)
   SetMustPersist(a.l)
@@ -129,14 +103,7 @@ EndInterface
 
 ; ICADenials interface definition
 ;
-Interface ICADenials
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICADenials Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -149,24 +116,14 @@ EndInterface
 
 ; ICADenialsInternal interface definition
 ;
-Interface ICADenialsInternal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICADenialsInternal Extends IUnknown
   SetCAManager(a.l)
   NotifyDenialStateChanged(a.l, b.l)
 EndInterface
 
 ; ICAOffers interface definition
 ;
-Interface ICAOffers
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICAOffers Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -176,14 +133,7 @@ EndInterface
 
 ; ICAComponents interface definition
 ;
-Interface ICAComponents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICAComponents Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -191,24 +141,14 @@ EndInterface
 
 ; ICAComponentInternal interface definition
 ;
-Interface ICAComponentInternal
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICAComponentInternal Extends IUnknown
   RemoveAllDenials()
   get_Description(a.l, b.l)
 EndInterface
 
 ; ICADefaultDlg interface definition
 ;
-Interface ICADefaultDlg
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICADefaultDlg Extends IDispatch
   put_AutoSize(a.l)
   get_AutoSize(a.l)
   put_BackColor(a.l)
@@ -263,110 +203,47 @@ EndInterface
 
 ; _ICAResDenialTreeEvents interface definition
 ;
-Interface _ICAResDenialTreeEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ICAResDenialTreeEvents Extends IDispatch
 EndInterface
 
 ; _ICAManagerEvents interface definition
 ;
-Interface _ICAManagerEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ICAManagerEvents Extends IDispatch
 EndInterface
 
 ; _ICARequestEvents interface definition
 ;
-Interface _ICARequestEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ICARequestEvents Extends IDispatch
 EndInterface
 
 ; _ICAPoliciesEvents interface definition
 ;
-Interface _ICAPoliciesEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ICAPoliciesEvents Extends IDispatch
 EndInterface
 
 ; _ICATollsEvents interface definition
 ;
-Interface _ICATollsEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ICATollsEvents Extends IDispatch
 EndInterface
 
 ; _ICADenialsEvents interface definition
 ;
-Interface _ICADenialsEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ICADenialsEvents Extends IDispatch
 EndInterface
 
 ; _ICAOffersEvents interface definition
 ;
-Interface _ICAOffersEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ICAOffersEvents Extends IDispatch
 EndInterface
 
 ; _ICAComponentsEvents interface definition
 ;
-Interface _ICAComponentsEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ICAComponentsEvents Extends IDispatch
 EndInterface
 
 ; ICAManager interface definition
 ;
-Interface ICAManager
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICAManager Extends IDispatch
   get_Policies(a.l)
   get_ActiveRequest(a.l)
   get_Offers(a.l)
@@ -378,14 +255,7 @@ EndInterface
 
 ; ICARequest interface definition
 ;
-Interface ICARequest
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICARequest Extends IDispatch
   get_RequestedItem(a.l)
   get_CAManager(a.l)
   get_ScheduleEntry(a.l)
@@ -398,10 +268,7 @@ EndInterface
 
 ; ICAPolicy interface definition
 ;
-Interface ICAPolicy
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICAPolicy Extends IUnknown
   get_Name(a.l)
   CheckRequest(a.l)
   put_CAManager(a.l)
@@ -413,10 +280,7 @@ EndInterface
 
 ; ICAToll interface definition
 ;
-Interface ICAToll
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ICAToll Extends IUnknown
   put_CAManager(a.l)
   Select(a.l)
   PayToll()
@@ -432,14 +296,7 @@ EndInterface
 
 ; ICADenial interface definition
 ;
-Interface ICADenial
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICADenial Extends IDispatch
   get_DeniedObject(a.l)
   get_Policy(a.l)
   get_Description(a.l, b.l)
@@ -452,14 +309,7 @@ EndInterface
 
 ; ICAOffer interface definition
 ;
-Interface ICAOffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICAOffer Extends IDispatch
   get_CAManager(a.l)
   put_CAManager(a.l)
   get_Policy(a.l)
@@ -473,14 +323,7 @@ EndInterface
 
 ; ICAComponent interface definition
 ;
-Interface ICAComponent
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICAComponent Extends IDispatch
   get_Component(a.l)
   get_Denials(a.l)
   get_Request(a.l)
@@ -488,14 +331,7 @@ EndInterface
 
 ; ICAResDenialTree interface definition
 ;
-Interface ICAResDenialTree
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ICAResDenialTree Extends IDispatch
   get_CAManager(a.l)
   put_CAManager(a.l)
   get_DisplayFields(a.l)
@@ -523,12 +359,5 @@ EndInterface
 
 ; _ICADefaultDlgEvents interface definition
 ;
-Interface _ICADefaultDlgEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ICADefaultDlgEvents Extends IDispatch
 EndInterface

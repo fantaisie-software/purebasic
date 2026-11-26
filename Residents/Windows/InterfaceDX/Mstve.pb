@@ -1,14 +1,7 @@
 ﻿
 ; ITVETrigger interface definition
 ;
-Interface ITVETrigger
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVETrigger Extends IDispatch
   get_Parent(a.l)
   get_Service(a.l)
   get_IsValid(a.l)
@@ -24,10 +17,7 @@ EndInterface
 
 ; ITVETrigger_Helper interface definition
 ;
-Interface ITVETrigger_Helper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVETrigger_Helper Extends IUnknown
   ConnectParent(a.l)
   get_CRC(a.l, b.l)
   UpdateFrom(a.l, b.l)
@@ -37,14 +27,7 @@ EndInterface
 
 ; ITVETrack interface definition
 ;
-Interface ITVETrack
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVETrack Extends IDispatch
   get_Parent(a.l)
   get_Service(a.l)
   get_Trigger(a.l)
@@ -57,10 +40,7 @@ EndInterface
 
 ; ITVETrack_Helper interface definition
 ;
-Interface ITVETrack_Helper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVETrack_Helper Extends IUnknown
   ConnectParent(a.l)
   RemoveYourself()
   DumpToBSTR(a.l)
@@ -68,14 +48,7 @@ EndInterface
 
 ; ITVETracks interface definition
 ;
-Interface ITVETracks
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVETracks Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -87,14 +60,7 @@ EndInterface
 
 ; ITVEVariation interface definition
 ;
-Interface ITVEVariation
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEVariation Extends IDispatch
   get_Parent(a.l)
   get_Service(a.l)
   get_Tracks(a.l)
@@ -120,10 +86,7 @@ EndInterface
 
 ; ITVEVariation_Helper interface definition
 ;
-Interface ITVEVariation_Helper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVEVariation_Helper Extends IUnknown
   ConnectParent(a.l)
   DefaultTo(a.l)
   SetTriggerIPAdapter(a.p-bstr)
@@ -142,14 +105,7 @@ EndInterface
 
 ; ITVEVariations interface definition
 ;
-Interface ITVEVariations
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEVariations Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -161,14 +117,7 @@ EndInterface
 
 ; ITVEEnhancement interface definition
 ;
-Interface ITVEEnhancement
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEEnhancement Extends IDispatch
   get_Parent(a.l)
   get_Service(a.l)
   get_Variations(a.l)
@@ -204,10 +153,7 @@ EndInterface
 
 ; ITVEEnhancement_Helper interface definition
 ;
-Interface ITVEEnhancement_Helper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVEEnhancement_Helper Extends IUnknown
   ConnectParent(a.l)
   Activate()
   Deactivate()
@@ -220,14 +166,7 @@ EndInterface
 
 ; ITVEEnhancements interface definition
 ;
-Interface ITVEEnhancements
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEEnhancements Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -239,14 +178,7 @@ EndInterface
 
 ; ITVEService interface definition
 ;
-Interface ITVEService
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEService Extends IDispatch
   get_Parent(a.l)
   get_Enhancements(a.l)
   get_Description(a.l)
@@ -267,10 +199,7 @@ EndInterface
 
 ; ITVEService_Helper interface definition
 ;
-Interface ITVEService_Helper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVEService_Helper Extends IUnknown
   ConnectParent(a.l)
   ParseCBAnnouncement(a.p-bstr, b.l)
   SetAnncIPValues(a.p-bstr, b.p-bstr, c.l)
@@ -287,14 +216,7 @@ EndInterface
 
 ; ITVEFeature interface definition
 ;
-Interface ITVEFeature
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEFeature Extends IDispatch
   get_Parent(a.l)
   get_Enhancements(a.l)
   get_Description(a.l)
@@ -329,14 +251,7 @@ EndInterface
 
 ; ITVEServices interface definition
 ;
-Interface ITVEServices
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEServices Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -348,14 +263,7 @@ EndInterface
 
 ; ITVESupervisor interface definition
 ;
-Interface ITVESupervisor
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVESupervisor Extends IDispatch
   get_Services(a.l)
   get_Description(a.l)
   put_Description(a.p-bstr)
@@ -369,10 +277,7 @@ EndInterface
 
 ; ITVESupervisor_Helper interface definition
 ;
-Interface ITVESupervisor_Helper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVESupervisor_Helper Extends IUnknown
   ConnectParent(a.l)
   GetActiveService(a.l)
   GetMCastManager(a.l)
@@ -399,24 +304,14 @@ EndInterface
 
 ; ITVESupervisorGITProxy interface definition
 ;
-Interface ITVESupervisorGITProxy
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVESupervisorGITProxy Extends IUnknown
   get_Supervisor(a.l)
   put_Supervisor(a.l)
 EndInterface
 
 ; ITVEAttrMap interface definition
 ;
-Interface ITVEAttrMap
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEAttrMap Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -431,14 +326,7 @@ EndInterface
 
 ; ITVEAttrTimeQ interface definition
 ;
-Interface ITVEAttrTimeQ
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEAttrTimeQ Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -456,14 +344,7 @@ EndInterface
 
 ; ITVEMCast interface definition
 ;
-Interface ITVEMCast
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEMCast Extends IDispatch
   get_IPAdapter(a.l)
   put_IPAdapter(a.p-bstr)
   get_IPAddress(a.l)
@@ -490,14 +371,7 @@ EndInterface
 
 ; ITVEMCasts interface definition
 ;
-Interface ITVEMCasts
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEMCasts Extends IDispatch
   get__NewEnum(a.l)
   get_Count(a.l)
   get_Item(a.p-variant, b.l)
@@ -508,14 +382,7 @@ EndInterface
 
 ; ITVEMCastManager interface definition
 ;
-Interface ITVEMCastManager
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEMCastManager Extends IDispatch
   get_MCasts(a.l)
   get_Supervisor(a.l)
   put_Supervisor(a.l)
@@ -534,10 +401,7 @@ EndInterface
 
 ; ITVEMCastManager_Helper interface definition
 ;
-Interface ITVEMCastManager_Helper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVEMCastManager_Helper Extends IUnknown
   DumpString(a.p-bstr)
   CreateQueueThread()
   KillQueueThread()
@@ -547,14 +411,7 @@ EndInterface
 
 ; ITVEMCastCallback interface definition
 ;
-Interface ITVEMCastCallback
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEMCastCallback Extends IDispatch
   SetMCast(a.l)
   ProcessPacket(a.l, b.l, c.l)
   PostPacket(a.l, b.l, c.l)
@@ -562,66 +419,31 @@ EndInterface
 
 ; ITVECBAnnc interface definition
 ;
-Interface ITVECBAnnc
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVECBAnnc Extends IDispatch
   Init(a.p-bstr, b.l)
 EndInterface
 
 ; ITVECBTrig interface definition
 ;
-Interface ITVECBTrig
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVECBTrig Extends IDispatch
   Init(a.l)
 EndInterface
 
 ; ITVECBFile interface definition
 ;
-Interface ITVECBFile
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVECBFile Extends IDispatch
   Init(a.l, b.l)
 EndInterface
 
 ; ITVECBDummy interface definition
 ;
-Interface ITVECBDummy
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVECBDummy Extends IDispatch
   Init(a.l)
 EndInterface
 
 ; ITVEFile interface definition
 ;
-Interface ITVEFile
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVEFile Extends IDispatch
   InitializeFile(a.l, b.p-bstr, c.p-bstr, d.l)
   InitializePackage(a.l, b.p-bstr, c.p-bstr, d.l)
   get_Description(a.l)
@@ -636,14 +458,7 @@ EndInterface
 
 ; ITVENavAid interface definition
 ;
-Interface ITVENavAid
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVENavAid Extends IDispatch
   put_WebBrowserApp(a.l)
   get_WebBrowserApp(a.l)
   get_TVETriggerCtrl(a.l)
@@ -692,20 +507,14 @@ EndInterface
 
 ; ITVENavAid_NoVidCtl interface definition
 ;
-Interface ITVENavAid_NoVidCtl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVENavAid_NoVidCtl Extends IUnknown
   put_NoVidCtl_Supervisor(a.l)
   get_NoVidCtl_Supervisor(a.l)
 EndInterface
 
 ; ITVENavAid_Helper interface definition
 ;
-Interface ITVENavAid_Helper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVENavAid_Helper Extends IUnknown
   LocateVidAndTriggerCtrls(a.l, b.l)
   NotifyTVETriggerUpdated_XProxy(a.l, b.l, c.l)
   ReInitCurrNavState(a.l)
@@ -713,10 +522,7 @@ EndInterface
 
 ; ITVEFilter interface definition
 ;
-Interface ITVEFilter
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVEFilter Extends IUnknown
   get_SupervisorPunk(a.l)
   get_IPAdapterAddress(a.l)
   put_IPAdapterAddress(a.p-bstr)
@@ -733,22 +539,12 @@ EndInterface
 
 ; ITVEFilter_Helper interface definition
 ;
-Interface ITVEFilter_Helper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVEFilter_Helper Extends IUnknown
 EndInterface
 
 ; ITVETriggerCtrl interface definition
 ;
-Interface ITVETriggerCtrl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface ITVETriggerCtrl Extends IDispatch
   put_enabled(a.l)
   get_enabled(a.l)
   get_sourceID(a.l)
@@ -760,34 +556,17 @@ EndInterface
 
 ; ITVETriggerCtrl_Helper interface definition
 ;
-Interface ITVETriggerCtrl_Helper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ITVETriggerCtrl_Helper Extends IUnknown
   put_sourceID(a.p-bstr)
   get_TopLevelPage(a.l)
 EndInterface
 
 ; _ITVEEvents interface definition
 ;
-Interface _ITVEEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ITVEEvents Extends IDispatch
 EndInterface
 
 ; _ITVETriggerCtrlEvents interface definition
 ;
-Interface _ITVETriggerCtrlEvents
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface _ITVETriggerCtrlEvents Extends IDispatch
 EndInterface

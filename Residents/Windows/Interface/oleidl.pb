@@ -1,10 +1,7 @@
 ﻿
 ; IOleAdviseHolder interface definition
 ;
-Interface IOleAdviseHolder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleAdviseHolder Extends IUnknown
   Advise(a.l, b.l)
   Unadvise(a.l)
   EnumAdvise(a.l)
@@ -15,10 +12,7 @@ EndInterface
 
 ; IOleCache interface definition
 ;
-Interface IOleCache
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleCache Extends IUnknown
   Cache(a.l, b.l, c.l)
   Uncache(a.l)
   EnumCache(a.l)
@@ -28,55 +22,34 @@ EndInterface
 
 ; IOleCache2 interface definition
 ;
-Interface IOleCache2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Cache(a.l, b.l, c.l)
-  Uncache(a.l)
-  EnumCache(a.l)
-  InitCache(a.l)
-  SetData(a.l, b.l, c.l)
+Interface IOleCache2 Extends IOleCache
   UpdateCache(a.l, b.l, c.l)
   DiscardCache(a.l)
 EndInterface
 
 ; IOleCacheControl interface definition
 ;
-Interface IOleCacheControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleCacheControl Extends IUnknown
   OnRun(a.l)
   OnStop()
 EndInterface
 
 ; IParseDisplayName interface definition
 ;
-Interface IParseDisplayName
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IParseDisplayName Extends IUnknown
   ParseDisplayName(a.l, b.p-unicode, c.l, d.l)
 EndInterface
 
 ; IOleContainer interface definition
 ;
-Interface IOleContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  ParseDisplayName(a.l, b.p-unicode, c.l, d.l)
+Interface IOleContainer Extends IParseDisplayName
   EnumObjects(a.l, b.l)
   LockContainer(a.l)
 EndInterface
 
 ; IOleClientSite interface definition
 ;
-Interface IOleClientSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleClientSite Extends IUnknown
   SaveObject()
   GetMoniker(a.l, b.l, c.l)
   GetContainer(a.l)
@@ -87,10 +60,7 @@ EndInterface
 
 ; IOleObject interface definition
 ;
-Interface IOleObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleObject Extends IUnknown
   SetClientSite(a.l)
   GetClientSite(a.l)
   SetHostNames(a.l, b.l)
@@ -116,20 +86,14 @@ EndInterface
 
 ; IOleWindow interface definition
 ;
-Interface IOleWindow
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleWindow Extends IUnknown
   GetWindow(a.l)
   ContextSensitiveHelp(a.l)
 EndInterface
 
 ; IOleLink interface definition
 ;
-Interface IOleLink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IOleLink Extends IUnknown
   SetUpdateOptions(a.l)
   GetUpdateOptions(a.l)
   SetSourceMoniker(a.l, b.l)
@@ -145,13 +109,7 @@ EndInterface
 
 ; IOleItemContainer interface definition
 ;
-Interface IOleItemContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  ParseDisplayName(a.l, b.p-unicode, c.l, d.l)
-  EnumObjects(a.l, b.l)
-  LockContainer(a.l)
+Interface IOleItemContainer Extends IOleContainer
   GetObject(a.p-unicode, b.l, c.l, d.l, e.l)
   GetObjectStorage(a.p-unicode, b.l, c.l, d.l)
   IsRunning(a.p-unicode)
@@ -159,12 +117,7 @@ EndInterface
 
 ; IOleInPlaceUIWindow interface definition
 ;
-Interface IOleInPlaceUIWindow
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
+Interface IOleInPlaceUIWindow Extends IOleWindow
   GetBorder(a.l)
   RequestBorderSpace(a.l)
   SetBorderSpace(a.l)
@@ -173,12 +126,7 @@ EndInterface
 
 ; IOleInPlaceActiveObject interface definition
 ;
-Interface IOleInPlaceActiveObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
+Interface IOleInPlaceActiveObject Extends IOleWindow
   TranslateAccelerator(a.l)
   OnFrameWindowActivate(a.l)
   OnDocWindowActivate(a.l)
@@ -188,16 +136,7 @@ EndInterface
 
 ; IOleInPlaceFrame interface definition
 ;
-Interface IOleInPlaceFrame
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
-  GetBorder(a.l)
-  RequestBorderSpace(a.l)
-  SetBorderSpace(a.l)
-  SetActiveObject(a.l, b.l)
+Interface IOleInPlaceFrame Extends IOleInPlaceUIWindow
   InsertMenus(a.l, b.l)
   SetMenu(a.l, b.l, c.l)
   RemoveMenus(a.l)
@@ -208,12 +147,7 @@ EndInterface
 
 ; IOleInPlaceObject interface definition
 ;
-Interface IOleInPlaceObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
+Interface IOleInPlaceObject Extends IOleWindow
   InPlaceDeactivate()
   UIDeactivate()
   SetObjectRects(a.l, b.l)
@@ -222,12 +156,7 @@ EndInterface
 
 ; IOleInPlaceSite interface definition
 ;
-Interface IOleInPlaceSite
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetWindow(a.l)
-  ContextSensitiveHelp(a.l)
+Interface IOleInPlaceSite Extends IOleWindow
   CanInPlaceActivate()
   OnInPlaceActivate()
   OnUIActivate()
@@ -242,19 +171,13 @@ EndInterface
 
 ; IContinue interface definition
 ;
-Interface IContinue
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IContinue Extends IUnknown
   FContinue()
 EndInterface
 
 ; IViewObject interface definition
 ;
-Interface IViewObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IViewObject Extends IUnknown
   Draw(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l)
   GetColorSet(a.l, b.l, c.l, d.l, e.l, f.l)
   Freeze(a.l, b.l, c.l, d.l)
@@ -265,35 +188,20 @@ EndInterface
 
 ; IViewObject2 interface definition
 ;
-Interface IViewObject2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  Draw(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l, i.l, j.l)
-  GetColorSet(a.l, b.l, c.l, d.l, e.l, f.l)
-  Freeze(a.l, b.l, c.l, d.l)
-  Unfreeze(a.l)
-  SetAdvise(a.l, b.l, c.l)
-  GetAdvise(a.l, b.l, c.l)
+Interface IViewObject2 Extends IViewObject
   GetExtent(a.l, b.l, c.l, d.l)
 EndInterface
 
 ; IDropSource interface definition
 ;
-Interface IDropSource
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDropSource Extends IUnknown
   QueryContinueDrag(a.l, b.l)
   GiveFeedback(a.l)
 EndInterface
 
 ; IDropTarget interface definition
 ;
-Interface IDropTarget
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDropTarget Extends IUnknown
   DragEnter(a.l, b.l, c.l, d.l)
   DragOver(a.l, b.l, c.l)
   DragLeave()
@@ -302,10 +210,7 @@ EndInterface
 
 ; IEnumOLEVERB interface definition
 ;
-Interface IEnumOLEVERB
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IEnumOLEVERB Extends IUnknown
   Next(a.l, b.l, c.l)
   Skip(a.l)
   Reset()

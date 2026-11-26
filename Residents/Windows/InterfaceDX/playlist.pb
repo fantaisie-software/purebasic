@@ -1,10 +1,7 @@
 ﻿
 ; IAMPlayListItem interface definition
 ;
-Interface IAMPlayListItem
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMPlayListItem Extends IUnknown
   GetFlags(a.l)
   GetSourceCount(a.l)
   GetSourceURL(a.l, b.l)
@@ -20,10 +17,7 @@ EndInterface
 
 ; IAMPlayList interface definition
 ;
-Interface IAMPlayList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMPlayList Extends IUnknown
   GetFlags(a.l)
   GetItemCount(a.l)
   GetItem(a.l, b.l)
@@ -33,18 +27,12 @@ EndInterface
 
 ; ISpecifyParticularPages interface definition
 ;
-Interface ISpecifyParticularPages
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ISpecifyParticularPages Extends IUnknown
   GetPages(a.l, b.l)
 EndInterface
 
 ; IAMRebuild interface definition
 ;
-Interface IAMRebuild
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAMRebuild Extends IUnknown
   RebuildNow()
 EndInterface

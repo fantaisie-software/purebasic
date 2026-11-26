@@ -1,19 +1,13 @@
 ﻿
 ; IMAPIAdviseSink interface definition
 ;
-Interface IMAPIAdviseSink
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIAdviseSink Extends IUnknown
   OnNotify(a.l, b.l)
 EndInterface
 
 ; IMAPIProgress interface definition
 ;
-Interface IMAPIProgress
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIProgress Extends IUnknown
   Progress(a.l, b.l)
   GetFlags(a.l)
   GetMax(a.l)
@@ -23,10 +17,7 @@ EndInterface
 
 ; IMAPIProp interface definition
 ;
-Interface IMAPIProp
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIProp Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -42,10 +33,7 @@ EndInterface
 
 ; IMAPITable interface definition
 ;
-Interface IMAPITable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPITable Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   Advise(a.l, b.l, c.l)
   Unadvise(a.l)
@@ -73,10 +61,7 @@ EndInterface
 
 ; IProfSect interface definition
 ;
-Interface IProfSect
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IProfSect Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -92,10 +77,7 @@ EndInterface
 
 ; IMAPIStatus interface definition
 ;
-Interface IMAPIStatus
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIStatus Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -115,10 +97,7 @@ EndInterface
 
 ; IMAPIContainer interface definition
 ;
-Interface IMAPIContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIContainer Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -139,10 +118,7 @@ EndInterface
 
 ;  interface definition
 ;
-Interface IABContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IABContainer Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -167,10 +143,7 @@ EndInterface
 
 ; IMailUser interface definition
 ;
-Interface IMailUser
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMailUser Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -186,10 +159,7 @@ EndInterface
 
 ; IDistList interface definition
 ;
-Interface IDistList
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDistList Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -214,10 +184,7 @@ EndInterface
 
 ; IMAPIFolder interface definition
 ;
-Interface IMAPIFolder
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIFolder Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -249,10 +216,7 @@ EndInterface
 
 ;  IMsgStore interface definition
 ;
-Interface IMsgStore
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMsgStore Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -281,14 +245,7 @@ EndInterface
 
 ; IMessage interface definition
 ;
-Interface IMessage
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetTypeInfoCount(a.l)
-  GetTypeInfo(a.l, b.l, c.l)
-  GetIDsOfNames(a.l, b.l, c.l, d.l, e.l)
-  Invoke(a.l, b.l, c.l, d.l, e.l, f.l, g.l, h.l)
+Interface IMessage Extends IDispatch
   get_BCC(a.l)
   put_BCC(a.p-bstr)
   get_CC(a.l)
@@ -350,10 +307,7 @@ EndInterface
 
 ; IAttach interface definition
 ;
-Interface IAttach
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IAttach Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   SaveChanges(a.l)
   GetProps(a.l, b.l, c.l, d.l)
@@ -369,10 +323,7 @@ EndInterface
 
 ; IMAPIControl interface definition
 ;
-Interface IMAPIControl
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IMAPIControl Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   Activate(a.l, b.l)
   GetState(a.l, b.l)
@@ -380,10 +331,7 @@ EndInterface
 
 ; IProviderAdmin interface definition
 ;
-Interface IProviderAdmin
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IProviderAdmin Extends IUnknown
   GetLastError(a.l, b.l, c.l)
   GetProviderTable(a.l, b.l)
   CreateProvider(a.l, b.l, c.l, d.l, e.l, f.l)

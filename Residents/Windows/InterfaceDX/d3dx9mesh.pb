@@ -1,10 +1,7 @@
 ﻿
 ; ID3DXBaseMesh interface definition
 ;
-Interface ID3DXBaseMesh
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXBaseMesh Extends IUnknown
   DrawSubset(a.l)
   GetNumFaces()
   GetNumVertices()
@@ -30,31 +27,7 @@ EndInterface
 
 ; ID3DXMesh interface definition
 ;
-Interface ID3DXMesh
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  DrawSubset(a.l)
-  GetNumFaces()
-  GetNumVertices()
-  GetFVF()
-  GetDeclaration(a.l)
-  GetNumBytesPerVertex()
-  GetOptions()
-  GetDevice(a.l)
-  CloneMeshFVF(a.l, b.l, c.l, d.l)
-  CloneMesh(a.l, b.l, c.l, d.l)
-  GetVertexBuffer(a.l)
-  GetIndexBuffer(a.l)
-  LockVertexBuffer(a.l, b.l)
-  UnlockVertexBuffer()
-  LockIndexBuffer(a.l, b.l)
-  UnlockIndexBuffer()
-  GetAttributeTable(a.l, b.l)
-  ConvertPointRepsToAdjacency(a.l, b.l)
-  ConvertAdjacencyToPointReps(a.l, b.l)
-  GenerateAdjacency(a.f, b.l)
-  UpdateSemantics(a.l)
+Interface ID3DXMesh Extends ID3DXBaseMesh
   LockAttributeBuffer(a.l, b.l)
   UnlockAttributeBuffer()
   Optimize(a.l, b.l, c.l, d.l, e.l, f.l)
@@ -64,31 +37,7 @@ EndInterface
 
 ; ID3DXPMesh interface definition
 ;
-Interface ID3DXPMesh
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  DrawSubset(a.l)
-  GetNumFaces()
-  GetNumVertices()
-  GetFVF()
-  GetDeclaration(a.l)
-  GetNumBytesPerVertex()
-  GetOptions()
-  GetDevice(a.l)
-  CloneMeshFVF(a.l, b.l, c.l, d.l)
-  CloneMesh(a.l, b.l, c.l, d.l)
-  GetVertexBuffer(a.l)
-  GetIndexBuffer(a.l)
-  LockVertexBuffer(a.l, b.l)
-  UnlockVertexBuffer()
-  LockIndexBuffer(a.l, b.l)
-  UnlockIndexBuffer()
-  GetAttributeTable(a.l, b.l)
-  ConvertPointRepsToAdjacency(a.l, b.l)
-  ConvertAdjacencyToPointReps(a.l, b.l)
-  GenerateAdjacency(a.f, b.l)
-  UpdateSemantics(a.l)
+Interface ID3DXPMesh Extends ID3DXBaseMesh
   ClonePMeshFVF(a.l, b.l, c.l, d.l)
   ClonePMesh(a.l, b.l, c.l, d.l)
   SetNumFaces(a.l)
@@ -108,10 +57,7 @@ EndInterface
 
 ; ID3DXSPMesh interface definition
 ;
-Interface ID3DXSPMesh
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXSPMesh Extends IUnknown
   GetNumFaces()
   GetNumVertices()
   GetFVF()
@@ -132,10 +78,7 @@ EndInterface
 
 ; ID3DXPatchMesh interface definition
 ;
-Interface ID3DXPatchMesh
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXPatchMesh Extends IUnknown
   GetNumPatches()
   GetNumVertices()
   GetDeclaration(a.l)
@@ -163,10 +106,7 @@ EndInterface
 
 ; ID3DXSkinInfo interface definition
 ;
-Interface ID3DXSkinInfo
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXSkinInfo Extends IUnknown
   SetBoneInfluence(a.l, b.l, c.l, d.l)
   SetBoneVertexInfluence(a.l, b.l, c.f)
   GetNumBoneInfluences(a.l)
@@ -195,10 +135,7 @@ EndInterface
 
 ; ID3DXPRTBuffer interface definition
 ;
-Interface ID3DXPRTBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXPRTBuffer Extends IUnknown
   GetNumSamples()
   GetNumCoeffs()
   GetNumChannels()
@@ -219,10 +156,7 @@ EndInterface
 
 ; ID3DXPRTCompBuffer interface definition
 ;
-Interface ID3DXPRTCompBuffer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXPRTCompBuffer Extends IUnknown
   GetNumSamples()
   GetNumCoeffs()
   GetNumChannels()
@@ -241,10 +175,7 @@ EndInterface
 
 ; ID3DXTextureGutterHelper interface definition
 ;
-Interface ID3DXTextureGutterHelper
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXTextureGutterHelper Extends IUnknown
   GetWidth()
   GetHeight()
   ApplyGuttersFloat(a.l, b.l, c.l, d.l)
@@ -262,10 +193,7 @@ EndInterface
 
 ; ID3DXPRTEngine interface definition
 ;
-Interface ID3DXPRTEngine
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXPRTEngine Extends IUnknown
   SetMeshMaterials(a.l, b.l, c.l, d.l, e.f)
   SetPerVertexAlbedo(a.l, b.l, c.l)
   SetPerTexelAlbedo(a.l, b.l, c.l)

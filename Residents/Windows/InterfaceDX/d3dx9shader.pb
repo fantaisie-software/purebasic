@@ -1,10 +1,7 @@
 ﻿
 ; ID3DXConstantTable interface definition
 ;
-Interface ID3DXConstantTable
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXConstantTable Extends IUnknown
   GetBufferPointer()
   GetBufferSize()
   GetDesc(a.l)
@@ -33,10 +30,7 @@ EndInterface
 
 ; ID3DXTextureShader interface definition
 ;
-Interface ID3DXTextureShader
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXTextureShader Extends IUnknown
   GetFunction(a.l)
   GetConstantBuffer(a.l)
   GetDesc(a.l)
@@ -64,10 +58,7 @@ EndInterface
 
 ; ID3DXFragmentLinker interface definition
 ;
-Interface ID3DXFragmentLinker
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface ID3DXFragmentLinker Extends IUnknown
   GetDevice(a.l)
   GetNumberOfFragments()
   GetFragmentHandleByIndex(a.l)

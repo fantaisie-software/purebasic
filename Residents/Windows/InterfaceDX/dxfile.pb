@@ -1,10 +1,7 @@
 ﻿
 ; IDirectXFile interface definition
 ;
-Interface IDirectXFile
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectXFile Extends IUnknown
   CreateEnumObject(a.l, b.l, c.l)
   CreateSaveObject(a.s, b.l, c.l)
   RegisterTemplates(a.l, b.l)
@@ -12,10 +9,7 @@ EndInterface
 
 ; IDirectXFileEnumObject interface definition
 ;
-Interface IDirectXFileEnumObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectXFileEnumObject Extends IUnknown
   GetNextDataObject(a.l)
   GetDataObjectById(a.l, b.l)
   GetDataObjectByName(a.s, b.l)
@@ -23,10 +17,7 @@ EndInterface
 
 ; IDirectXFileSaveObject interface definition
 ;
-Interface IDirectXFileSaveObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectXFileSaveObject Extends IUnknown
   SaveTemplates(a.l, b.l)
   CreateDataObject(a.l, b.s, c.l, d.l, e.l, f.l)
   SaveData(a.l)
@@ -34,22 +25,14 @@ EndInterface
 
 ; IDirectXFileObject interface definition
 ;
-Interface IDirectXFileObject
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectXFileObject Extends IUnknown
   GetName(a.l, b.l)
   GetId(a.l)
 EndInterface
 
 ; IDirectXFileData interface definition
 ;
-Interface IDirectXFileData
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetName(a.l, b.l)
-  GetId(a.l)
+Interface IDirectXFileData Extends IDirectXFileObject
   GetData(a.s, b.l, c.l)
   GetType(a.l)
   GetNextObject(a.l)
@@ -60,23 +43,13 @@ EndInterface
 
 ; IDirectXFileDataReference interface definition
 ;
-Interface IDirectXFileDataReference
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetName(a.l, b.l)
-  GetId(a.l)
+Interface IDirectXFileDataReference Extends IDirectXFileObject
   Resolve(a.l)
 EndInterface
 
 ; IDirectXFileBinary interface definition
 ;
-Interface IDirectXFileBinary
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
-  GetName(a.l, b.l)
-  GetId(a.l)
+Interface IDirectXFileBinary Extends IDirectXFileObject
   GetSize(a.l)
   GetMimeType(a.l)
   Read(a.l, b.l, c.l)

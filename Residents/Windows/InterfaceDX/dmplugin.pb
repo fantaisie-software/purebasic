@@ -1,10 +1,7 @@
 ﻿
 ; IDirectMusicTool interface definition
 ;
-Interface IDirectMusicTool
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicTool Extends IUnknown
   Init(a.l)
   GetMsgDeliveryType(a.l)
   GetMediaTypeArraySize(a.l)
@@ -15,10 +12,7 @@ EndInterface
 
 ; IDirectMusicTool8 interface definition
 ;
-Interface IDirectMusicTool8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicTool8 Extends IUnknown
   Init(a.l)
   GetMsgDeliveryType(a.l)
   GetMediaTypeArraySize(a.l)
@@ -30,10 +24,7 @@ EndInterface
 
 ; IDirectMusicTrack interface definition
 ;
-Interface IDirectMusicTrack
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicTrack Extends IUnknown
   Init(a.l)
   InitPlay(a.l, b.l, c.l, d.l, e.l)
   EndPlay(a.l)
@@ -48,10 +39,7 @@ EndInterface
 
 ; IDirectMusicTrack8 interface definition
 ;
-Interface IDirectMusicTrack8
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectMusicTrack8 Extends IUnknown
   Init(a.l)
   InitPlay(a.l, b.l, c.l, d.l, e.l)
   EndPlay(a.l)

@@ -1,10 +1,7 @@
 ﻿
 ; IDirectPlay2 interface definition
 ;
-Interface IDirectPlay2
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay2 Extends IUnknown
   AddPlayerToGroup(a.l, b.l)
   Close()
   CreateGroup(a.l, b.l, c.l, d.l, e.l)
@@ -38,10 +35,7 @@ EndInterface
 
 ; IDirectPlay3 interface definition
 ;
-Interface IDirectPlay3
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay3 Extends IUnknown
   AddPlayerToGroup(a.l, b.l)
   Close()
   CreateGroup(a.l, b.l, c.l, d.l, e.l)
@@ -90,10 +84,7 @@ EndInterface
 
 ; IDirectPlay4 interface definition
 ;
-Interface IDirectPlay4
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay4 Extends IUnknown
   AddPlayerToGroup(a.l, b.l)
   Close()
   CreateGroup(a.l, b.l, c.l, d.l, e.l)
@@ -148,10 +139,7 @@ EndInterface
 
 ; IDirectPlay interface definition
 ;
-Interface IDirectPlay
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDirectPlay Extends IUnknown
   AddPlayerToGroup(a.l, b.l)
   Close()
   CreatePlayer(a.l, b.l, c.l, d.l)

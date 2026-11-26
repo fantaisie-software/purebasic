@@ -1,20 +1,14 @@
 ﻿
 ; IDxDiagProvider interface definition
 ;
-Interface IDxDiagProvider
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDxDiagProvider Extends IUnknown
   Initialize(a.l)
   GetRootContainer(a.l)
 EndInterface
 
 ; IDxDiagContainer interface definition
 ;
-Interface IDxDiagContainer
-  QueryInterface(a.l, b.l)
-  AddRef()
-  Release()
+Interface IDxDiagContainer Extends IUnknown
   GetNumberOfChildContainers(a.l)
   EnumChildContainerNames(a.l, b.l, c.l)
   GetChildContainer(a.l, b.l)
