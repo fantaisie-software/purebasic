@@ -37,10 +37,15 @@
   It's possible to perform a full structure copy by using the equal affectation between two structure element of the same type.
   @LineBreak
   @LineBreak
+  A structure can be passed to a @ReferenceLink "procedures" "procedure" by reference, using the structure as the parameter type:
+  the type of the passed value is then checked by the compiler.
+  @LineBreak
+  @LineBreak
   
   The optional @Keyword Extends parameter allows to extends another structure with new fields. All fields 
   found in the extended structure will be available in the new structure and will be placed before 
-  the new fields. This is useful to do basic inheritance of structures. @LineBreak
+  the new fields. This is useful to do basic inheritance of structures. A structure which extends another one can be passed
+  to a parameter which expects the extended structure. @LineBreak
   @LineBreak
   
   For advanced users only. The optional @Keyword Align parameter allows to adjust alignment between every structure field. The default alignment

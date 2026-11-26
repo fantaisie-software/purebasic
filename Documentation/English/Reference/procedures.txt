@@ -25,6 +25,10 @@
   @ReferenceLink "newlist" "lists" using the @Keyword List keyword and @ReferenceLink "newmap" "maps" using the @Keyword Map keyword.
   @LineBreak
   @LineBreak
+  A @ReferenceLink "structures" "structure" or an @ReferenceLink "interfaces" "interface" can be passed as parameter, by using it as the
+  parameter type, without '*'. Such a parameter is a @Bold "reference": see @Bold "Structure and interface parameters" below.
+  @LineBreak
+  @LineBreak
   A procedure can return a value or a string if necessary. You have to set the type after @Keyword Procedure
   and use the @Keyword ProcedureReturn keyword at any moment inside the procedure.
   A call of @Keyword ProcedureReturn exits immediately the procedure, even when its called inside a loop.
@@ -153,6 +157,127 @@
   Debug MyVar\b[0]
   Debug MyVar\b[1]
   Debug MyVar\c(3,3)
+@EndCode
+
+
+@LineBreak
+@LineBreak
+
+@Bold "Structure and interface parameters"
+@LineBreak
+@LineBreak
+When the type of a parameter is a structure or an interface, and its name doesn't begin with '*', the parameter is a reference.
+The type of the passed value is checked by the compiler: it has to be of the same structure (or interface), or of one which
+@Keyword Extends it, directly or not. The opposite isn't allowed: a parent can't be passed where a child is expected.
+Two different structures don't match, even if they have the same fields.
+@LineBreak
+@LineBreak
+The passed value can be a variable, an @ReferenceLink "dim" "array", @ReferenceLink "newlist" "list" or @ReferenceLink "newmap" "map"
+element, a structure field, another reference parameter, or a typed @ReferenceLink "memory" "pointer" (*Pointer.Structure).
+Other values, like 0, an address got with '@', a number, an untyped pointer or the result of an expression, are refused by the compiler.
+A value returned by a procedure or a method has to be stored in a typed variable first.
+@LineBreak
+@LineBreak
+With a structure parameter, the procedure works directly on the passed structure: no copy is done, so any change is visible by the caller.
+It is used like a structured variable: Parameter\Field to access a field, the '@' operator to get the address of the structure, and
+@ReferenceLink "compilerfunctions" "SizeOf" returns the structure size. Writing 'Parameter = OtherStructure' copies the content
+of the other structure into the passed one. If the passed structure extends the parameter one, only the fields of the parameter
+structure are changed.
+@LineBreak
+@LineBreak
+An interface parameter is used to call the methods of the passed object. It can't be modified in the procedure, but it can be
+copied to another variable.
+@LineBreak
+@LineBreak
+A reference parameter is expected to always refer to an existing structure or object. A typed pointer or an interface variable can
+still be null when the program runs: it is reported by the @ReferenceLink "debugger" "debugger" when it is passed to a reference
+parameter. This check isn't done without the debugger.
+@LineBreak
+@LineBreak
+When a parameter name begins with '*' (*Parameter.Structure), it is a regular @ReferenceLink "memory" "pointer": its type isn't
+checked, it can be null, and the address of a structure has to be passed using the '@' operator.
+@LineBreak
+@LineBreak
+A reference parameter can't have a default value, and @Keyword Declare has to use the same references as the @Keyword Procedure.
+References can also be used in @ReferenceLink "prototypes" "Prototype" and @ReferenceLink "interfaces" "Interface" declarations.
+They aren't supported in @ReferenceLink "import_endimport" "Import" declarations, nor in the procedures exported by a PureLibrary.
+@LineBreak
+@LineBreak
+Arrays, lists and maps of structures passed with the @Keyword Array, @Keyword List and @Keyword Map keywords have to use
+exactly the same structure.
+@LineBreak
+@LineBreak
+Note: before PureBasic 6.60, an interface parameter without '*' accepted any value, which wasn't checked. To keep this behaviour,
+add a '*' to the parameter name (*Object.IUnknown instead of Object.IUnknown) in the declaration and in the procedure code.
+
+  @Example Structure as parameter
+
+@Code
+  Structure Shape
+    Name$
+    X.l
+    Y.l
+  EndStructure
+
+  Structure Circle Extends Shape
+    Radius.l
+  EndStructure
+
+  Procedure Move(Object.Shape, OffsetX, OffsetY)
+    Object\X + OffsetX
+    Object\Y + OffsetY
+  EndProcedure
+
+  MyCircle.Circle\Name$ = "Circle"
+  Move(MyCircle, 10, 20)     ; 'Circle' extends 'Shape', so it can be passed
+  Debug MyCircle\X          ; will print 10
+
+  NewList Shapes.Shape()
+  AddElement(Shapes())
+  Move(Shapes(), 5, 5)       ; the list element is modified
+  Debug Shapes()\Y          ; will print 5
+
+  *Pointer.Shape = @MyCircle
+  Move(*Pointer, 1, 1)       ; a typed pointer can be passed
+  Debug MyCircle\X          ; will print 11
+@EndCode
+
+  @Example Interface as parameter
+
+@Code
+  Interface Animal
+    GetLegs()
+  EndInterface
+
+  Interface Dog Extends Animal
+    GetName.s()
+  EndInterface
+
+  Structure DogObject
+    *VirtualTable
+  EndStructure
+
+  Procedure GetLegs(*This.DogObject)
+    ProcedureReturn 4
+  EndProcedure
+
+  Procedure.s GetName(*This.DogObject)
+    ProcedureReturn "Rex"
+  EndProcedure
+
+  Procedure ShowLegs(Object.Animal)
+    Debug Object\GetLegs()
+  EndProcedure
+
+  MyObject.DogObject\VirtualTable = ?DogMethods
+  MyDog.Dog = @MyObject
+
+  ShowLegs(MyDog)            ; 'Dog' extends 'Animal', so it can be passed
+
+  DataSection
+    DogMethods:
+    Data.i @GetLegs(), @GetName()
+  EndDataSection
 @EndCode
 
 

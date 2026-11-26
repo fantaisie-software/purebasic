@@ -34,6 +34,13 @@
   @LineBreak
   The @ReferenceLink "pseudotypes" "pseudotypes" can be used for the parameters, but not for the returned
   value.
+  @LineBreak
+  @LineBreak
+  A parameter whose type is a structure or an interface, and whose name doesn't begin with '*', is a reference: the passed
+  value is checked when the function is called, as for a @ReferenceLink "procedures" "procedure".
+  When the address of a procedure (got with '@') is assigned to a variable of this prototype type, the procedure must have a
+  reference parameter at the same place. It can expect the same structure or interface, or one which is extended by it. A reference parameter
+  and a '*' pointer parameter don't match.
   
 @Example 
 
