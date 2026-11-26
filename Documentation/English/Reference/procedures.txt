@@ -170,6 +170,8 @@ When the type of a parameter is a structure or an interface, and its name doesn'
 The type of the passed value is checked by the compiler: it has to be of the same structure (or interface), or of one which
 @Keyword Extends it, directly or not. The opposite isn't allowed: a parent can't be passed where a child is expected.
 Two different structures don't match, even if they have the same fields.
+The same applies to interfaces, even if they have the same methods. For example, a COM interface declared by your program can only be
+passed where IUnknown is expected if it @Keyword Extends IUnknown (the interfaces provided by PureBasic already do).
 @LineBreak
 @LineBreak
 The passed value can be a variable, an @ReferenceLink "dim" "array", @ReferenceLink "newlist" "list" or @ReferenceLink "newmap" "map"
