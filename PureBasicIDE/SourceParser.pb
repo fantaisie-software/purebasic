@@ -256,6 +256,15 @@ Procedure FreeSourceItemArray(*Parser.ParserData)
 EndProcedure
 
 
+; SourceItem\Position, Length and FullLength are words (to save memory): cap the values of very long
+; lines, so they do not wrap to a negative offset (https://www.purebasic.fr/english/viewtopic.php?t=90014)
+Procedure Parser_CapWord(Value)
+  If Value > 32767
+    ProcedureReturn 32767
+  EndIf
+  ProcedureReturn Value
+EndProcedure
+
 ; creates and links a new sourceitem structure at the end of the current line
 ; returns the allocated structure space
 Procedure AddSourceItem(Type, Line, Position, Length)
@@ -264,8 +273,8 @@ Procedure AddSourceItem(Type, Line, Position, Length)
   If AddElement(SourceItemHeap())
     *Item = @SourceItemHeap()
     *Item\Type     = Type
-    *Item\Position = Position
-    *Item\Length   = Length
+    *Item\Position = Parser_CapWord(Position)
+    *Item\Length   = Parser_CapWord(Length)
     
     If *Parser_Array\Line[Line]\Last = 0
       *Parser_Array\Line[Line]\First = *Item
@@ -583,8 +592,10 @@ Procedure Parser_Comment(*pCursor.PTR)
     
   EndIf
   
-  ; process/skip newline
-  Parser_Newline(*Cursor)
+  ; process/skip newline (not at the end of the buffer, or the cursor would be moved past the NUL terminator)
+  If *Cursor\b
+    Parser_Newline(*Cursor)
+  EndIf
   
   *pCursor\p = *Cursor
 EndProcedure
@@ -610,6 +621,7 @@ Procedure Parser_SkipBraces(*pCursor.PTR, StartBrace, EndBrace)
         Case 13, 10 ; newline
           If IsLineContinuation(*Parser_LineStart, *Cursor)
             Parser_Newline(*Cursor)
+            Continue ; already on the first char of the next line: do not execute the "*Cursor + 1" below
           Else
             Result = #False
             Break
@@ -627,6 +639,7 @@ Procedure Parser_SkipBraces(*pCursor.PTR, StartBrace, EndBrace)
         Case ';'
           If IsLineContinuation(*Parser_LineStart, *Cursor)
             Parser_Comment(@*Cursor)
+            Continue ; already on the first char of the next line: do not execute the "*Cursor + 1" below
           Else
             ; incorrect code, as ) is missing
             Result = #False
@@ -756,7 +769,7 @@ Procedure.s Parser_Cleanup(Input$)
             If *Cursor\c = '\'
               *Cursor + #CharSize
               If *Cursor\c And *Cursor\c <> 13 And *Cursor\c <> 10
-                *Cursor + 1
+                *Cursor + #CharSize
               EndIf
             Else
               *Cursor + #CharSize
@@ -1076,7 +1089,7 @@ Procedure Parser_GetUnknownWord(*pCursor.PTR, InImport, ModulePrefix$)
             Parser_SkipPrototype(@*Cursor2)
           EndIf
           If *Cursor2 > *Cursor And PeekB(*Cursor2 - 1) = ')'
-            *Item\FullLength = *Cursor2 - *Start
+            *Item\FullLength = Parser_CapWord(*Cursor2 - *Start)
           EndIf
           
           Parser_PopState()
@@ -1227,6 +1240,7 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
         Case ';' ; comments
           If IsLineContinuation(*Parser_LineStart, *Cursor)
             Parser_Comment(@*Cursor)
+            Continue ; already on the first char of the next line: do not execute the "*Cursor + 1" below
           Else
             Break 2
           EndIf
@@ -1234,6 +1248,7 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
         Case 13, 10 ; newline
           If IsLineContinuation(*Parser_LineStart, *Cursor)
             Parser_Newline(*Cursor)
+            Continue ; already on the first char of the next line: do not execute the "*Cursor + 1" below
           Else
             Break 2
           EndIf
@@ -1266,7 +1281,7 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
         Case '~' ; escaped string?
           If PeekB(*Cursor + 1) = '"'
             *Cursor + 2
-            While *Cursor\b And *Cursor\b <> Stop And *Cursor\b <> 13 And *Cursor\b <> 10
+            While *Cursor\b And *Cursor\b <> '"' And *Cursor\b <> 13 And *Cursor\b <> 10
               If *Cursor\b = '\'
                 *Cursor + 1
                 If *Cursor\b And *Cursor\b <> 10 And *Cursor\b <> 13
@@ -1595,7 +1610,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
                 Prefix$ + "::"
               EndIf
               *Item\Content$ = Prefix$ + Parser_GetWord(@*ForwardCursor)
-              *Item\FullLength = *ForwardCursor-*Start
+              *Item\FullLength = Parser_CapWord(*ForwardCursor-*Start)
             EndIf
             
             ; Note: there is no look forward for an 'Align' in structures, because the align may be an
@@ -1760,7 +1775,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
               *Item\Scope = #SCOPE_UNKNOWN
               *Item\ModulePrefix$ = ModulePrefix$
               If *Cursor2 > *Cursor And PeekB(*Cursor2 - 1) = ')' ; get full length
-                *Item\FullLength = *Cursor2 - *Start
+                *Item\FullLength = Parser_CapWord(*Cursor2 - *Start)
               EndIf
               
             Else
@@ -3610,7 +3625,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
   
   ; Strings with escape sequences cannot be searched backwards, so do a first run to block all strings
   ; escape sequences and char consts. This way they can be ignored below
-  *Forward.PTR = @Buffer
+  *Forward.PTR = @Line$
   While *Forward\c
     If *Forward\c = '"' Or *Forward\c = 39
       ; String or CharConst
@@ -3830,7 +3845,7 @@ Procedure LocateStructureBaseItem(Line$, Position, *pItem.INTEGER, *pLine.INTEGE
                       
                       ; check for possible module prefix
                       If *Cursor\c = ':' And PeekC(*Cursor + SizeOf(Character)) = ':'
-                        *Curspr + 2*SizeOf(Character)
+                        *Cursor + 2*SizeOf(Character)
                         While *Cursor\c = ' ' Or *Cursor\c = 9: *Cursor + SizeOf(Character): Wend ; whitespace
                         While ValidCharacters(*Cursor\c)                                          ; type name (no *, $, p-ascii etc allowed anyway)
                           *Cursor + SizeOf(Character)

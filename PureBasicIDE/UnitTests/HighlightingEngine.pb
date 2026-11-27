@@ -17,7 +17,7 @@ IncludePath "../"
 XIncludeFile "HighlightingEngine.pb"
 
 ; The "colors" passed to the callback are the index of the token kind in this list
-#TokenKinds$ = "Text,Keyword,Comment,Constant,String,Function,Asm,Operator,Structure,Number,Pointer,Separator,Label,Module"
+#TokenKinds$ = "Text,Keyword,Comment,Constant,String,Function,Asm,Operator,Structure,Number,Pointer,Separator,Label,Module,BadEscape"
 
 Global DummySource.SourceFile
 Global Tokens$, *LastEnd, *LastColor
@@ -78,6 +78,14 @@ ProcedureUnit Tokens_Strings()
   
   Result$ = Tokenize("c = 'A'")
   AssertString(Result$, "Text[c] Operator[=] Constant['A']", "a character is a constant: " + Result$)
+EndProcedureUnit
+
+; https://www.purebasic.fr/english/viewtopic.php?t=90014
+ProcedureUnit Tokens_BadEscape()
+  *BadEscapeColor = 14
+  Protected Result$ = Tokenize(~"x$ = ~\"a\\qb\"")
+  *BadEscapeColor = 4
+  AssertString(Result$, ~"Text[x$] Operator[=] String[~\"a] BadEscape[\\q] String[b\"]", Result$)
 EndProcedureUnit
 
 ProcedureUnit Tokens_ConstantsPointersStructures()

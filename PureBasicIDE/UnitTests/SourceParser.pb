@@ -94,6 +94,66 @@ ProcedureUnit Scan_LineContinuation()
   FreeSourceItemArray(@Parser)
 EndProcedureUnit
 
+; https://www.purebasic.fr/english/viewtopic.php?t=90014
+; The first char of a continued line must not be skipped (here the closing ')' and an empty line)
+ProcedureUnit Scan_LineContinuationFirstChar()
+  Protected Parser.ParserData, Line, *Item.SourceItem, Result$
+  Protected Code$ = "Procedure Long(a," + #LF$ +
+                    ")" + #LF$ +
+                    "EndProcedure" + #LF$ +
+                    "Procedure Comment(a, ; comment" + #LF$ +
+                    ")" + #LF$ +
+                    "EndProcedure" + #CRLF$ +
+                    "Procedure Next(a," + #CRLF$ +
+                    "b)" + #CRLF$ +
+                    "EndProcedure" + #CRLF$ +
+                    "Procedure Last()" + #LF$ +
+                    "EndProcedure"
+  ScanFile(WriteTestSource(Code$), @Parser)
+  
+  For Line = 0 To Parser\SourceItemCount - 1
+    *Item = Parser\SourceItemArray\Line[Line]\First
+    While *Item
+      If *Item\Type = #ITEM_Procedure
+        Result$ + Str(Line) + ":" + *Item\Name$ + *Item\Prototype$ + " "
+      EndIf
+      *Item = *Item\Next
+    Wend
+  Next Line
+  
+  AssertString(Trim(Result$), "0:Long(a, ) 3:Comment(a, ) 6:Next(a, b) 9:Last()", Result$)
+  FreeSourceItemArray(@Parser)
+EndProcedureUnit
+
+; https://www.purebasic.fr/english/viewtopic.php?t=90014
+; https://www.purebasic.fr/english/viewtopic.php?t=90014
+; The positions and lengths are words: on a very long line they are capped, not wrapped to negative values
+ProcedureUnit Scan_VeryLongLine()
+  Protected Parser.ParserData, *Item.SourceItem, Found
+  ScanFile(WriteTestSource("Foo(" + Space(40000) + "1) : Global Late.l"), @Parser)
+  
+  *Item = Parser\SourceItemArray\Line[0]\First
+  While *Item
+    Select *Item\Type
+      Case #ITEM_UnknownBraced
+        Assert(*Item\FullLength = 32767, "FullLength = " + Str(*Item\FullLength))
+        Found + 1
+      Case #ITEM_Variable
+        Assert(*Item\Position = 32767, "Position = " + Str(*Item\Position))
+        Found + 1
+    EndSelect
+    *Item = *Item\Next
+  Wend
+  Assert(Found = 2, "items found: " + Str(Found))
+  
+  FreeSourceItemArray(@Parser)
+EndProcedureUnit
+
+ProcedureUnit Parser_CleanupEscapedString()
+  Protected Result$ = Parser_Cleanup(~"a$ = ~\"x\\ty\",  b")
+  AssertString(Result$, ~"a$=~\"x\\ty\", b", Result$)
+EndProcedureUnit
+
 ;- Navigation in the scanned items (keyword matching, loops, procedures...)
 
 ; Lines:       0                   1                 2                     3                                  4
@@ -290,6 +350,27 @@ ProcedureUnit Scan_Variables()
   Assert(FindString(Result$, "2:" + Str(#ITEM_Array) + ":Grid:b "), Result$)
   Assert(FindString(Result$, "3:" + Str(#ITEM_Map) + ":Names:s "), Result$)
   Assert(FindString(Result$, "4:" + Str(#ITEM_Variable) + ":*Buffer:ascii "), Result$)
+  
+  FreeSourceItemArray(@Parser)
+EndProcedureUnit
+
+; https://www.purebasic.fr/english/viewtopic.php?t=90014
+; The variables after an escaped string or a continued line in an initial value
+ProcedureUnit Scan_VariablesAfterInitialValues()
+  Protected Parser.ParserData, Line, *Item.SourceItem, Result$
+  ScanFile(WriteTestSource(~"Global a$ = ~\"x\\n\", b.l\nGlobal c = Max(1,\n), d.w\nGlobal e.b"), @Parser)
+  
+  For Line = 0 To Parser\SourceItemCount - 1
+    *Item = Parser\SourceItemArray\Line[Line]\First
+    While *Item
+      If *Item\Type = #ITEM_Variable
+        Result$ + Str(Line) + ":" + *Item\Name$ + " "
+      EndIf
+      *Item = *Item\Next
+    Wend
+  Next Line
+  
+  AssertString(Trim(Result$), "0:a$ 0:b 1:c 2:d 3:e", Result$)
   
   FreeSourceItemArray(@Parser)
 EndProcedureUnit

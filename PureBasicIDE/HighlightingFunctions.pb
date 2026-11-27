@@ -718,24 +718,25 @@ Procedure BlockSelect_AddBlock(*StartItem.SourceItem, StartLine, IncludeStart, *
   If IncludeStart
     ; If the stuff before the start item is only whitespace then select the entire line
     ; The start is a block keyword, so there can be no line continuation here
-    StartColumn = BytesToChars(Line$, 0, Encoding, *StartItem\Position)
-    If StartColumn > 0 And RemoveString(RemoveString(Left(Line$, StartColumn), Chr(9)), " ") = ""
+    ; StartColumn/EndColumn are byte offsets (like the Scintilla positions), the Left() checks need chars
+    StartColumn = *StartItem\Position
+    If StartColumn > 0 And RemoveString(RemoveString(Left(Line$, BytesToChars(Line$, 0, *ActiveSource\Parser\Encoding, StartColumn)), Chr(9)), " ") = ""
       StartColumn = 0
     EndIf
   Else
     ; Skip the keyword
-    StartColumn = BytesToChars(Line$, 0, *ActiveSource\Parser\Encoding, BlockSelect_SkipKeyword(*StartItem, @StartLine))
+    StartColumn = BlockSelect_SkipKeyword(*StartItem, @StartLine)
   EndIf
   
   Line$ = GetLine(EndLine)
   If IncludeEnd
     ; Skip the keyword
-    EndColumn = BytesToChars(Line$, 0, *ActiveSource\Parser\Encoding, BlockSelect_SkipKeyword(*EndItem, @EndLine))
+    EndColumn = BlockSelect_SkipKeyword(*EndItem, @EndLine)
   Else
     ; If the stuff before the end item is only whitespace then select only the previous line
     ; The start is a block keyword, so there can be no line continuation here
-    EndColumn = BytesToChars(Line$, 0, Encoding, *EndItem\Position)
-    If EndLine > 0 And RemoveString(RemoveString(Left(Line$, EndColumn), Chr(9)), " ") = ""
+    EndColumn = *EndItem\Position
+    If EndLine > 0 And RemoveString(RemoveString(Left(Line$, BytesToChars(Line$, 0, *ActiveSource\Parser\Encoding, EndColumn)), Chr(9)), " ") = ""
       EndLine - 1
       EndColumn = SendEditorMessage(#SCI_LINELENGTH, EndLine, 0)
     EndIf
@@ -926,7 +927,7 @@ Procedure IsCommentOrString(Prefix$)
         *Cursor + #CharSize
         If *Cursor\c = '"'
           ; escaped string
-          *Cursor\c + #CharSize
+          *Cursor + #CharSize
           While *Cursor\c <> '"'
             If *Cursor\c = 0
               ProcedureReturn 2
@@ -940,7 +941,7 @@ Procedure IsCommentOrString(Prefix$)
               *Cursor + #CharSize
             EndIf
           Wend
-          *Cursor\c + #CharSize
+          *Cursor + #CharSize
         EndIf
         
       Default
