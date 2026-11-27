@@ -58,6 +58,19 @@ ProcedureUnit Interface_ParseMethods()
   AssertString(Result$, "QueryInterface(*riid, *ppvObject)|GetName.s()|SetValue(Value.d, Flags=0)|Release()", "a continued line is joined: " + Result$)
 EndProcedureUnit
 
+; https://www.purebasic.fr/english/viewtopic.php?t=90014
+; A quote in a field or a compiler directive must not swallow the rest of the block
+ProcedureUnit Structure_ParseQuotes()
+  Protected Result$ = ParseFields(~"\n  a.b['z']\n  b.c{'0'}\n  c.l\n")
+  AssertString(Result$, "a.b['z']|b.c{'0'}|c.l", Result$)
+  
+  Result$ = ParseFields(~"\n  CompilerIf #Name$ = \"x\" Or #Char = 'y'\n    a.l\n  CompilerEndIf\n  b.l\n")
+  AssertString(Result$, "a.l|b.l", Result$)
+  
+  Result$ = ParseFields(~"\n  CompilerIf #Name$ = \"x\"\n    Get()\n  CompilerEndIf\n  Set()\n", #True)
+  AssertString(Result$, "Get()|Set()", Result$)
+EndProcedureUnit
+
 ProcedureUnit Structure_FieldParts()
   AssertString(StructureFieldKind("Array a.l(0)"), "Array")
   AssertString(StructureFieldKind(#TAB$ + "list Items.Item()"), "List", "case insensitive, tabs")

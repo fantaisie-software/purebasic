@@ -75,7 +75,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
             Break 2 ; something is weird
           ElseIf *Cursor\b = '\'
             *Cursor + 1
-            If *Cursor < *BufferEnd And *Cursor\b <> 13 Or *Cursor\b <> 10
+            If *Cursor < *BufferEnd And *Cursor\b <> 13 And *Cursor\b <> 10
               *Cursor + 1
             EndIf
           Else
@@ -234,7 +234,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
             Case '}': Depth - 1
             Case 39 ; ' is possible here (though unlikely)
               *Cursor + 1
-              While *Cursor < *BufferEnd And *Cursor <> 39
+              While *Cursor < *BufferEnd And *Cursor\b <> 39
                 *Cursor + 1
               Wend
           EndSelect
@@ -266,7 +266,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
             Case CharClose: Depth - 1
             Case 39 ; ' is possible here (though unlikely)
               *Cursor + 1
-              While *Cursor < *BufferEnd And *Cursor <> 39
+              While *Cursor < *BufferEnd And *Cursor\b <> 39
                 *Cursor + 1
               Wend
           EndSelect
@@ -301,18 +301,18 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
                   Break
                 Case 39 ; '
                   *Cursor + 1
-                  While *Cursor < *BufferEnd And *Cursor <> 39
+                  While *Cursor < *BufferEnd And *Cursor\b <> 39
                     *Cursor + 1
                   Wend
                 Case '"'
                   *Cursor + 1
-                  While *Cursor < *BufferEnd And *Cursor <> '"'
+                  While *Cursor < *BufferEnd And *Cursor\b <> '"'
                     *Cursor + 1
                   Wend
                 Case '~'
                   If (*Cursor + 1) < *BufferEnd And *Cursor\b[1] = '"'
                     *Cursor + 2
-                    While *Cursor < *BufferEnd And *Cursor <> '"'
+                    While *Cursor < *BufferEnd And *Cursor\b <> '"'
                       If *Cursor\b = '\'
                         *Cursor + 2
                       Else
@@ -453,7 +453,7 @@ Procedure ParseInterface(*Buffer, Length, List Output.s())
             Case '~'
               If (*Cursor + 1) < *BufferEnd And *Cursor\b[1] = '"'
                 *Cursor + 2
-                While *Cursor < *BufferEnd And *Cursor <> '"'
+                While *Cursor < *BufferEnd And *Cursor\b <> '"'
                   If *Cursor\b = '\'
                     *Cursor + 2
                   Else
@@ -498,18 +498,18 @@ Procedure ParseInterface(*Buffer, Length, List Output.s())
                     Break
                   Case 39 ; '
                     *Cursor + 1
-                    While *Cursor < *BufferEnd And *Cursor <> 39
+                    While *Cursor < *BufferEnd And *Cursor\b <> 39
                       *Cursor + 1
                     Wend
                   Case '"'
                     *Cursor + 1
-                    While *Cursor < *BufferEnd And *Cursor <> '"'
+                    While *Cursor < *BufferEnd And *Cursor\b <> '"'
                       *Cursor + 1
                     Wend
                   Case '~'
                     If (*Cursor + 1) < *BufferEnd And *Cursor\b[1] = '"'
                       *Cursor + 2
-                      While *Cursor < *BufferEnd And *Cursor <> '"'
+                      While *Cursor < *BufferEnd And *Cursor\b <> '"'
                         If *Cursor\b = '\'
                           *Cursor + 2
                         Else

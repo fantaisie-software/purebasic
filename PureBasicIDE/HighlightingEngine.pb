@@ -1776,7 +1776,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
                     If *Cursor > *StringStart
                       Callback(*StringStart, *Cursor-*StringStart, *StringColor, 0, 0)
                     EndIf
-                    Callback(*StringStart, EscapeLength, *BadEscapeColor, 0, 0)
+                    Callback(*Cursor, EscapeLength, *BadEscapeColor, 0, 0)
                     *Cursor + EscapeLength
                     *StringStart = *Cursor
 
@@ -1883,8 +1883,12 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
           EndIf
         EndIf
 
-        Callback(*StringStart, *Cursor-*StringStart+1, *ConstantColor, 0, 0) ; include the second ' !
-        *Cursor + 1
+        If *Cursor < *InBufferEnd
+          Callback(*StringStart, *Cursor-*StringStart+1, *ConstantColor, 0, 0) ; include the second ' !
+          *Cursor + 1
+        Else
+          Callback(*StringStart, *Cursor-*StringStart, *ConstantColor, 0, 0) ; unclosed ' at the end of the buffer
+        EndIf
         SeparatorChar = #SkipSeparator
 
 

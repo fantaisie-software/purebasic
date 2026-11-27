@@ -1360,7 +1360,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       If range\lpstrText
         length = ScintillaSendMessage(*Source\EditorGadget, #SCI_GETTEXTRANGE, 0, @range)
         
-        If *ActiveSource\Parser\Encoding = 1
+        If *Source\Parser\Encoding = 1
           Line$ = PeekS(range\lpstrText, length, #PB_UTF8|#PB_ByteLength)
         Else
           Line$ = PeekS(range\lpstrText, length, #PB_Ascii)
@@ -1464,7 +1464,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   Procedure BuildIndentVT()
     
     SortStructuredArray(IndentKeywords(), #PB_Sort_NoCase|#PB_Sort_Ascending, OffsetOf(IndentEntry\Keyword$), #PB_String, 0, NbIndentKeywords-1)
-    For i = 0 To 255
+    For i = 0 To #MaxSizeHT
       IndentKeywordVT(i) = -1
     Next i
     
@@ -3867,15 +3867,20 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           Case 2 ; Invert Case
             BufferSize = SendEditorMessage(#SCI_GETSELTEXT, 0, #Null)
             If BufferSize > 0
-              *Buffer = AllocateMemory(BufferSize)
+              ; The returned size doesn't include the NUL terminator written by #SCI_GETSELTEXT, and the inverted text
+              ; may not have the same UTF-8 length, so it goes into its own buffer
+              *Buffer = AllocateMemory(BufferSize + 1)
               If *Buffer
                 SendEditorMessage(#SCI_GETSELTEXT, 0, *Buffer)
                 If (*ActiveSource\Parser\Encoding = 1) ; UTF-8
-                  PokeS(*Buffer, InvertCase(PeekS(*Buffer, BufferSize, #PB_UTF8 | #PB_ByteLength)), -1, #PB_UTF8)
+                  *Inverted = UTF8(InvertCase(PeekS(*Buffer, BufferSize, #PB_UTF8 | #PB_ByteLength)))
                 Else
-                  PokeS(*Buffer, InvertCase(PeekS(*Buffer, BufferSize, #PB_Ascii)), -1, #PB_Ascii)
+                  *Inverted = Ascii(InvertCase(PeekS(*Buffer, BufferSize, #PB_Ascii)))
                 EndIf
-                SendEditorMessage(#SCI_REPLACESEL, 0, *Buffer)
+                If *Inverted
+                  SendEditorMessage(#SCI_REPLACESEL, 0, *Inverted)
+                  FreeMemory(*Inverted)
+                EndIf
                 FreeMemory(*Buffer)
               EndIf
             EndIf
@@ -4038,7 +4043,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     Line$ = GetCurrentLine()
     If Line$
       If GetWordBoundary(@Line$, Len(Line$), *ActiveSource\CurrentColumnChars-1, @StartIndex, @EndIndex, 1)
-        Position = SendEditorMessage(#SCI_POSITIONFROMLINE, -1, 0) + StartIndex
+        Position = SendEditorMessage(#SCI_POSITIONFROMLINE, -1, 0) + CharsToBytes(Line$, 0, *ActiveSource\Parser\Encoding, StartIndex)
       EndIf
     EndIf
     
