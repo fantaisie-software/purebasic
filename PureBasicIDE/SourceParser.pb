@@ -256,6 +256,15 @@ Procedure FreeSourceItemArray(*Parser.ParserData)
 EndProcedure
 
 
+; SourceItem\Position, Length and FullLength are words (to save memory): cap the values of very long
+; lines, so they do not wrap to a negative offset (https://www.purebasic.fr/english/viewtopic.php?t=90014)
+Procedure Parser_CapWord(Value)
+  If Value > 32767
+    ProcedureReturn 32767
+  EndIf
+  ProcedureReturn Value
+EndProcedure
+
 ; creates and links a new sourceitem structure at the end of the current line
 ; returns the allocated structure space
 Procedure AddSourceItem(Type, Line, Position, Length)
@@ -264,8 +273,8 @@ Procedure AddSourceItem(Type, Line, Position, Length)
   If AddElement(SourceItemHeap())
     *Item = @SourceItemHeap()
     *Item\Type     = Type
-    *Item\Position = Position
-    *Item\Length   = Length
+    *Item\Position = Parser_CapWord(Position)
+    *Item\Length   = Parser_CapWord(Length)
     
     If *Parser_Array\Line[Line]\Last = 0
       *Parser_Array\Line[Line]\First = *Item
@@ -1080,7 +1089,7 @@ Procedure Parser_GetUnknownWord(*pCursor.PTR, InImport, ModulePrefix$)
             Parser_SkipPrototype(@*Cursor2)
           EndIf
           If *Cursor2 > *Cursor And PeekB(*Cursor2 - 1) = ')'
-            *Item\FullLength = *Cursor2 - *Start
+            *Item\FullLength = Parser_CapWord(*Cursor2 - *Start)
           EndIf
           
           Parser_PopState()
@@ -1601,7 +1610,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
                 Prefix$ + "::"
               EndIf
               *Item\Content$ = Prefix$ + Parser_GetWord(@*ForwardCursor)
-              *Item\FullLength = *ForwardCursor-*Start
+              *Item\FullLength = Parser_CapWord(*ForwardCursor-*Start)
             EndIf
             
             ; Note: there is no look forward for an 'Align' in structures, because the align may be an
@@ -1766,7 +1775,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
               *Item\Scope = #SCOPE_UNKNOWN
               *Item\ModulePrefix$ = ModulePrefix$
               If *Cursor2 > *Cursor And PeekB(*Cursor2 - 1) = ')' ; get full length
-                *Item\FullLength = *Cursor2 - *Start
+                *Item\FullLength = Parser_CapWord(*Cursor2 - *Start)
               EndIf
               
             Else

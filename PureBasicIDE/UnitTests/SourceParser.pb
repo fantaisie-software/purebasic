@@ -126,6 +126,29 @@ ProcedureUnit Scan_LineContinuationFirstChar()
 EndProcedureUnit
 
 ; https://www.purebasic.fr/english/viewtopic.php?t=90014
+; https://www.purebasic.fr/english/viewtopic.php?t=90014
+; The positions and lengths are words: on a very long line they are capped, not wrapped to negative values
+ProcedureUnit Scan_VeryLongLine()
+  Protected Parser.ParserData, *Item.SourceItem, Found
+  ScanFile(WriteTestSource("Foo(" + Space(40000) + "1) : Global Late.l"), @Parser)
+  
+  *Item = Parser\SourceItemArray\Line[0]\First
+  While *Item
+    Select *Item\Type
+      Case #ITEM_UnknownBraced
+        Assert(*Item\FullLength = 32767, "FullLength = " + Str(*Item\FullLength))
+        Found + 1
+      Case #ITEM_Variable
+        Assert(*Item\Position = 32767, "Position = " + Str(*Item\Position))
+        Found + 1
+    EndSelect
+    *Item = *Item\Next
+  Wend
+  Assert(Found = 2, "items found: " + Str(Found))
+  
+  FreeSourceItemArray(@Parser)
+EndProcedureUnit
+
 ProcedureUnit Parser_CleanupEscapedString()
   Protected Result$ = Parser_Cleanup(~"a$ = ~\"x\\ty\",  b")
   AssertString(Result$, ~"a$=~\"x\\ty\", b", Result$)
